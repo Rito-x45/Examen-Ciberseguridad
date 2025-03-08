@@ -1,56 +1,100 @@
-/* General */
+/* =========================== */
+/*          GENERAL            */
+/* =========================== */
 body {
     font-family: 'Courier New', Courier, monospace;
-    background-color: #111;
+    background-color: #000;  /* Fondo completamente negro */
     color: #fff;
     text-align: center;
     padding: 20px;
     margin: 0;
     overflow-x: hidden;
-    background-image: url("/public/Imagenes/Logo2.jpg"); /* Fondo que puede ser una imagen de la Fundación SCP */
-    background-size: cover;
-    background-position: center;
+    position: relative;  /* Necesario para el efecto de luces laterales */
 }
 
-/* Encabezado con Flexbox */
+/* =========================== */
+/*          LUCES LATERALES     */
+/* =========================== */
+@keyframes glow {
+    0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.6); }
+    50% { box-shadow: 0 0 20px rgba(255, 0, 0, 1); }
+    100% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.6); }
+}
+
+body::before, body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 10px; /* Ancho de la línea */
+    background: rgba(255, 0, 0, 0.7); /* Color rojo con opacidad */
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.9); /* Efecto de brillo */
+    z-index: 100;
+    animation: glow 1.5s infinite alternate; /* Hace que la luz pulse */
+}
+
+body::before {
+    left: 0; /* Línea del lado izquierdo */
+}
+
+body::after {
+    right: 0; /* Línea del lado derecho */
+}
+
+/* =========================== */
+/*        ENCABEZADO           */
+/* =========================== */
 header {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
-    flex-wrap: wrap; /* Asegura que los elementos no se salgan de la pantalla */
-    gap: 20px; /* Espacio entre el logo y el texto */
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 /* Logo */
 #logo {
-    width: 150px !important;  /* Ajustamos el tamaño del logo */
-    height: auto !important;  /* Mantiene la proporción del logo */
-    object-fit: contain; /* Evita que la imagen se distorsione */
+    width: 150px;
+    height: auto;
+    object-fit: contain;
 }
 
-/* Estilo del título */
+/* =========================== */
+/*        TITULOS CON GLITCH   */
+/* =========================== */
+@keyframes glitch {
+    0% { text-shadow: 2px 2px 5px rgba(255, 0, 0, 0.7); }
+    50% { text-shadow: -2px -2px 5px rgba(255, 255, 0, 0.7); }
+    100% { text-shadow: 2px 2px 5px rgba(255, 0, 0, 0.7); }
+}
+
 h1, h2 {
     color: #FF4444;
     text-transform: uppercase;
     text-shadow: 2px 2px 5px rgba(255, 0, 0, 0.7), 0 0 15px rgba(255, 0, 0, 0.8);
 }
 
-/* Estilo del formulario */
+h1.glitch {
+    animation: glitch 1s infinite;
+}
+
+/* =========================== */
+/*        FORMULARIOS          */
+/* =========================== */
 form {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.9);
     padding: 20px;
     border-radius: 10px;
-    display: inline-block;
     text-align: left;
     box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
     border: 2px solid #FF4444;
-    margin-bottom: 20px;
-    width: 100%;
-    max-width: 500px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 600px;
 }
 
-/* Etiquetas y campos de texto */
+/* Etiquetas */
 label {
     font-weight: bold;
     display: block;
@@ -58,8 +102,9 @@ label {
     color: #FF4444;
 }
 
+/* Campos de entrada */
 input, textarea {
-    background: #333;
+    background: #222;
     color: #fff;
     border: 1px solid #FF4444;
     padding: 10px;
@@ -68,8 +113,10 @@ input, textarea {
     border-radius: 5px;
 }
 
-/* Botón de Submit */
-input[type="submit"] {
+/* =========================== */
+/*        BOTONES              */
+/* =========================== */
+input[type="submit"], button {
     background: #FF4444;
     color: white;
     border: none;
@@ -80,33 +127,47 @@ input[type="submit"] {
     text-transform: uppercase;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+    transition: all 0.3s ease;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover, button:hover {
     background: darkred;
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
 }
 
-/* Botones */
-button {
-    background: #FF4444;
-    color: white;
-    border: none;
+/* =========================== */
+/*        FORMULARIO DE BÚSQUEDA */
+/* =========================== */
+#formulario-buscar {
+    background: rgba(0, 0, 0, 0.7);
+    width: 90%;
+    max-width: 600px;
+    border: 1px solid #FF4444;
     padding: 10px;
-    margin-top: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    text-transform: uppercase;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+    display: block;
+    margin: 20px auto;
+    text-align: center;
 }
 
-button:hover {
-    background: darkred;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+/* =========================== */
+/*        RESULTADO BÚSQUEDA   */
+/* =========================== */
+#resultado-busqueda {
+    background: rgba(0, 0, 0, 0.8);
+    width: 90%;
+    max-width: 600px;
+    color: #FF4444;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    display: block;
+    margin: 20px auto;
+    text-align: center;
 }
 
-/* Tabla */
+/* =========================== */
+/*        TABLAS              */
+/* =========================== */
 table {
     width: 100%;
     margin-top: 20px;
@@ -132,18 +193,9 @@ td {
     color: #fff;
 }
 
-/* Efecto de glitch */
-@keyframes glitch {
-    0% { text-shadow: 2px 2px 5px rgba(255, 0, 0, 0.7); }
-    50% { text-shadow: -2px -2px 5px rgba(255, 255, 0, 0.7); }
-    100% { text-shadow: 2px 2px 5px rgba(255, 0, 0, 0.7); }
-}
-
-h1.glitch {
-    animation: glitch 1s infinite;
-}
-
-/* Fondo de página */
+/* =========================== */
+/*      ALERTA Y MENSAJES      */
+/* =========================== */
 #alerta {
     background-color: rgba(255, 0, 0, 0.8);
     color: #fff;
@@ -152,23 +204,5 @@ h1.glitch {
     border-radius: 5px;
     font-weight: bold;
     text-transform: uppercase;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-}
-
-/* Estilo para los formularios de búsqueda */
-#formulario-buscar {
-    background: rgba(0, 0, 0, 0.7);
-    border: 1px solid #FF4444;
-    padding: 10px;
-    display: inline-block;
-    margin-top: 20px;
-}
-
-/* Mejorar la apariencia de los resultados de búsqueda */
-#resultado-busqueda {
-    background: rgba(0, 0, 0, 0.8);
-    color: #FF4444;
-    padding: 20px;
-    border-radius: 10px;
     box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
 }
