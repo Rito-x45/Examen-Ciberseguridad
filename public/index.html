@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registro de SCP</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Encabezado con el logo de la Fundación SCP -->
+  <header>
+    <img src="/public/Imagenes/Logo3.jpg" alt="Logo de la Fundación SCP" id="logo"/>
+    <h1 class="glitch">REGISTRO DE SCP</h1>
+  </header>
+
+  <!-- ALERTA / MENSAJES -->
+  <div id="alerta"></div>
+
+  <!-- FORMULARIO PARA AGREGAR SCP -->
+  <form id="formulario-scp">
+    <label for="numero_scp">Número SCP:</label>
+    <input type="text" id="numero_scp" name="numero_scp" required />
+
+    <label for="clasificacion_contencion">Clasificación de Contención:</label>
+    <input
+      type="text"
+      id="clasificacion_contencion"
+      name="clasificacion_contencion"
+    />
+
+    <label for="nivel_peligro">Nivel de Peligro:</label>
+    <input type="text" id="nivel_peligro" name="nivel_peligro" />
+
+    <label for="ubicacion_actual">Ubicación Actual:</label>
+    <input type="text" id="ubicacion_actual" name="ubicacion_actual" />
+
+    <label for="estado_investigacion">Estado de Investigación:</label>
+    <input
+      type="text"
+      id="estado_investigacion"
+      name="estado_investigacion"
+    />
+
+    <label for="descripcion">Descripción:</label>
+    <textarea id="descripcion" name="descripcion" required></textarea>
+
+    <input type="submit" value="Agregar SCP" />
+  </form>
+
+  <!-- FORMULARIO PARA BUSCAR SCP POR NÚMERO (ahora debajo del registro) -->
+  <form id="formulario-buscar">
+    <label for="buscar-numero">Buscar por Número SCP:</label>
+    <input type="text" id="buscar-numero" placeholder="Ej: SCP-123" />
+    <button type="submit">Buscar</button>
+  </form>
+  <!-- Resultado de la búsqueda -->
+  <div id="resultado-busqueda"></div>
+
+  <!-- TABLA PARA MOSTRAR LOS SCP -->
+  <table id="tabla-scps">
+    <thead>
+      <tr>
+        <th>NÚMERO SCP</th>
+        <th>CLASIFICACIÓN</th>
+        <th>PELIGRO</th>
+        <th>UBICACIÓN</th>
+        <th>ESTADO</th>
+        <th>DESCRIPCIÓN</th>
+        <th>ACCIONES</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- Archivo JS de la parte frontend -->
+  <script src="main.js"></script>
+</body>
+</html>

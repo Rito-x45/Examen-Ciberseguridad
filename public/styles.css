@@ -1,0 +1,174 @@
+/* General */
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #111;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+    overflow-x: hidden;
+    background-image: url("/public/Imagenes/Logo2.jpg"); /* Fondo que puede ser una imagen de la Fundación SCP */
+    background-size: cover;
+    background-position: center;
+}
+
+/* Encabezado con Flexbox */
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Asegura que los elementos no se salgan de la pantalla */
+    gap: 20px; /* Espacio entre el logo y el texto */
+}
+
+/* Logo */
+#logo {
+    width: 150px !important;  /* Ajustamos el tamaño del logo */
+    height: auto !important;  /* Mantiene la proporción del logo */
+    object-fit: contain; /* Evita que la imagen se distorsione */
+}
+
+/* Estilo del título */
+h1, h2 {
+    color: #FF4444;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px rgba(255, 0, 0, 0.7), 0 0 15px rgba(255, 0, 0, 0.8);
+}
+
+/* Estilo del formulario */
+form {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+    text-align: left;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    border: 2px solid #FF4444;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Etiquetas y campos de texto */
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    color: #FF4444;
+}
+
+input, textarea {
+    background: #333;
+    color: #fff;
+    border: 1px solid #FF4444;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+/* Botón de Submit */
+input[type="submit"] {
+    background: #FF4444;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+}
+
+input[type="submit"]:hover {
+    background: darkred;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+}
+
+/* Botones */
+button {
+    background: #FF4444;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+}
+
+button:hover {
+    background: darkred;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+}
+
+/* Tabla */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+table, th, td {
+    border: 1px solid #FF4444;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background: #222;
+    color: red;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+td {
+    background: #333;
+    color: #fff;
+}
+
+/* Efecto de glitch */
+@keyframes glitch {
+    0% { text-shadow: 2px 2px 5px rgba(255, 0, 0, 0.7); }
+    50% { text-shadow: -2px -2px 5px rgba(255, 255, 0, 0.7); }
+    100% { text-shadow: 2px 2px 5px rgba(255, 0, 0, 0.7); }
+}
+
+h1.glitch {
+    animation: glitch 1s infinite;
+}
+
+/* Fondo de página */
+#alerta {
+    background-color: rgba(255, 0, 0, 0.8);
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+/* Estilo para los formularios de búsqueda */
+#formulario-buscar {
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid #FF4444;
+    padding: 10px;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+/* Mejorar la apariencia de los resultados de búsqueda */
+#resultado-busqueda {
+    background: rgba(0, 0, 0, 0.8);
+    color: #FF4444;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
