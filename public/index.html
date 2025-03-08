@@ -18,30 +18,32 @@
   <!-- FORMULARIO PARA AGREGAR SCP -->
   <form id="formulario-scp">
     <label for="numero_scp">Número SCP:</label>
-    <input type="text" id="numero_scp" name="numero_scp" required />
+    <input type="text" id="numero_scp" name="numero_scp" required placeholder="Ej: SCP-123"/>
 
     <label for="clasificacion_contencion">Clasificación de Contención:</label>
     <input
       type="text"
       id="clasificacion_contencion"
-      name="clasificacion_contencion"
+      name="clasificacion_contencion" required
+      placeholder="Euclid"
     />
 
     <label for="nivel_peligro">Nivel de Peligro:</label>
-    <input type="text" id="nivel_peligro" name="nivel_peligro" />
+    <input type="text" id="nivel_peligro" name="nivel_peligro required placeholder="verde"/>
 
     <label for="ubicacion_actual">Ubicación Actual:</label>
-    <input type="text" id="ubicacion_actual" name="ubicacion_actual" />
+    <input type="text" id="ubicacion_actual" name="ubicacion_actual" required />
 
     <label for="estado_investigacion">Estado de Investigación:</label>
     <input
       type="text"
       id="estado_investigacion"
-      name="estado_investigacion"
+      name="estado_investigacion" required
+      placeholder="Contención"
     />
 
     <label for="descripcion">Descripción:</label>
-    <textarea id="descripcion" name="descripcion" required></textarea>
+    <textarea id="descripcion" name="descripcion" required placeholder="aaaaaa"></textarea>
 
     <input type="submit" value="Agregar SCP" />
   </form>
