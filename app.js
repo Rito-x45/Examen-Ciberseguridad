@@ -9,6 +9,11 @@ const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const createDOMPurify = require("dompurify");
 
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const SECRET_KEY = "tu_secreto_super_seguro";
+
 // Configuración de DOMPurify para sanitizar entradas
 const window = new JSDOM("").window;
 const DOMPurify = createDOMPurify(window);
@@ -160,6 +165,79 @@ app.delete("/scps/:id", async (req, res) => {
   } catch (err) {
     res.status(500).send("Error al eliminar el SCP.");
   }
+});
+
+
+// 📌 Registro de usuario (POST /register)
+app.post("/register", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    
+    if (!username || !password) {
+      return res.status(400).send("Usuario y contraseña son obligatorios.");
+    }
+
+    // Encriptar la contraseña antes de guardarla
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await db.query("INSERT INTO usuarios (username, password) VALUES ($1, $2)", [username, hashedPassword]);
+
+    res.send("Usuario registrado con éxito.");
+  } catch (err) {
+    res.status(500).send("Error al registrar el usuario.");
+  }
+});
+
+// 📌 Inicio de sesión (POST /login)
+app.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    const { rows } = await db.query("SELECT * FROM usuarios WHERE username = $1", [username]);
+
+    if (rows.length === 0) {
+      return res.status(401).send("Usuario no encontrado.");
+    }
+
+    const user = rows[0];
+
+    // Comparar la contraseña ingresada con la almacenada
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(401).send("Contraseña incorrecta.");
+    }
+
+    // Generar token JWT
+    const token = jwt.sign({ userId: user.id, username: user.username }, SECRET_KEY, { expiresIn: "2h" });
+
+    res.json({ token });
+  } catch (err) {
+    res.status(500).send("Error al iniciar sesión.");
+  }
+});
+
+// 📌 Middleware de autenticación
+function verificarToken(req, res, next) {
+  const token = req.headers["authorization"];
+  
+  if (!token) {
+    return res.status(403).send("Token requerido.");
+  }
+
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    if (err) {
+      return res.status(401).send("Token inválido.");
+    }
+    
+    req.user = decoded;
+    next();
+  });
+}
+
+// 📌 Ruta protegida de prueba (GET /perfil)
+app.get("/perfil", verificarToken, (req, res) => {
+  res.json({ mensaje: "Bienvenido a tu perfil", usuario: req.user });
 });
 
 // 📌 Iniciar el servidor en el puerto 3000
