@@ -1,20 +1,10 @@
-/********************************************
- * main.js
- * Lógica del lado del cliente (frontend)
- ********************************************/
-
 document.addEventListener("DOMContentLoaded", () => {
-  // ------------- Referencias a elementos del DOM ------------- //
+
   const formulario = document.getElementById("formulario-scp");
   const alertaDiv = document.getElementById("alerta");
   const tablaBody = document.querySelector("#tabla-scps tbody");
   const formularioBuscar = document.getElementById("formulario-buscar");
   const resultadoBusqueda = document.getElementById("resultado-busqueda");
-  
-  // Botones para ver perfil y cerrar sesión
-  const btnVerPerfil = document.getElementById("ver-perfil");
-  const btnCerrarSesion = document.getElementById("cerrar-sesion");
-  const perfilDiv = document.getElementById("perfil");
 
   /**
    * Mostrar una alerta en la parte superior, con estilo de error o éxito
@@ -30,9 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3000);
   }
 
-  /**
-   * Cargar todos los SCP de la BD y mostrarlos en la tabla
-   */
+
   function cargarSCPs() {
     fetch("/scps")
       .then((response) => response.json())
@@ -71,7 +59,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fetch("/scps", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data),
     })
       .then((response) =>
@@ -92,13 +82,12 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 
-  /**
-   * Manejo del formulario de búsqueda de SCP por número
-   */
+
   formularioBuscar.addEventListener("submit", (e) => {
     e.preventDefault();
     const numero_scp = document.getElementById("buscar-numero").value.trim();
 
+    // Verificación 
     if (/<.*?>/.test(numero_scp)) {
       mostrarAlerta("Entrada no válida. Se detectaron caracteres no permitidos en el número SCP.", true);
       return;
@@ -109,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // peticion al backend
     fetch("/scps/buscar?numero_scp=" + encodeURIComponent(numero_scp))
       .then((r) => {
         if (!r.ok) {
@@ -168,20 +158,28 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((scp) => {
         const numero_scp = prompt("Número SCP:", scp.numero_scp);
         if (numero_scp === null) return;
+
+        // Verificacion
         if (/<.*?>/.test(numero_scp)) {
           mostrarAlerta("Entrada no válida. Se detectaron caracteres no permitidos en el número SCP.", true);
           return;
         }
+
         const clasificacion_contencion = prompt("Clasificación:", scp.clasificacion_contencion);
         if (clasificacion_contencion === null) return;
+
         const nivel_peligro = prompt("Nivel de Peligro:", scp.nivel_peligro);
         if (nivel_peligro === null) return;
+
         const ubicacion_actual = prompt("Ubicación Actual:", scp.ubicacion_actual);
         if (ubicacion_actual === null) return;
+
         const estado_investigacion = prompt("Estado de Investigación:", scp.estado_investigacion);
         if (estado_investigacion === null) return;
+
         const descripcion = prompt("Descripción:", scp.descripcion);
         if (descripcion === null) return;
+
         const data = {
           numero_scp,
           clasificacion_contencion,
@@ -190,6 +188,8 @@ document.addEventListener("DOMContentLoaded", () => {
           estado_investigacion,
           descripcion
         };
+
+        // Enviamos la actualización al backend
         fetch(`/scps/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -213,9 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  /**
-   * Delegación de eventos para los botones "Borrar" y "Editar"
-   */
+  
   tablaBody.addEventListener("click", (e) => {
     if (e.target.classList.contains("borrar-btn")) {
       const id = e.target.getAttribute("data-id");
@@ -225,76 +223,5 @@ document.addEventListener("DOMContentLoaded", () => {
       editarSCP(id);
     }
   });
-
-  // ------------- EVENTOS PARA LOGIN Y REGISTRO (opcional) ------------- //
-
-  document.getElementById("register-form")?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const username = document.getElementById("register-username").value;
-    const password = document.getElementById("register-password").value;
-    const response = await fetch("/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
-    const result = await response.text();
-    alert(result);
-  });
-
-  document.getElementById("login-form")?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const username = document.getElementById("login-username").value;
-    const password = document.getElementById("login-password").value;
-    const response = await fetch("/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
-    if (response.ok) {
-      const { token } = await response.json();
-      localStorage.setItem("token", token);
-      alert("Inicio de sesión exitoso");
-      btnVerPerfil.style.display = "block";
-      btnCerrarSesion.style.display = "block";
-    } else {
-      alert(await response.text());
-    }
-  });
-
-  // Evento para ver perfil (ejemplo)
-  btnVerPerfil?.addEventListener("click", async () => {
-    const token = localStorage.getItem("token");
-    const response = await fetch("/perfil", {
-      method: "GET",
-      headers: { "Authorization": token },
-    });
-    if (response.ok) {
-      const data = await response.json();
-      perfilDiv.innerText = `Usuario: ${data.usuario.username}`;
-      perfilDiv.style.display = "block";
-    } else {
-      alert(await response.text());
-    }
-  });
-
-  // Evento para cerrar sesión
-  btnCerrarSesion?.addEventListener("click", () => {
-    fetch("/auth/logout", { method: "POST" })
-      .then((res) => res.text())
-      .then((msg) => {
-        localStorage.removeItem("token");
-        alert(msg);
-        btnVerPerfil.style.display = "none";
-        btnCerrarSesion.style.display = "none";
-        perfilDiv.style.display = "none";
-        // Redirige a login si es necesario
-        window.location.href = "/login.html";
-      })
-      .catch((err) => {
-        alert("Error al cerrar sesión.");
-      });
-  });
-
-  // Cargar los SCPs al iniciar
   cargarSCPs();
 });
