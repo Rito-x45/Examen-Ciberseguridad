@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const formularioBuscar = document.getElementById("formulario-buscar");
   const resultadoBusqueda = document.getElementById("resultado-busqueda");
 
-  // Función para mostrar alertas (exitos o errores)
+  // Función para mostrar alertas (éxitos o errores)
   function mostrarAlerta(mensaje, esError = false) {
     alertaDiv.textContent = mensaje;
     alertaDiv.className = esError ? "alert error" : "alert";
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const numero_scp = document.getElementById("buscar-numero").value.trim();
 
-    // Validar que no contenga caracteres HTML
+    // Validar que no contenga caracteres HTML (simple verificación en frontend)
     if (/<.*?>/.test(numero_scp)) {
       mostrarAlerta("Entrada no válida. Se detectaron caracteres no permitidos en el número SCP.", true);
       return;
@@ -170,7 +170,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const descripcion = prompt("Descripción:", scp.descripcion);
         if (descripcion === null) return;
 
-        const data = { numero_scp, clasificacion_contencion, nivel_peligro, ubicacion_actual, estado_investigacion, descripcion };
+        const data = { 
+          numero_scp, 
+          clasificacion_contencion, 
+          nivel_peligro, 
+          ubicacion_actual, 
+          estado_investigacion, 
+          descripcion 
+        };
 
         fetch(`/scps/${id}`, {
           method: "PUT",
@@ -206,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  document.getElementById("register-form").addEventListener("submit", async (e) => {
+  document.getElementById("register-form")?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const username = document.getElementById("register-username").value;
     const password = document.getElementById("register-password").value;
@@ -221,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
     alert(result);
   });
   
-  document.getElementById("login-form").addEventListener("submit", async (e) => {
+  document.getElementById("login-form")?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const username = document.getElementById("login-username").value;
     const password = document.getElementById("login-password").value;
@@ -243,7 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   
-  document.getElementById("ver-perfil").addEventListener("click", async () => {
+  document.getElementById("ver-perfil")?.addEventListener("click", async () => {
     const token = localStorage.getItem("token");
   
     const response = await fetch("/perfil", {
@@ -259,13 +266,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   
-  document.getElementById("cerrar-sesion").addEventListener("click", () => {
+  document.getElementById("cerrar-sesion")?.addEventListener("click", () => {
     localStorage.removeItem("token");
     alert("Sesión cerrada.");
     document.getElementById("ver-perfil").style.display = "none";
     document.getElementById("cerrar-sesion").style.display = "none";
   });
-  
   
   // Cargar los SCP al iniciar
   cargarSCPs();

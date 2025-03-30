@@ -26,12 +26,36 @@ const db = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-// 📌 Función de validación y sanitización
+/**
+ * Función para verificar y limpiar campos de texto.
+ * 1) Bloquea patrones T-SQL conocidos para inyección.
+ * 2) Purifica etiquetas HTML (DOMPurify).
+ * Lanza un Error si detecta algo no permitido.
+ */
 function sanitizeField(fieldValue) {
+  // Bloquea patrones T-SQL
+  const forbiddenPatterns = [
+    /;/g,              // punto y coma
+    /'/g,              // comilla simple
+    /--/g,             // doble guión (comentario en SQL)
+    /\/\*[\s\S]*?\*\//g, // comentario /* ... */ con multilinea
+    /\bxp_/gi          // xp_ ignorando mayúsculas/minúsculas
+  ];
+
+  forbiddenPatterns.forEach((pattern) => {
+    if (pattern.test(fieldValue)) {
+      throw new Error("Se detectaron patrones SQL no permitidos en la entrada.");
+    }
+  });
+
+  // Luego sanitizamos HTML con DOMPurify
   const sanitized = DOMPurify.sanitize(fieldValue);
+
+  // Si DOMPurify modificó algo, se detectó HTML malicioso
   if (sanitized !== fieldValue) {
-    throw new Error("Se han detectado etiquetas HTML no permitidas.");
+    throw new Error("Se han detectado etiquetas HTML no permitidas en la entrada.");
   }
+
   return sanitized;
 }
 

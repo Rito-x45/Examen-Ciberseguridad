@@ -7,27 +7,22 @@
 </head>
 <body>
 
-  <!-- Verificar sesión antes de mostrar contenido -->
   <script>
     fetch("/auth/session")
       .then((res) => {
         if (!res.ok) {
-          // Si la sesión no es válida, redirige a login.html
           window.location.href = "/login.html"; 
         }
       });
   </script>
 
-  <!-- Encabezado con el logo de la Fundación SCP -->
   <header>
     <img src="/public/Imagenes/logo.png" alt="Logo de la Fundación SCP" id="logo"/>
     <h1 class="glitch">[ 🔴 REGISTRO DE SCP ]</h1>
   </header>
 
-  <!-- ALERTA / MENSAJES -->
   <div id="alerta"></div>
 
-  <!-- FORMULARIO PARA AGREGAR SCP -->
   <form id="formulario-scp">
     <label for="numero_scp">Número SCP:</label>
     <input type="text" id="numero_scp" name="numero_scp" required placeholder="Ej: SCP-123" />
@@ -77,17 +72,14 @@
     <input type="submit" value="Agregar SCP" />
   </form>
 
-  <!-- FORMULARIO PARA BUSCAR SCP POR NÚMERO -->
   <form id="formulario-buscar">
     <label for="buscar-numero">Buscar por Número SCP:</label>
     <input type="text" id="buscar-numero" placeholder="Ej: SCP-123" />
     <button type="submit">Buscar</button>
   </form>
 
-  <!-- Resultado de la búsqueda -->
   <div id="resultado-busqueda"></div>
 
-  <!-- TABLA PARA MOSTRAR LOS SCP -->
   <table id="tabla-scps">
     <thead>
       <tr>
@@ -102,7 +94,6 @@
     <tbody></tbody>
   </table>
 
-  <!-- Archivo JS de la parte frontend -->
   <script src="main.js"></script>
 </body>
 </html>

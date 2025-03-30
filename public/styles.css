@@ -13,7 +13,7 @@ body {
 }
 
 /* =========================== */
-/*          LUCES LATERALES     */
+/*          LUCES LATERALES    */
 /* =========================== */
 @keyframes glow {
     0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.6); }
@@ -166,7 +166,7 @@ input[type="submit"]:hover, button:hover {
 }
 
 /* =========================== */
-/*        TABLAS              */
+/*        TABLAS               */
 /* =========================== */
 table {
     width: 100%;
