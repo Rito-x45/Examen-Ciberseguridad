@@ -206,6 +206,67 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  document.getElementById("register-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const username = document.getElementById("register-username").value;
+    const password = document.getElementById("register-password").value;
+  
+    const response = await fetch("/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+  
+    const result = await response.text();
+    alert(result);
+  });
+  
+  document.getElementById("login-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const username = document.getElementById("login-username").value;
+    const password = document.getElementById("login-password").value;
+  
+    const response = await fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+  
+    if (response.ok) {
+      const { token } = await response.json();
+      localStorage.setItem("token", token);
+      alert("Inicio de sesión exitoso");
+      document.getElementById("ver-perfil").style.display = "block";
+      document.getElementById("cerrar-sesion").style.display = "block";
+    } else {
+      alert(await response.text());
+    }
+  });
+  
+  document.getElementById("ver-perfil").addEventListener("click", async () => {
+    const token = localStorage.getItem("token");
+  
+    const response = await fetch("/perfil", {
+      method: "GET",
+      headers: { "Authorization": token },
+    });
+  
+    if (response.ok) {
+      const data = await response.json();
+      document.getElementById("perfil").innerText = `Usuario: ${data.usuario.username}`;
+    } else {
+      alert(await response.text());
+    }
+  });
+  
+  document.getElementById("cerrar-sesion").addEventListener("click", () => {
+    localStorage.removeItem("token");
+    alert("Sesión cerrada.");
+    document.getElementById("ver-perfil").style.display = "none";
+    document.getElementById("cerrar-sesion").style.display = "none";
+  });
+  
+  
   // Cargar los SCP al iniciar
   cargarSCPs();
 });
