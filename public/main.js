@@ -8,9 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const formulario = document.getElementById("formulario-scp");
   const alertaDiv = document.getElementById("alerta");
   const tablaBody = document.querySelector("#tabla-scps tbody");
-
   const formularioBuscar = document.getElementById("formulario-buscar");
   const resultadoBusqueda = document.getElementById("resultado-busqueda");
+  
+  // Botones para ver perfil y cerrar sesión
+  const btnVerPerfil = document.getElementById("ver-perfil");
+  const btnCerrarSesion = document.getElementById("cerrar-sesion");
+  const perfilDiv = document.getElementById("perfil");
 
   /**
    * Mostrar una alerta en la parte superior, con estilo de error o éxito
@@ -65,19 +69,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const formData = new FormData(formulario);
     const data = Object.fromEntries(formData.entries());
 
-    // Enviamos la info al backend
     fetch("/scps", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     })
       .then((response) =>
         response.text().then((text) => ({ status: response.status, text }))
       )
       .then(({ status, text }) => {
-        // Si el status es >=400, hay error
         if (status >= 400) {
           mostrarAlerta(text, true);
         } else {
@@ -99,7 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const numero_scp = document.getElementById("buscar-numero").value.trim();
 
-    // Verificación simple en frontend para no permitir <...>
     if (/<.*?>/.test(numero_scp)) {
       mostrarAlerta("Entrada no válida. Se detectaron caracteres no permitidos en el número SCP.", true);
       return;
@@ -110,7 +109,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Hacemos la petición al backend
     fetch("/scps/buscar?numero_scp=" + encodeURIComponent(numero_scp))
       .then((r) => {
         if (!r.ok) {
@@ -119,7 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return r.json();
       })
       .then((scp) => {
-        // Mostramos el resultado
         resultadoBusqueda.innerHTML = `
           <h3>Resultado de la Búsqueda:</h3>
           <p><strong>Número SCP:</strong> ${scp.numero_scp}</p>
@@ -161,7 +158,6 @@ document.addEventListener("DOMContentLoaded", () => {
    * @param {number} id - ID del SCP
    */
   function editarSCP(id) {
-    // Primero obtenemos los datos actuales del SCP
     fetch(`/scps/${id}`)
       .then((r) => {
         if (!r.ok) {
@@ -170,32 +166,22 @@ document.addEventListener("DOMContentLoaded", () => {
         return r.json();
       })
       .then((scp) => {
-        // Pedimos al usuario los nuevos datos mediante prompt
         const numero_scp = prompt("Número SCP:", scp.numero_scp);
         if (numero_scp === null) return;
-
-        // Verificamos que no contenga <...>
         if (/<.*?>/.test(numero_scp)) {
           mostrarAlerta("Entrada no válida. Se detectaron caracteres no permitidos en el número SCP.", true);
           return;
         }
-
         const clasificacion_contencion = prompt("Clasificación:", scp.clasificacion_contencion);
         if (clasificacion_contencion === null) return;
-
         const nivel_peligro = prompt("Nivel de Peligro:", scp.nivel_peligro);
         if (nivel_peligro === null) return;
-
         const ubicacion_actual = prompt("Ubicación Actual:", scp.ubicacion_actual);
         if (ubicacion_actual === null) return;
-
         const estado_investigacion = prompt("Estado de Investigación:", scp.estado_investigacion);
         if (estado_investigacion === null) return;
-
         const descripcion = prompt("Descripción:", scp.descripcion);
         if (descripcion === null) return;
-
-        // Empaquetamos datos en un objeto
         const data = {
           numero_scp,
           clasificacion_contencion,
@@ -204,8 +190,6 @@ document.addEventListener("DOMContentLoaded", () => {
           estado_investigacion,
           descripcion
         };
-
-        // Enviamos la actualización al backend
         fetch(`/scps/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -242,73 +226,75 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ------------- Ejemplos de registro y login con fetch (opcional) ------------- //
+  // ------------- EVENTOS PARA LOGIN Y REGISTRO (opcional) ------------- //
 
-  // Si en login.html existe el formulario con id="register-form"
   document.getElementById("register-form")?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const username = document.getElementById("register-username").value;
     const password = document.getElementById("register-password").value;
-
     const response = await fetch("/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     });
-
     const result = await response.text();
     alert(result);
   });
 
-  // Si en login.html existe el formulario con id="login-form"
   document.getElementById("login-form")?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const username = document.getElementById("login-username").value;
     const password = document.getElementById("login-password").value;
-
     const response = await fetch("/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     });
-
     if (response.ok) {
-      // Supongamos que devuelves un token JWT o algo similar
       const { token } = await response.json();
       localStorage.setItem("token", token);
       alert("Inicio de sesión exitoso");
-      document.getElementById("ver-perfil").style.display = "block";
-      document.getElementById("cerrar-sesion").style.display = "block";
+      btnVerPerfil.style.display = "block";
+      btnCerrarSesion.style.display = "block";
     } else {
       alert(await response.text());
     }
   });
 
-  // Si existe un botón para "ver perfil"
-  document.getElementById("ver-perfil")?.addEventListener("click", async () => {
+  // Evento para ver perfil (ejemplo)
+  btnVerPerfil?.addEventListener("click", async () => {
     const token = localStorage.getItem("token");
-
     const response = await fetch("/perfil", {
       method: "GET",
       headers: { "Authorization": token },
     });
-
     if (response.ok) {
       const data = await response.json();
-      document.getElementById("perfil").innerText = `Usuario: ${data.usuario.username}`;
+      perfilDiv.innerText = `Usuario: ${data.usuario.username}`;
+      perfilDiv.style.display = "block";
     } else {
       alert(await response.text());
     }
   });
 
-  // Si existe un botón para "cerrar sesión"
-  document.getElementById("cerrar-sesion")?.addEventListener("click", () => {
-    localStorage.removeItem("token");
-    alert("Sesión cerrada.");
-    document.getElementById("ver-perfil").style.display = "none";
-    document.getElementById("cerrar-sesion").style.display = "none";
+  // Evento para cerrar sesión
+  btnCerrarSesion?.addEventListener("click", () => {
+    fetch("/auth/logout", { method: "POST" })
+      .then((res) => res.text())
+      .then((msg) => {
+        localStorage.removeItem("token");
+        alert(msg);
+        btnVerPerfil.style.display = "none";
+        btnCerrarSesion.style.display = "none";
+        perfilDiv.style.display = "none";
+        // Redirige a login si es necesario
+        window.location.href = "/login.html";
+      })
+      .catch((err) => {
+        alert("Error al cerrar sesión.");
+      });
   });
 
-  // ------------- CARGAR SCPs AL INICIAR ------------- //
+  // Cargar los SCPs al iniciar
   cargarSCPs();
 });

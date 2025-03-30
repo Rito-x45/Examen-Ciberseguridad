@@ -37,11 +37,7 @@
     <input type="submit" value="Registrarse" />
   </form>
 
-  <!--
-    Script con eventos para login y registro.
-    Al hacer submit en "form-login", se manda POST a /auth/login
-    Al hacer submit en "form-register", se manda POST a /auth/register
-  -->
+  <!-- Script para manejar eventos de login y registro -->
   <script>
     // Manejador para login
     document.getElementById("form-login").addEventListener("submit", async (e) => {
@@ -49,18 +45,14 @@
       const nombre = document.getElementById("nombre").value;
       const contrasena = document.getElementById("contrasena").value;
 
-      // Enviamos al backend
       const res = await fetch("/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nombre, contrasena }),
       });
 
-      // Leemos la respuesta en texto
       const msg = await res.text();
       alert(msg);
-
-      // Si la respuesta fue ok (200), redirigimos a index.html
       if (res.ok) window.location.href = "/index.html";
     });
 
@@ -70,20 +62,18 @@
       const nombre = document.getElementById("nombre-reg").value;
       const contrasena = document.getElementById("contrasena-reg").value;
 
-      // Enviamos al backend
       const res = await fetch("/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nombre, contrasena }),
       });
 
-      // Leemos la respuesta
       const msg = await res.text();
       alert(msg);
     });
   </script>
 
-  <!-- También podemos enlazar main.js aquí si quieres unificar lógica -->
+  <!-- Enlace opcional a main.js si se requiere compartir lógica adicional -->
   <script src="main.js"></script>
 </body>
 </html>
