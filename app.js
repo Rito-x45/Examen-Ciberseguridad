@@ -1,47 +1,59 @@
 /********************************************
- * app.js - Backend con Node.js, Express y PostgreSQL (Neon)
+ * app.js
+ * Backend con Node.js, Express y PostgreSQL (Neon)
+ * Incluye validación de patrones SQL y HTML
  ********************************************/
+
+// --------------------- DEPENDENCIAS PRINCIPALES --------------------- //
 const express = require("express");
 const { Pool } = require("pg");
 const bodyParser = require("body-parser");
+
+// Para sanitizar HTML y detectar etiquetas maliciosas
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const createDOMPurify = require("dompurify");
-const session = require("express-session");
-const bcryptjs = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 
-// Si en algún momento usas JWT, aquí tienes la clave secreta
+// Para manejar sesiones
+const session = require("express-session");
+
+// Para encriptar contraseñas
+const bcryptjs = require("bcryptjs");
+
+// (Opcional) Para JWT, si lo usas en algún momento
+const jwt = require("jsonwebtoken");
 const SECRET_KEY = "tu_secreto_super_seguro";
 
-// Configuración de DOMPurify para sanitizar entradas
+// --------------------- CONFIGURACIÓN DE DOMPurify --------------------- //
 const window = new JSDOM("").window;
 const DOMPurify = createDOMPurify(window);
 
+// --------------------- CREACIÓN DE LA APP DE EXPRESS --------------------- //
 const app = express();
 
-// 📌 Configuración de conexión a PostgreSQL (Neon)
+// --------------------- CONFIGURACIÓN DE CONEXIÓN A POSTGRESQL (NEON) --------------------- //
 const db = new Pool({
+  // Reemplaza esta conexión con la tuya propia
   connectionString: process.env.DATABASE_URL || "postgresql://neondb_owner:npg_qsrFJBo1a0Xf@ep-purple-tree-a5qalheh-pooler.us-east-2.aws.neon.tech/scp_database?sslmode=require",
   ssl: { rejectUnauthorized: false }
 });
 
 /**
- * Función para verificar y limpiar campos de texto.
- * 1) Bloquea patrones T-SQL conocidos para inyección.
- * 2) Purifica etiquetas HTML (DOMPurify).
- * Lanza un Error si detecta algo no permitido.
- */
+ * sanitizeField(fieldValue):
+ *  - Verifica y bloquea patrones T-SQL básicos: ;  '  --  /* ... */ // xp_
+   //Sanitiza HTML para evitar inyección de etiquetas <script> u otras.;
+   //Si detecta algo prohibido, lanza un Error con mensaje específico. **//
 function sanitizeField(fieldValue) {
-  // Bloquea patrones T-SQL
+  // Patrones que queremos bloquear (inyección T-SQL)
   const forbiddenPatterns = [
-    /;/g,              // punto y coma
-    /'/g,              // comilla simple
-    /--/g,             // doble guión (comentario en SQL)
-    /\/\*[\s\S]*?\*\//g, // comentario /* ... */ con multilinea
-    /\bxp_/gi          // xp_ ignorando mayúsculas/minúsculas
+    /;/g,                 // punto y coma
+    /'/g,                 // comilla simple
+    /--/g,                // doble guión (comentario en SQL)
+    /\/\*[\s\S]*?\*\//g,  // comentario /* ... */ multilinea
+    /\bxp_/gi             // secuencia xp_ (ignore case)
   ];
 
+  // Si se detecta alguno de estos patrones, se lanza un Error
   forbiddenPatterns.forEach((pattern) => {
     if (pattern.test(fieldValue)) {
       throw new Error("Se detectaron patrones SQL no permitidos en la entrada.");
@@ -51,7 +63,7 @@ function sanitizeField(fieldValue) {
   // Luego sanitizamos HTML con DOMPurify
   const sanitized = DOMPurify.sanitize(fieldValue);
 
-  // Si DOMPurify modificó algo, se detectó HTML malicioso
+  // Si DOMPurify modificó algo, significa que había HTML no permitido
   if (sanitized !== fieldValue) {
     throw new Error("Se han detectado etiquetas HTML no permitidas en la entrada.");
   }
@@ -59,72 +71,82 @@ function sanitizeField(fieldValue) {
   return sanitized;
 }
 
-// 📌 Middlewares
+// --------------------- MIDDLEWARES GLOBALES --------------------- //
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Servir archivos estáticos de la carpeta "public"
 app.use(express.static("public"));
 
-// =====================================
-// ========== SESIONES / LOGIN =========
-// =====================================
+// --------------------- SESIONES (LOGIN/LOGOUT) --------------------- //
 app.use(session({
-  secret: "clave-ultra-secreta",
+  secret: "clave-ultra-secreta", // Debe ser un secreto seguro en producción
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false }
 }));
 
-// 🚀 Registro de usuarios
+// --------------------- RUTA: REGISTRO DE USUARIO --------------------- //
 app.post("/auth/register", async (req, res) => {
   try {
+    // Sanitizamos nombre y contraseña
     const nombre = sanitizeField(req.body.nombre);
     const contrasena = sanitizeField(req.body.contrasena);
 
     // Hashear la contraseña con bcryptjs
     const hashedPassword = await bcryptjs.hash(contrasena, 10);
 
-    // Verificar si el usuario ya existe
+    // Verificar si el usuario ya existe en la BD
     const result = await db.query("SELECT * FROM usuarios WHERE nombre = $1", [nombre]);
     if (result.rows.length > 0) {
+      // Si ya existe, enviamos un error con status 409
       return res.status(409).send("El usuario ya existe.");
     }
 
     // Insertar usuario nuevo
     await db.query("INSERT INTO usuarios (nombre, contrasena) VALUES ($1, $2)", [nombre, hashedPassword]);
+
+    // Respuesta exitosa
     res.send("Usuario registrado correctamente.");
   } catch (err) {
-    res.status(500).send("Error al registrar usuario.");
+    // Si hay algún error (incluyendo sanitizeField), enviamos el mensaje específico
+    return res.status(400).send(err.message);
   }
 });
 
-// 🚀 Login
+// --------------------- RUTA: LOGIN DE USUARIO --------------------- //
 app.post("/auth/login", async (req, res) => {
   try {
+    // Sanitizamos nombre y contraseña
     const nombre = sanitizeField(req.body.nombre);
     const contrasena = sanitizeField(req.body.contrasena);
 
-    // Buscar el usuario
+    // Buscar el usuario en la BD
     const result = await db.query("SELECT * FROM usuarios WHERE nombre = $1", [nombre]);
     if (result.rows.length === 0) {
       return res.status(401).send("Usuario no encontrado.");
     }
 
-    // Comparar contraseñas (hash con bcryptjs)
+    // Comparar contraseñas (verificamos el hash en la BD)
     const validPass = await bcryptjs.compare(contrasena, result.rows[0].contrasena);
     if (!validPass) {
       return res.status(401).send("Contraseña incorrecta.");
     }
 
-    // Guardar sesión
+    // Guardar el nombre de usuario en la sesión
     req.session.usuario = result.rows[0].nombre;
+
+    // Respuesta exitosa
     res.send("Inicio de sesión exitoso.");
   } catch (err) {
-    res.status(500).send("Error en el login.");
+    // Enviamos mensaje específico si falla la sanitización
+    return res.status(400).send(err.message);
   }
 });
 
-// 🚀 Verificar sesión
+// --------------------- RUTA: VERIFICAR SESIÓN --------------------- //
 app.get("/auth/session", (req, res) => {
+  // Si existe req.session.usuario, significa que hay sesión iniciada
   if (req.session.usuario) {
     res.json({ usuario: req.session.usuario });
   } else {
@@ -132,17 +154,18 @@ app.get("/auth/session", (req, res) => {
   }
 });
 
-// 🚀 Cerrar sesión
+// --------------------- RUTA: CERRAR SESIÓN --------------------- //
 app.post("/auth/logout", (req, res) => {
-  req.session.destroy();
+  req.session.destroy(); // Destruimos la sesión
   res.send("Sesión cerrada.");
 });
 
-// =====================================
-// ========== RUTAS PARA SCP ===========
-// =====================================
+// --------------------- RUTAS PARA GESTIONAR SCPs --------------------- //
 
-// 📌 1) OBTENER TODOS LOS SCPs (GET /scps)
+/**
+ * 1) OBTENER TODOS LOS SCPs
+ *    - GET /scps
+ */
 app.get("/scps", async (req, res) => {
   try {
     const { rows } = await db.query("SELECT * FROM scps");
@@ -152,9 +175,13 @@ app.get("/scps", async (req, res) => {
   }
 });
 
-// 📌 2) CREAR UN NUEVO SCP (POST /scps)
+/**
+ * 2) CREAR UN NUEVO SCP
+ *    - POST /scps
+ */
 app.post("/scps", async (req, res) => {
   try {
+    // Extraemos campos del body
     let {
       numero_scp,
       clasificacion_contencion,
@@ -164,10 +191,12 @@ app.post("/scps", async (req, res) => {
       descripcion
     } = req.body;
 
+    // Validamos que al menos vengan estos campos
     if (!numero_scp || !descripcion) {
       return res.status(400).send("Número SCP y descripción son obligatorios.");
     }
 
+    // Sanitizamos todos los campos
     numero_scp = sanitizeField(numero_scp);
     clasificacion_contencion = sanitizeField(clasificacion_contencion || "");
     nivel_peligro = sanitizeField(nivel_peligro || "");
@@ -175,6 +204,7 @@ app.post("/scps", async (req, res) => {
     estado_investigacion = sanitizeField(estado_investigacion || "");
     descripcion = sanitizeField(descripcion);
 
+    // Insertamos en la BD
     await db.query(
       `INSERT INTO scps 
        (numero_scp, clasificacion_contencion, nivel_peligro, ubicacion_actual, estado_investigacion, descripcion)
@@ -191,11 +221,15 @@ app.post("/scps", async (req, res) => {
 
     res.send("SCP creado con éxito.");
   } catch (err) {
-    res.status(500).send("Error al crear el SCP. Verifica que no exista un SCP con el mismo número.");
+    // Si falla la sanitización o la inserción, enviamos error
+    return res.status(400).send(err.message);
   }
 });
 
-// 📌 3) BUSCAR UN SCP POR NUMERO (GET /scps/buscar?numero_scp=XXX)
+/**
+ * 3) BUSCAR UN SCP POR NUMERO
+ *    - GET /scps/buscar?numero_scp=XXX
+ */
 app.get("/scps/buscar", async (req, res) => {
   try {
     const { numero_scp } = req.query;
@@ -203,7 +237,10 @@ app.get("/scps/buscar", async (req, res) => {
       return res.status(400).send("Falta el parámetro numero_scp en la URL.");
     }
 
+    // Sanitizamos
     const sanitizedNumeroSCP = sanitizeField(numero_scp);
+
+    // Buscamos en la BD
     const { rows } = await db.query("SELECT * FROM scps WHERE numero_scp = $1", [sanitizedNumeroSCP]);
 
     if (rows.length === 0) {
@@ -212,16 +249,20 @@ app.get("/scps/buscar", async (req, res) => {
 
     res.json(rows[0]);
   } catch (err) {
-    res.status(500).send("Error al buscar el SCP.");
+    return res.status(400).send(err.message);
   }
 });
 
-// 📌 4) OBTENER UN SCP POR ID (GET /scps/:id)
+/**
+ * 4) OBTENER UN SCP POR ID
+ *    - GET /scps/:id
+ */
 app.get("/scps/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { rows } = await db.query("SELECT * FROM scps WHERE id = $1", [id]);
 
+    // Buscamos por ID
+    const { rows } = await db.query("SELECT * FROM scps WHERE id = $1", [id]);
     if (rows.length === 0) {
       return res.status(404).send("No se encontró el SCP con ese ID.");
     }
@@ -232,7 +273,10 @@ app.get("/scps/:id", async (req, res) => {
   }
 });
 
-// 📌 5) EDITAR UN SCP (PUT /scps/:id)
+/**
+ * 5) EDITAR UN SCP
+ *    - PUT /scps/:id
+ */
 app.put("/scps/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -245,10 +289,12 @@ app.put("/scps/:id", async (req, res) => {
       descripcion
     } = req.body;
 
+    // Validamos campos mínimos
     if (!numero_scp || !descripcion) {
       return res.status(400).send("Número SCP y descripción son obligatorios.");
     }
 
+    // Sanitizamos
     numero_scp = sanitizeField(numero_scp);
     clasificacion_contencion = sanitizeField(clasificacion_contencion || "");
     nivel_peligro = sanitizeField(nivel_peligro || "");
@@ -256,6 +302,7 @@ app.put("/scps/:id", async (req, res) => {
     estado_investigacion = sanitizeField(estado_investigacion || "");
     descripcion = sanitizeField(descripcion);
 
+    // Actualizamos en la BD
     const result = await db.query(
       `UPDATE scps
        SET numero_scp = $1, clasificacion_contencion = $2, nivel_peligro = $3, ubicacion_actual = $4, estado_investigacion = $5, descripcion = $6
@@ -277,16 +324,20 @@ app.put("/scps/:id", async (req, res) => {
 
     res.send("SCP actualizado con éxito.");
   } catch (err) {
-    res.status(500).send("Error al actualizar el SCP.");
+    return res.status(400).send(err.message);
   }
 });
 
-// 📌 6) BORRAR UN SCP (DELETE /scps/:id)
+/**
+ * 6) BORRAR UN SCP
+ *    - DELETE /scps/:id
+ */
 app.delete("/scps/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await db.query("DELETE FROM scps WHERE id = $1", [id]);
 
+    // Borramos de la BD
+    const result = await db.query("DELETE FROM scps WHERE id = $1", [id]);
     if (result.rowCount === 0) {
       return res.status(404).send("No se encontró el SCP a eliminar.");
     }
@@ -297,7 +348,7 @@ app.delete("/scps/:id", async (req, res) => {
   }
 });
 
-// Iniciar servidor en el puerto 3000
+// --------------------- INICIAR SERVIDOR --------------------- //
 app.listen(3000, () => {
   console.log("✅ Servidor escuchando en el puerto 3000");
 });

@@ -7,11 +7,14 @@
 </head>
 <body>
   <header>
+    <!-- Título con efecto glitch para la pantalla de login -->
     <h1 class="glitch">[ 🔐 LOGIN SCP ]</h1>
   </header>
 
+  <!-- Div para mostrar alertas o mensajes -->
   <div id="alerta"></div>
 
+  <!-- Formulario de login -->
   <form id="form-login">
     <label for="nombre">Usuario:</label>
     <input type="text" id="nombre" name="nombre" required />
@@ -22,6 +25,7 @@
     <input type="submit" value="Iniciar sesión" />
   </form>
 
+  <!-- Formulario de registro -->
   <form id="form-register">
     <h2>¿No tienes cuenta? Regístrate</h2>
     <label for="nombre-reg">Usuario:</label>
@@ -33,38 +37,53 @@
     <input type="submit" value="Registrarse" />
   </form>
 
+  <!--
+    Script con eventos para login y registro.
+    Al hacer submit en "form-login", se manda POST a /auth/login
+    Al hacer submit en "form-register", se manda POST a /auth/register
+  -->
   <script>
+    // Manejador para login
     document.getElementById("form-login").addEventListener("submit", async (e) => {
       e.preventDefault();
       const nombre = document.getElementById("nombre").value;
       const contrasena = document.getElementById("contrasena").value;
 
+      // Enviamos al backend
       const res = await fetch("/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nombre, contrasena }),
       });
 
+      // Leemos la respuesta en texto
       const msg = await res.text();
       alert(msg);
+
+      // Si la respuesta fue ok (200), redirigimos a index.html
       if (res.ok) window.location.href = "/index.html";
     });
 
+    // Manejador para registro
     document.getElementById("form-register").addEventListener("submit", async (e) => {
       e.preventDefault();
       const nombre = document.getElementById("nombre-reg").value;
       const contrasena = document.getElementById("contrasena-reg").value;
 
+      // Enviamos al backend
       const res = await fetch("/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nombre, contrasena }),
       });
 
+      // Leemos la respuesta
       const msg = await res.text();
       alert(msg);
     });
   </script>
+
+  <!-- También podemos enlazar main.js aquí si quieres unificar lógica -->
   <script src="main.js"></script>
 </body>
 </html>

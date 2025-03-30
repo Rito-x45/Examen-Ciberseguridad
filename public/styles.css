@@ -1,15 +1,24 @@
 /* =========================== */
 /*          GENERAL            */
 /* =========================== */
+
+/* 
+   Estilos generales del body:
+   - Fuente monoespaciada tipo "Courier New"
+   - Fondo negro
+   - Texto blanco y centrado
+   - Sin margen
+   - Efecto de luces rojas en los lados
+*/
 body {
     font-family: 'Courier New', Courier, monospace;
-    background-color: #000;  /* Fondo completamente negro */
+    background-color: #000;
     color: #fff;
     text-align: center;
     padding: 20px;
     margin: 0;
     overflow-x: hidden;
-    position: relative;  /* Necesario para el efecto de luces laterales */
+    position: relative; /* Necesario para el efecto de luces laterales */
 }
 
 /* =========================== */
@@ -21,7 +30,12 @@ body {
     100% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.6); }
 }
 
-body::before, body::after {
+/* 
+   body::before y body::after se usan para las barras rojas
+   en los lados izquierdo y derecho, con efecto de pulso (glow).
+*/
+body::before,
+body::after {
     content: "";
     position: fixed;
     top: 0;
@@ -53,7 +67,7 @@ header {
     gap: 20px;
 }
 
-/* Logo */
+/* Logo del header */
 #logo {
     width: 150px;
     height: auto;
@@ -94,7 +108,7 @@ form {
     max-width: 600px;
 }
 
-/* Etiquetas */
+/* Etiquetas (label) */
 label {
     font-weight: bold;
     display: block;
@@ -102,7 +116,7 @@ label {
     color: #FF4444;
 }
 
-/* Campos de entrada */
+/* Campos de entrada (input, textarea) */
 input, textarea {
     background: #222;
     color: #fff;
@@ -116,7 +130,8 @@ input, textarea {
 /* =========================== */
 /*        BOTONES              */
 /* =========================== */
-input[type="submit"], button {
+input[type="submit"],
+button {
     background: #FF4444;
     color: white;
     border: none;
@@ -130,7 +145,8 @@ input[type="submit"], button {
     transition: all 0.3s ease;
 }
 
-input[type="submit"]:hover, button:hover {
+input[type="submit"]:hover,
+button:hover {
     background: darkred;
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
 }

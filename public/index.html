@@ -3,10 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <title>Registro de SCP</title>
+  <!-- Enlazamos la hoja de estilos principal -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
+  <!-- 
+    Script para verificar si hay sesión activa.
+    Si la ruta /auth/session responde con error, 
+    se redirige a login.html
+  -->
   <script>
     fetch("/auth/session")
       .then((res) => {
@@ -17,12 +23,16 @@
   </script>
 
   <header>
+    <!-- Imagen del logo -->
     <img src="/public/Imagenes/logo.png" alt="Logo de la Fundación SCP" id="logo"/>
+    <!-- Título con efecto glitch -->
     <h1 class="glitch">[ 🔴 REGISTRO DE SCP ]</h1>
   </header>
 
+  <!-- Div para mostrar alertas -->
   <div id="alerta"></div>
 
+  <!-- Formulario para agregar un nuevo SCP -->
   <form id="formulario-scp">
     <label for="numero_scp">Número SCP:</label>
     <input type="text" id="numero_scp" name="numero_scp" required placeholder="Ej: SCP-123" />
@@ -31,7 +41,8 @@
     <input
       type="text"
       id="clasificacion_contencion"
-      name="clasificacion_contencion" required
+      name="clasificacion_contencion" 
+      required
       placeholder="Euclid"
     />
 
@@ -66,20 +77,23 @@
       id="descripcion"
       name="descripcion"
       required
-      placeholder="aaaaaa"
+      placeholder="Describe el SCP..."
     ></textarea>
 
     <input type="submit" value="Agregar SCP" />
   </form>
 
+  <!-- Formulario para buscar un SCP por número -->
   <form id="formulario-buscar">
     <label for="buscar-numero">Buscar por Número SCP:</label>
     <input type="text" id="buscar-numero" placeholder="Ej: SCP-123" />
     <button type="submit">Buscar</button>
   </form>
 
+  <!-- Sección para mostrar resultado de la búsqueda -->
   <div id="resultado-busqueda"></div>
 
+  <!-- Tabla para listar todos los SCPs -->
   <table id="tabla-scps">
     <thead>
       <tr>
@@ -94,6 +108,7 @@
     <tbody></tbody>
   </table>
 
+  <!-- Script principal con la lógica de frontend -->
   <script src="main.js"></script>
 </body>
 </html>
