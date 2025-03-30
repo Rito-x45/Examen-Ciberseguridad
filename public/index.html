@@ -6,6 +6,18 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
+  <!-- Verificar sesión antes de mostrar contenido -->
+  <script>
+    fetch("/auth/session")
+      .then((res) => {
+        if (!res.ok) {
+          // Si la sesión no es válida, redirige a login.html
+          window.location.href = "/login.html";
+        }
+      });
+  </script>
+
   <!-- Encabezado con el logo de la Fundación SCP -->
   <header>
     <img src="/public/Imagenes/logo.png" alt="Logo de la Fundación SCP" id="logo"/>
@@ -18,7 +30,7 @@
   <!-- FORMULARIO PARA AGREGAR SCP -->
   <form id="formulario-scp">
     <label for="numero_scp">Número SCP:</label>
-    <input type="text" id="numero_scp" name="numero_scp" required placeholder="Ej: SCP-123"/>
+    <input type="text" id="numero_scp" name="numero_scp" required placeholder="Ej: SCP-123" />
 
     <label for="clasificacion_contencion">Clasificación de Contención:</label>
     <input
@@ -29,31 +41,49 @@
     />
 
     <label for="nivel_peligro">Nivel de Peligro:</label>
-    <input type="text" id="nivel_peligro" name="nivel_peligro required placeholder="verde"/>
+    <input
+      type="text"
+      id="nivel_peligro"
+      name="nivel_peligro"
+      required
+      placeholder="verde"
+    />
 
     <label for="ubicacion_actual">Ubicación Actual:</label>
-    <input type="text" id="ubicacion_actual" name="ubicacion_actual" required />
+    <input
+      type="text"
+      id="ubicacion_actual"
+      name="ubicacion_actual"
+      required
+    />
 
     <label for="estado_investigacion">Estado de Investigación:</label>
     <input
       type="text"
       id="estado_investigacion"
-      name="estado_investigacion" required
+      name="estado_investigacion"
+      required
       placeholder="Contención"
     />
 
     <label for="descripcion">Descripción:</label>
-    <textarea id="descripcion" name="descripcion" required placeholder="aaaaaa"></textarea>
+    <textarea
+      id="descripcion"
+      name="descripcion"
+      required
+      placeholder="aaaaaa"
+    ></textarea>
 
     <input type="submit" value="Agregar SCP" />
   </form>
 
-  <!-- FORMULARIO PARA BUSCAR SCP POR NÚMERO (ahora debajo del registro) -->
+  <!-- FORMULARIO PARA BUSCAR SCP POR NÚMERO -->
   <form id="formulario-buscar">
     <label for="buscar-numero">Buscar por Número SCP:</label>
     <input type="text" id="buscar-numero" placeholder="Ej: SCP-123" />
     <button type="submit">Buscar</button>
   </form>
+
   <!-- Resultado de la búsqueda -->
   <div id="resultado-busqueda"></div>
 

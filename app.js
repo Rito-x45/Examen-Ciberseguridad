@@ -1,13 +1,14 @@
 /********************************************
  * app.js - Backend con Node.js, Express y PostgreSQL (Neon)
  ********************************************/
-
 const express = require("express");
-const { Pool } = require("pg"); // Usamos Pool en lugar de Client para mejor gestión de conexiones
+const { Pool } = require("pg");
 const bodyParser = require("body-parser");
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const createDOMPurify = require("dompurify");
+const session = require("express-session");
+const bcrypt = require("bcrypt");
 
 // Configuración de DOMPurify para sanitizar entradas
 const window = new JSDOM("").window;
@@ -18,7 +19,7 @@ const app = express();
 // 📌 Configuración de conexión a PostgreSQL (Neon)
 const db = new Pool({
   connectionString: process.env.DATABASE_URL || "postgresql://neondb_owner:npg_qsrFJBo1a0Xf@ep-purple-tree-a5qalheh-pooler.us-east-2.aws.neon.tech/scp_database?sslmode=require",
-  ssl: { rejectUnauthorized: false } // 🔹 Importante para Neon en Render
+  ssl: { rejectUnauthorized: false }
 });
 
 // 📌 Función de validación y sanitización
@@ -35,6 +36,81 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+// =====================================
+// ========== SESIONES / LOGIN =========
+// =====================================
+app.use(session({
+  secret: "clave-ultra-secreta",
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }
+}));
+
+// 🚀 Registro de usuarios
+app.post("/auth/register", async (req, res) => {
+  try {
+    const nombre = sanitizeField(req.body.nombre);
+    const contrasena = sanitizeField(req.body.contrasena);
+    const hashedPassword = await bcrypt.hash(contrasena, 10);
+
+    // Verificar si el usuario ya existe
+    const result = await db.query("SELECT * FROM usuarios WHERE nombre = $1", [nombre]);
+    if (result.rows.length > 0) {
+      return res.status(409).send("El usuario ya existe.");
+    }
+
+    await db.query("INSERT INTO usuarios (nombre, contrasena) VALUES ($1, $2)", [nombre, hashedPassword]);
+    res.send("Usuario registrado correctamente.");
+  } catch (err) {
+    res.status(500).send("Error al registrar usuario.");
+  }
+});
+
+// 🚀 Login
+app.post("/auth/login", async (req, res) => {
+  try {
+    const nombre = sanitizeField(req.body.nombre);
+    const contrasena = sanitizeField(req.body.contrasena);
+
+    // Buscar el usuario
+    const result = await db.query("SELECT * FROM usuarios WHERE nombre = $1", [nombre]);
+    if (result.rows.length === 0) {
+      return res.status(401).send("Usuario no encontrado.");
+    }
+
+    // Comparar contraseñas (hash)
+    const validPass = await bcrypt.compare(contrasena, result.rows[0].contrasena);
+    if (!validPass) {
+      return res.status(401).send("Contraseña incorrecta.");
+    }
+
+    // Guardar sesión
+    req.session.usuario = result.rows[0].nombre;
+    res.send("Inicio de sesión exitoso.");
+  } catch (err) {
+    res.status(500).send("Error en el login.");
+  }
+});
+
+// 🚀 Verificar sesión
+app.get("/auth/session", (req, res) => {
+  if (req.session.usuario) {
+    res.json({ usuario: req.session.usuario });
+  } else {
+    res.status(401).send("No has iniciado sesión.");
+  }
+});
+
+// 🚀 Cerrar sesión
+app.post("/auth/logout", (req, res) => {
+  req.session.destroy();
+  res.send("Sesión cerrada.");
+});
+
+// =====================================
+// ========== RUTAS PARA SCP ===========
+// =====================================
+
 // 📌 1) OBTENER TODOS LOS SCPs (GET /scps)
 app.get("/scps", async (req, res) => {
   try {
@@ -48,8 +124,15 @@ app.get("/scps", async (req, res) => {
 // 📌 2) CREAR UN NUEVO SCP (POST /scps)
 app.post("/scps", async (req, res) => {
   try {
-    let { numero_scp, clasificacion_contencion, nivel_peligro, ubicacion_actual, estado_investigacion, descripcion } = req.body;
-    
+    let {
+      numero_scp,
+      clasificacion_contencion,
+      nivel_peligro,
+      ubicacion_actual,
+      estado_investigacion,
+      descripcion
+    } = req.body;
+
     if (!numero_scp || !descripcion) {
       return res.status(400).send("Número SCP y descripción son obligatorios.");
     }
@@ -65,7 +148,14 @@ app.post("/scps", async (req, res) => {
       `INSERT INTO scps 
        (numero_scp, clasificacion_contencion, nivel_peligro, ubicacion_actual, estado_investigacion, descripcion)
        VALUES ($1, $2, $3, $4, $5, $6)`,
-      [numero_scp, clasificacion_contencion, nivel_peligro, ubicacion_actual, estado_investigacion, descripcion]
+      [
+        numero_scp,
+        clasificacion_contencion,
+        nivel_peligro,
+        ubicacion_actual,
+        estado_investigacion,
+        descripcion
+      ]
     );
 
     res.send("SCP creado con éxito.");
@@ -83,13 +173,12 @@ app.get("/scps/buscar", async (req, res) => {
     }
 
     const sanitizedNumeroSCP = sanitizeField(numero_scp);
-
     const { rows } = await db.query("SELECT * FROM scps WHERE numero_scp = $1", [sanitizedNumeroSCP]);
 
     if (rows.length === 0) {
       return res.status(404).send("No se encontró el SCP con ese número.");
     }
-    
+
     res.json(rows[0]);
   } catch (err) {
     res.status(500).send("Error al buscar el SCP.");
@@ -116,7 +205,14 @@ app.get("/scps/:id", async (req, res) => {
 app.put("/scps/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    let { numero_scp, clasificacion_contencion, nivel_peligro, ubicacion_actual, estado_investigacion, descripcion } = req.body;
+    let {
+      numero_scp,
+      clasificacion_contencion,
+      nivel_peligro,
+      ubicacion_actual,
+      estado_investigacion,
+      descripcion
+    } = req.body;
 
     if (!numero_scp || !descripcion) {
       return res.status(400).send("Número SCP y descripción son obligatorios.");
@@ -133,7 +229,15 @@ app.put("/scps/:id", async (req, res) => {
       `UPDATE scps
        SET numero_scp = $1, clasificacion_contencion = $2, nivel_peligro = $3, ubicacion_actual = $4, estado_investigacion = $5, descripcion = $6
        WHERE id = $7`,
-      [numero_scp, clasificacion_contencion, nivel_peligro, ubicacion_actual, estado_investigacion, descripcion, id]
+      [
+        numero_scp,
+        clasificacion_contencion,
+        nivel_peligro,
+        ubicacion_actual,
+        estado_investigacion,
+        descripcion,
+        id
+      ]
     );
 
     if (result.rowCount === 0) {
@@ -162,7 +266,7 @@ app.delete("/scps/:id", async (req, res) => {
   }
 });
 
-// 📌 Iniciar el servidor en el puerto 3000
+// Iniciar servidor en puerto 3000
 app.listen(3000, () => {
   console.log("✅ Servidor escuchando en el puerto 3000");
 });
