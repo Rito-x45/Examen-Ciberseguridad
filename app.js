@@ -8,11 +8,10 @@ const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const createDOMPurify = require("dompurify");
 const session = require("express-session");
-const bcrypt = require("bcrypt");
-
-const bcrypt = require("bcryptjs");
+const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+// Si en algún momento usas JWT, aquí tienes la clave secreta
 const SECRET_KEY = "tu_secreto_super_seguro";
 
 // Configuración de DOMPurify para sanitizar entradas
@@ -36,7 +35,7 @@ function sanitizeField(fieldValue) {
   return sanitized;
 }
 
-// 📌 Middleware
+// 📌 Middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -56,7 +55,9 @@ app.post("/auth/register", async (req, res) => {
   try {
     const nombre = sanitizeField(req.body.nombre);
     const contrasena = sanitizeField(req.body.contrasena);
-    const hashedPassword = await bcrypt.hash(contrasena, 10);
+
+    // Hashear la contraseña con bcryptjs
+    const hashedPassword = await bcryptjs.hash(contrasena, 10);
 
     // Verificar si el usuario ya existe
     const result = await db.query("SELECT * FROM usuarios WHERE nombre = $1", [nombre]);
@@ -64,6 +65,7 @@ app.post("/auth/register", async (req, res) => {
       return res.status(409).send("El usuario ya existe.");
     }
 
+    // Insertar usuario nuevo
     await db.query("INSERT INTO usuarios (nombre, contrasena) VALUES ($1, $2)", [nombre, hashedPassword]);
     res.send("Usuario registrado correctamente.");
   } catch (err) {
@@ -83,8 +85,8 @@ app.post("/auth/login", async (req, res) => {
       return res.status(401).send("Usuario no encontrado.");
     }
 
-    // Comparar contraseñas (hash)
-    const validPass = await bcrypt.compare(contrasena, result.rows[0].contrasena);
+    // Comparar contraseñas (hash con bcryptjs)
+    const validPass = await bcryptjs.compare(contrasena, result.rows[0].contrasena);
     if (!validPass) {
       return res.status(401).send("Contraseña incorrecta.");
     }
@@ -271,84 +273,7 @@ app.delete("/scps/:id", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-// Iniciar servidor en puerto 3000
-=======
-
-// 📌 Registro de usuario (POST /register)
-app.post("/register", async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    
-    if (!username || !password) {
-      return res.status(400).send("Usuario y contraseña son obligatorios.");
-    }
-
-    // Encriptar la contraseña antes de guardarla
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    await db.query("INSERT INTO usuarios (username, password) VALUES ($1, $2)", [username, hashedPassword]);
-
-    res.send("Usuario registrado con éxito.");
-  } catch (err) {
-    res.status(500).send("Error al registrar el usuario.");
-  }
-});
-
-// 📌 Inicio de sesión (POST /login)
-app.post("/login", async (req, res) => {
-  try {
-    const { username, password } = req.body;
-
-    const { rows } = await db.query("SELECT * FROM usuarios WHERE username = $1", [username]);
-
-    if (rows.length === 0) {
-      return res.status(401).send("Usuario no encontrado.");
-    }
-
-    const user = rows[0];
-
-    // Comparar la contraseña ingresada con la almacenada
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      return res.status(401).send("Contraseña incorrecta.");
-    }
-
-    // Generar token JWT
-    const token = jwt.sign({ userId: user.id, username: user.username }, SECRET_KEY, { expiresIn: "2h" });
-
-    res.json({ token });
-  } catch (err) {
-    res.status(500).send("Error al iniciar sesión.");
-  }
-});
-
-// 📌 Middleware de autenticación
-function verificarToken(req, res, next) {
-  const token = req.headers["authorization"];
-  
-  if (!token) {
-    return res.status(403).send("Token requerido.");
-  }
-
-  jwt.verify(token, SECRET_KEY, (err, decoded) => {
-    if (err) {
-      return res.status(401).send("Token inválido.");
-    }
-    
-    req.user = decoded;
-    next();
-  });
-}
-
-// 📌 Ruta protegida de prueba (GET /perfil)
-app.get("/perfil", verificarToken, (req, res) => {
-  res.json({ mensaje: "Bienvenido a tu perfil", usuario: req.user });
-});
-
-// 📌 Iniciar el servidor en el puerto 3000
->>>>>>> 8ef9923907a5c4c1edb4023dc0b2036978d739b6
+// Iniciar servidor en el puerto 3000
 app.listen(3000, () => {
   console.log("✅ Servidor escuchando en el puerto 3000");
 });
