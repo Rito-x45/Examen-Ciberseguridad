@@ -1,16 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   const formulario = document.getElementById("formulario-scp");
   const alertaDiv = document.getElementById("alerta");
   const tablaBody = document.querySelector("#tabla-scps tbody");
   const formularioBuscar = document.getElementById("formulario-buscar");
   const resultadoBusqueda = document.getElementById("resultado-busqueda");
+  const logoutBtn = document.getElementById("logout-btn");
 
-  /**
-   * Mostrar una alerta en la parte superior, con estilo de error o éxito
-   * @param {string} mensaje - Texto a mostrar
-   * @param {boolean} esError - true para error, false para éxito
-   */
+  // Función para mostrar alertas
   function mostrarAlerta(mensaje, esError = false) {
     alertaDiv.textContent = mensaje;
     alertaDiv.className = esError ? "alert error" : "alert";
@@ -20,7 +16,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3000);
   }
 
+  // Listener para detectar el cierre de sesión en otras pestañas
+  window.addEventListener("storage", (event) => {
+    if (event.key === "logout") {
+      window.location.href = "/login.html";
+    }
+  });
 
+  // Función para cerrar sesión desde el botón
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async () => {
+      const res = await fetch("/auth/logout", { method: "POST" });
+      if (res.ok) {
+        localStorage.setItem("logout", Date.now());
+        window.location.href = "/login.html";
+      } else {
+        mostrarAlerta("Error al cerrar sesión", true);
+      }
+    });
+  }
+
+  // Cargar y mostrar los SCPs
   function cargarSCPs() {
     fetch("/scps")
       .then((response) => response.json())
@@ -49,14 +65,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  /**
-   * Manejo del formulario para agregar un nuevo SCP
-   */
+  // Agregar un nuevo SCP
   formulario.addEventListener("submit", (e) => {
-    e.preventDefault(); // Evita recargar la página
+    e.preventDefault();
     const formData = new FormData(formulario);
     const data = Object.fromEntries(formData.entries());
-
     fetch("/scps", {
       method: "POST",
       headers: {
@@ -82,23 +95,18 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 
-
+  // Buscar un SCP por número
   formularioBuscar.addEventListener("submit", (e) => {
     e.preventDefault();
     const numero_scp = document.getElementById("buscar-numero").value.trim();
-
-    // Verificación 
     if (/<.*?>/.test(numero_scp)) {
       mostrarAlerta("Entrada no válida. Se detectaron caracteres no permitidos en el número SCP.", true);
       return;
     }
-
     if (!numero_scp) {
       mostrarAlerta("Ingresa un número SCP a buscar", true);
       return;
     }
-
-    // peticion al backend
     fetch("/scps/buscar?numero_scp=" + encodeURIComponent(numero_scp))
       .then((r) => {
         if (!r.ok) {
@@ -122,10 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 
-  /**
-   * Borrar un SCP por ID
-   * @param {number} id - ID del SCP en la BD
-   */
+  // Función para borrar un SCP
   function borrarSCP(id) {
     if (!confirm("¿Estás seguro de borrar este SCP?")) return;
     fetch(`/scps/${id}`, { method: "DELETE" })
@@ -143,10 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  /**
-   * Editar un SCP (prompt en frontend)
-   * @param {number} id - ID del SCP
-   */
+  // Función para editar un SCP mediante prompts
   function editarSCP(id) {
     fetch(`/scps/${id}`)
       .then((r) => {
@@ -158,28 +160,20 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((scp) => {
         const numero_scp = prompt("Número SCP:", scp.numero_scp);
         if (numero_scp === null) return;
-
-        // Verificacion
         if (/<.*?>/.test(numero_scp)) {
           mostrarAlerta("Entrada no válida. Se detectaron caracteres no permitidos en el número SCP.", true);
           return;
         }
-
         const clasificacion_contencion = prompt("Clasificación:", scp.clasificacion_contencion);
         if (clasificacion_contencion === null) return;
-
         const nivel_peligro = prompt("Nivel de Peligro:", scp.nivel_peligro);
         if (nivel_peligro === null) return;
-
         const ubicacion_actual = prompt("Ubicación Actual:", scp.ubicacion_actual);
         if (ubicacion_actual === null) return;
-
         const estado_investigacion = prompt("Estado de Investigación:", scp.estado_investigacion);
         if (estado_investigacion === null) return;
-
         const descripcion = prompt("Descripción:", scp.descripcion);
         if (descripcion === null) return;
-
         const data = {
           numero_scp,
           clasificacion_contencion,
@@ -188,8 +182,6 @@ document.addEventListener("DOMContentLoaded", () => {
           estado_investigacion,
           descripcion
         };
-
-        // Enviamos la actualización al backend
         fetch(`/scps/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -213,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  
+  // Delegación de eventos para botones de editar y borrar
   tablaBody.addEventListener("click", (e) => {
     if (e.target.classList.contains("borrar-btn")) {
       const id = e.target.getAttribute("data-id");
@@ -223,5 +215,6 @@ document.addEventListener("DOMContentLoaded", () => {
       editarSCP(id);
     }
   });
+
   cargarSCPs();
 });
