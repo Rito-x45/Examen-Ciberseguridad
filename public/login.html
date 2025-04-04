@@ -33,7 +33,7 @@
 
     <!-- Campo opcional para código de administrador -->
     <label for="adminCode-reg">Código de Administrador (opcional):</label>
-    <input type="text" id="adminCode-reg" name="adminCode" placeholder="admi4530" />
+    <input type="text" id="adminCode-reg" name="adminCode" placeholder="Codigo dado por la empresa" />
 
     <input type="submit" value="Registrarse" />
   </form>
@@ -42,6 +42,7 @@
     // Manejo de Login
     document.getElementById("form-login").addEventListener("submit", async (e) => {
       e.preventDefault();
+      const formLogin = e.target;
       const nombre = document.getElementById("nombre").value;
       const contrasena = document.getElementById("contrasena").value;
 
@@ -52,6 +53,8 @@
       });
       const msg = await res.text();
       alert(msg);
+      // Limpiar los campos del formulario
+      formLogin.reset();
       if (res.ok) {
         window.location.href = "/index.html";
       }
@@ -60,6 +63,7 @@
     // Manejo de Registro
     document.getElementById("form-register").addEventListener("submit", async (e) => {
       e.preventDefault();
+      const formRegister = e.target;
       const nombre = document.getElementById("nombre-reg").value;
       const contrasena = document.getElementById("contrasena-reg").value;
       const adminCode = document.getElementById("adminCode-reg").value;
@@ -71,6 +75,8 @@
       });
       const msg = await res.text();
       alert(msg);
+      // Limpiar los campos del formulario
+      formRegister.reset();
     });
   </script>
 
