@@ -1,15 +1,6 @@
 /* =========================== */
 /*          GENERAL            */
 /* =========================== */
-
-/* 
-   Estilos generales del body:
-   - Fuente monoespaciada tipo "Courier New"
-   - Fondo negro
-   - Texto blanco y centrado
-   - Sin margen
-   - Efecto de luces rojas en los lados
-*/
 body {
     font-family: 'Courier New', Courier, monospace;
     background-color: #000;
@@ -21,43 +12,35 @@ body {
     position: relative; /* Necesario para el efecto de luces laterales */
 }
 
-/* =========================== */
-/*          LUCES LATERALES    */
-/* =========================== */
+/* Luces rojas en los costados */
 @keyframes glow {
     0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.6); }
     50% { box-shadow: 0 0 20px rgba(255, 0, 0, 1); }
     100% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.6); }
 }
 
-/* 
-   body::before y body::after se usan para las barras rojas
-   en los lados izquierdo y derecho, con efecto de pulso (glow).
-*/
 body::before,
 body::after {
     content: "";
     position: fixed;
     top: 0;
     bottom: 0;
-    width: 10px; /* Ancho de la línea */
-    background: rgba(255, 0, 0, 0.7); /* Color rojo con opacidad */
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.9); /* Efecto de brillo */
+    width: 10px;
+    background: rgba(255, 0, 0, 0.7);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.9);
     z-index: 100;
-    animation: glow 1.5s infinite alternate; /* Hace que la luz pulse */
+    animation: glow 1.5s infinite alternate;
 }
 
 body::before {
-    left: 0; /* Línea del lado izquierdo */
+    left: 0;
 }
 
 body::after {
-    right: 0; /* Línea del lado derecho */
+    right: 0;
 }
 
-/* =========================== */
-/*        ENCABEZADO           */
-/* =========================== */
+/* Encabezado */
 header {
     display: flex;
     justify-content: center;
@@ -67,16 +50,14 @@ header {
     gap: 20px;
 }
 
-/* Logo del header */
+/* Logo */
 #logo {
     width: 150px;
     height: auto;
     object-fit: contain;
 }
 
-/* =========================== */
-/*        TITULOS CON GLITCH   */
-/* =========================== */
+/* Efecto glitch en títulos */
 @keyframes glitch {
     0% { text-shadow: 2px 2px 5px rgba(255, 0, 0, 0.7); }
     50% { text-shadow: -2px -2px 5px rgba(255, 255, 0, 0.7); }
@@ -93,9 +74,7 @@ h1.glitch {
     animation: glitch 1s infinite;
 }
 
-/* =========================== */
-/*        FORMULARIOS          */
-/* =========================== */
+/* Formularios */
 form {
     background: rgba(0, 0, 0, 0.9);
     padding: 20px;
@@ -108,7 +87,6 @@ form {
     max-width: 600px;
 }
 
-/* Etiquetas (label) */
 label {
     font-weight: bold;
     display: block;
@@ -116,7 +94,6 @@ label {
     color: #FF4444;
 }
 
-/* Campos de entrada (input, textarea) */
 input, textarea {
     background: #222;
     color: #fff;
@@ -127,9 +104,7 @@ input, textarea {
     border-radius: 5px;
 }
 
-/* =========================== */
-/*        BOTONES              */
-/* =========================== */
+/* Botones */
 input[type="submit"],
 button {
     background: #FF4444;
@@ -151,23 +126,18 @@ button:hover {
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
 }
 
-/* =========================== */
-/*        FORMULARIO DE BÚSQUEDA */
-/* =========================== */
+/* Formulario de búsqueda */
 #formulario-buscar {
     background: rgba(0, 0, 0, 0.7);
     width: 90%;
     max-width: 600px;
     border: 1px solid #FF4444;
     padding: 10px;
-    display: block;
     margin: 20px auto;
     text-align: center;
 }
 
-/* =========================== */
-/*        RESULTADO BÚSQUEDA   */
-/* =========================== */
+/* Resultado de búsqueda */
 #resultado-busqueda {
     background: rgba(0, 0, 0, 0.8);
     width: 90%;
@@ -176,14 +146,11 @@ button:hover {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-    display: block;
     margin: 20px auto;
     text-align: center;
 }
 
-/* =========================== */
-/*        TABLAS               */
-/* =========================== */
+/* Tablas */
 table {
     width: 100%;
     margin-top: 20px;
@@ -209,9 +176,7 @@ td {
     color: #fff;
 }
 
-/* =========================== */
-/*      ALERTA Y MENSAJES      */
-/* =========================== */
+/* Alertas */
 #alerta {
     background-color: rgba(255, 0, 0, 0.8);
     color: #fff;

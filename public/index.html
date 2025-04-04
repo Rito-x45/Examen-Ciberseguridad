@@ -7,7 +7,7 @@
 </head>
 <body>
   <script>
-    // Verifica si hay sesión iniciada; de lo contrario redirige a login
+    // Verifica si hay sesión iniciada; de lo contrario, redirige a login
     fetch("/auth/session")
       .then((res) => {
         if (!res.ok) {
@@ -15,15 +15,16 @@
         }
       });
   </script>
+
   <header>
     <img src="/public/Imagenes/logo.png" alt="Logo de la Fundación SCP" id="logo"/>
     <h1 class="glitch">[ 🔴 REGISTRO DE SCP ]</h1>
     <button id="logout-btn">Cerrar sesión</button>
   </header>
-  
+
   <div id="alerta"></div>
 
-  <!-- Sección solo para ADMIN -->
+  <!-- Sección para admin (se oculta por defecto con style="display:none;") -->
   <div id="admin-section" style="display: none;">
     <h2>Gestión de Usuarios</h2>
     <button id="ver-usuarios-btn">Ver Usuarios</button>
@@ -40,6 +41,7 @@
     </table>
   </div>
 
+  <!-- Formulario para registrar nuevos SCP -->
   <form id="formulario-scp">
     <label for="numero_scp">Número SCP:</label>
     <input type="text" id="numero_scp" name="numero_scp" required placeholder="Ej: SCP-123" />
@@ -48,7 +50,7 @@
     <input type="text" id="clasificacion_contencion" name="clasificacion_contencion" required placeholder="Euclid" />
 
     <label for="nivel_peligro">Nivel de Peligro:</label>
-    <input type="text" id="nivel_peligro" name="nivel_peligro" required placeholder="verde" />
+    <input type="text" id="nivel_peligro" name="nivel_peligro" required placeholder="Verde" />
 
     <label for="ubicacion_actual">Ubicación Actual:</label>
     <input type="text" id="ubicacion_actual" name="ubicacion_actual" required />
@@ -62,14 +64,16 @@
     <input type="submit" value="Agregar SCP" />
   </form>
 
+  <!-- Formulario para buscar SCP -->
   <form id="formulario-buscar">
     <label for="buscar-numero">Buscar por Número SCP:</label>
     <input type="text" id="buscar-numero" placeholder="Ej: SCP-123" />
     <button type="submit">Buscar</button>
   </form>
 
-  <div id="resultado-búsqueda"></div>
+  <div id="resultado-busqueda"></div>
 
+  <!-- Tabla con SCPs -->
   <table id="tabla-scps">
     <thead>
       <tr>
@@ -84,6 +88,7 @@
     </thead>
     <tbody></tbody>
   </table>
+
   <script src="main.js"></script>
 </body>
 </html>

@@ -10,6 +10,7 @@
     <h1 class="glitch">[ LOGIN SCP ]</h1>
   </header>
   <div id="alerta"></div>
+  <!-- Formulario de inicio de sesión -->
   <form id="form-login">
     <label for="nombre">Usuario:</label>
     <input type="text" id="nombre" name="nombre" required />
@@ -17,16 +18,13 @@
     <label for="contrasena">Contraseña:</label>
     <input type="password" id="contrasena" name="contrasena" required />
 
-    <!-- Checkbox para modo desarrollador -->
-    <label for="developer">
-      <input type="checkbox" id="developer" name="developer" value="true" />
-      Ingresar como desarrollador
-    </label>
-
     <input type="submit" value="Iniciar sesión" />
   </form>
+
+  <!-- Formulario de registro -->
   <form id="form-register">
     <h2>¿No tienes cuenta? Regístrate</h2>
+
     <label for="nombre-reg">Usuario:</label>
     <input type="text" id="nombre-reg" name="nombre" required />
 
@@ -39,27 +37,33 @@
 
     <input type="submit" value="Registrarse" />
   </form>
+
   <script>
+    // Manejo de Login
     document.getElementById("form-login").addEventListener("submit", async (e) => {
       e.preventDefault();
       const nombre = document.getElementById("nombre").value;
       const contrasena = document.getElementById("contrasena").value;
-      const developer = document.getElementById("developer").checked ? "true" : "false";
+
       const res = await fetch("/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, contrasena, developer }),
+        body: JSON.stringify({ nombre, contrasena }),
       });
       const msg = await res.text();
       alert(msg);
-      if (res.ok) window.location.href = "/index.html";
+      if (res.ok) {
+        window.location.href = "/index.html";
+      }
     });
 
+    // Manejo de Registro
     document.getElementById("form-register").addEventListener("submit", async (e) => {
       e.preventDefault();
       const nombre = document.getElementById("nombre-reg").value;
       const contrasena = document.getElementById("contrasena-reg").value;
       const adminCode = document.getElementById("adminCode-reg").value;
+
       const res = await fetch("/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -69,6 +73,7 @@
       alert(msg);
     });
   </script>
+
   <script src="main.js"></script>
 </body>
 </html>

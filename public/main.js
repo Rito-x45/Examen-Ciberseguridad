@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutBtn.addEventListener("click", async () => {
       const res = await fetch("/auth/logout", { method: "POST" });
       if (res.ok) {
+        // Sincronizar logout en todas las pestañas
         localStorage.setItem("logout", Date.now());
         window.location.href = "/login.html";
       } else {
@@ -103,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const numero_scp = document.getElementById("buscar-numero").value.trim();
     if (/<.*?>/.test(numero_scp)) {
-      mostrarAlerta("Entrada no válida. Se detectaron caracteres no permitidos en el número SCP.", true);
+      mostrarAlerta("Entrada no válida. Se detectaron caracteres no permitidos.", true);
       return;
     }
     if (!numero_scp) {
@@ -133,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 
-  // Función para borrar un SCP
+  // Borrar un SCP
   function borrarSCP(id) {
     if (!confirm("¿Estás seguro de borrar este SCP?")) return;
     fetch(`/scps/${id}`, { method: "DELETE" })
@@ -151,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // Función para editar un SCP mediante prompts
+  // Editar un SCP (con prompts)
   function editarSCP(id) {
     fetch(`/scps/${id}`)
       .then((r) => {
@@ -164,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const numero_scp = prompt("Número SCP:", scp.numero_scp);
         if (numero_scp === null) return;
         if (/<.*?>/.test(numero_scp)) {
-          mostrarAlerta("Entrada no válida. Se detectaron caracteres no permitidos en el número SCP.", true);
+          mostrarAlerta("Entrada no válida. Se detectaron caracteres no permitidos.", true);
           return;
         }
         const clasificacion_contencion = prompt("Clasificación:", scp.clasificacion_contencion);
@@ -177,6 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (estado_investigacion === null) return;
         const descripcion = prompt("Descripción:", scp.descripcion);
         if (descripcion === null) return;
+
         const data = {
           numero_scp,
           clasificacion_contencion,
@@ -185,6 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
           estado_investigacion,
           descripcion
         };
+
         fetch(`/scps/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -208,6 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
+  // Delegar eventos para botones de editar y borrar en la tabla de SCPs
   tablaBody.addEventListener("click", (e) => {
     if (e.target.classList.contains("borrar-btn")) {
       const id = e.target.getAttribute("data-id");
@@ -225,6 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return res.json();
     })
     .then((data) => {
+      // data.rol -> 'admin' o 'user'
       if (data.rol === "admin") {
         adminSection.style.display = "block";
       }
@@ -233,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "/login.html";
     });
 
-  // Funcionalidad para ver usuarios (solo para admin)
+  // Ver usuarios (solo admin)
   if (verUsuariosBtn) {
     verUsuariosBtn.addEventListener("click", () => {
       fetch("/users")
@@ -262,7 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Funcionalidad para borrar usuario (solo para admin)
+  // Borrar usuario (solo admin)
   if (tablaUsuariosBody) {
     tablaUsuariosBody.addEventListener("click", (e) => {
       if (e.target.classList.contains("borrar-usuario")) {
@@ -280,5 +285,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Cargar SCPs al inicio
   cargarSCPs();
 });

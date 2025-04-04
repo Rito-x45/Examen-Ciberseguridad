@@ -17,6 +17,7 @@ const db = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
+// Función para sanitizar campos y evitar inyecciones
 function sanitizeField(fieldValue) {
   const forbiddenPatterns = [
     /;/g,
@@ -51,72 +52,90 @@ app.use(session({
   cookie: { secure: false }
 }));
 
-// Registro de usuarios con opción de código de administrador
+/* ==========================
+   REGISTRO DE USUARIOS
+   ========================== */
 app.post("/auth/register", async (req, res) => {
   try {
     const nombre = sanitizeField(req.body.nombre);
     const contrasena = sanitizeField(req.body.contrasena);
     const adminCode = req.body.adminCode ? sanitizeField(req.body.adminCode) : "";
+
     const hashedPassword = await bcryptjs.hash(contrasena, 10);
 
+    // Verificar si el usuario ya existe
     const result = await db.query("SELECT * FROM usuarios WHERE nombre = $1", [nombre]);
     if (result.rows.length > 0) {
       return res.status(409).send("El usuario ya existe.");
     }
 
+    // Determinar rol según el código de admin
     let rol = "user";
     if (adminCode) {
       if (adminCode === "admi4530") {
         rol = "admin";
       } else {
-        // Si el código ingresado es incorrecto, se devuelve error
+        // Código de admin incorrecto => error
         return res.status(403).send("Código de administrador inválido.");
       }
     }
 
-    await db.query("INSERT INTO usuarios (nombre, contrasena, rol) VALUES ($1, $2, $3)", [nombre, hashedPassword, rol]);
+    await db.query(
+      "INSERT INTO usuarios (nombre, contrasena, rol) VALUES ($1, $2, $3)",
+      [nombre, hashedPassword, rol]
+    );
+
     res.send("Usuario registrado correctamente.");
   } catch (err) {
     return res.status(400).send(err.message);
   }
 });
 
-// Login: se guarda el rol en la sesión
+/* ==========================
+   LOGIN
+   ========================== */
 app.post("/auth/login", async (req, res) => {
   try {
     const nombre = sanitizeField(req.body.nombre);
     const contrasena = sanitizeField(req.body.contrasena);
+
     const result = await db.query("SELECT * FROM usuarios WHERE nombre = $1", [nombre]);
     if (result.rows.length === 0) {
       return res.status(401).send("Usuario no encontrado.");
     }
+
     const validPass = await bcryptjs.compare(contrasena, result.rows[0].contrasena);
     if (!validPass) {
       return res.status(401).send("Contraseña incorrecta.");
     }
+
+    // Guardar datos en sesión
     req.session.usuario = result.rows[0].nombre;
     req.session.rol = result.rows[0].rol; // 'admin' o 'user'
-    if (req.body.developer === "true") {
-      req.session.developer = true;
-    } else {
-      req.session.developer = false;
-    }
+
     res.send("Inicio de sesión exitoso.");
   } catch (err) {
     return res.status(400).send(err.message);
   }
 });
 
-// Endpoint para consultar la sesión activa
+/* ==========================
+   CONSULTAR SESIÓN
+   ========================== */
 app.get("/auth/session", (req, res) => {
   if (req.session.usuario) {
-    res.json({ usuario: req.session.usuario, developer: req.session.developer || false, rol: req.session.rol });
+    res.json({
+      usuario: req.session.usuario,
+      rol: req.session.rol
+    });
   } else {
     res.status(401).send("No has iniciado sesión.");
   }
 });
 
-// Logout vía POST
+/* ==========================
+   LOGOUT
+   ========================== */
 app.post("/auth/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
@@ -126,7 +145,9 @@ app.post("/auth/logout", (req, res) => {
   });
 });
 
-// Rutas para los SCPs
+/* ==========================
+   ENDPOINTS PARA SCPs
+   ========================== */
 app.get("/scps", async (req, res) => {
   try {
     const { rows } = await db.query("SELECT * FROM scps");
@@ -138,22 +159,33 @@ app.get("/scps", async (req, res) => {
 
 app.post("/scps", async (req, res) => {
   try {
-    let { numero_scp, clasificacion_contencion, nivel_peligro, ubicacion_actual, estado_investigacion, descripcion } = req.body;
+    let {
+      numero_scp,
+      clasificacion_contencion,
+      nivel_peligro,
+      ubicacion_actual,
+      estado_investigacion,
+      descripcion
+    } = req.body;
+
     if (!numero_scp || !descripcion) {
       return res.status(400).send("Número SCP y descripción son obligatorios.");
     }
+
     numero_scp = sanitizeField(numero_scp);
     clasificacion_contencion = sanitizeField(clasificacion_contencion || "");
     nivel_peligro = sanitizeField(nivel_peligro || "");
     ubicacion_actual = sanitizeField(ubicacion_actual || "");
     estado_investigacion = sanitizeField(estado_investigacion || "");
     descripcion = sanitizeField(descripcion);
+
     await db.query(
       `INSERT INTO scps 
        (numero_scp, clasificacion_contencion, nivel_peligro, ubicacion_actual, estado_investigacion, descripcion)
        VALUES ($1, $2, $3, $4, $5, $6)`,
       [numero_scp, clasificacion_contencion, nivel_peligro, ubicacion_actual, estado_investigacion, descripcion]
     );
+
     res.send("SCP creado con éxito.");
   } catch (err) {
     return res.status(400).send(err.message);
@@ -166,11 +198,13 @@ app.get("/scps/buscar", async (req, res) => {
     if (!numero_scp) {
       return res.status(400).send("Falta el parámetro numero_scp en la URL.");
     }
+
     const sanitizedNumeroSCP = sanitizeField(numero_scp);
     const { rows } = await db.query("SELECT * FROM scps WHERE numero_scp = $1", [sanitizedNumeroSCP]);
     if (rows.length === 0) {
       return res.status(404).send("No se encontró el SCP con ese número.");
     }
+
     res.json(rows[0]);
   } catch (err) {
     return res.status(400).send(err.message);
@@ -193,25 +227,42 @@ app.get("/scps/:id", async (req, res) => {
 app.put("/scps/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    let { numero_scp, clasificacion_contencion, nivel_peligro, ubicacion_actual, estado_investigacion, descripcion } = req.body;
+    let {
+      numero_scp,
+      clasificacion_contencion,
+      nivel_peligro,
+      ubicacion_actual,
+      estado_investigacion,
+      descripcion
+    } = req.body;
+
     if (!numero_scp || !descripcion) {
       return res.status(400).send("Número SCP y descripción son obligatorios.");
     }
+
     numero_scp = sanitizeField(numero_scp);
     clasificacion_contencion = sanitizeField(clasificacion_contencion || "");
     nivel_peligro = sanitizeField(nivel_peligro || "");
     ubicacion_actual = sanitizeField(ubicacion_actual || "");
     estado_investigacion = sanitizeField(estado_investigacion || "");
     descripcion = sanitizeField(descripcion);
+
     const result = await db.query(
       `UPDATE scps
-       SET numero_scp = $1, clasificacion_contencion = $2, nivel_peligro = $3, ubicacion_actual = $4, estado_investigacion = $5, descripcion = $6
+       SET numero_scp = $1,
+           clasificacion_contencion = $2,
+           nivel_peligro = $3,
+           ubicacion_actual = $4,
+           estado_investigacion = $5,
+           descripcion = $6
        WHERE id = $7`,
       [numero_scp, clasificacion_contencion, nivel_peligro, ubicacion_actual, estado_investigacion, descripcion, id]
     );
+
     if (result.rowCount === 0) {
       return res.status(404).send("No se encontró el SCP a actualizar.");
     }
+
     res.send("SCP actualizado con éxito.");
   } catch (err) {
     return res.status(400).send(err.message);
@@ -231,24 +282,10 @@ app.delete("/scps/:id", async (req, res) => {
   }
 });
 
-// Rutas para manejar la sesión
-app.get("/getSession", (req, res) => {
-  const username = req.session.usuario;
-  res.send("Username: " + username);
-});
-
-app.get("/destroySession", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.error("Error destroying session:", err);
-      res.status(500).send("Error destroying session");
-    } else {
-      res.send("Session destroyed");
-    }
-  });
-});
-
-// Endpoints para administración de usuarios (solo admin)
+/* ==========================
+   ADMINISTRACIÓN DE USUARIOS
+   ========================== */
+// Listar usuarios (solo admin)
 app.get("/users", async (req, res) => {
   try {
     if (!req.session.usuario) {
@@ -257,6 +294,7 @@ app.get("/users", async (req, res) => {
     if (req.session.rol !== "admin") {
       return res.status(403).send("No tienes permisos de administrador.");
     }
+
     const { rows } = await db.query("SELECT id, nombre, rol FROM usuarios ORDER BY id ASC");
     res.json(rows);
   } catch (err) {
@@ -264,6 +302,7 @@ app.get("/users", async (req, res) => {
   }
 });
 
+// Eliminar un usuario (solo admin)
 app.delete("/users/:id", async (req, res) => {
   try {
     if (!req.session.usuario) {
@@ -272,6 +311,7 @@ app.delete("/users/:id", async (req, res) => {
     if (req.session.rol !== "admin") {
       return res.status(403).send("No tienes permisos de administrador.");
     }
+
     const { id } = req.params;
     const result = await db.query("DELETE FROM usuarios WHERE id = $1", [id]);
     if (result.rowCount === 0) {
@@ -283,6 +323,9 @@ app.delete("/users/:id", async (req, res) => {
   }
 });
 
+/* ==========================
+   INICIAR SERVIDOR
+   ========================== */
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
