@@ -33,6 +33,10 @@
     <label for="contrasena-reg">Contraseña:</label>
     <input type="password" id="contrasena-reg" name="contrasena" required />
 
+    <!-- Campo opcional para código de administrador -->
+    <label for="adminCode-reg">Código de Administrador (opcional):</label>
+    <input type="text" id="adminCode-reg" name="adminCode" placeholder="admi4530" />
+
     <input type="submit" value="Registrarse" />
   </form>
   <script>
@@ -55,10 +59,11 @@
       e.preventDefault();
       const nombre = document.getElementById("nombre-reg").value;
       const contrasena = document.getElementById("contrasena-reg").value;
+      const adminCode = document.getElementById("adminCode-reg").value;
       const res = await fetch("/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, contrasena }),
+        body: JSON.stringify({ nombre, contrasena, adminCode }),
       });
       const msg = await res.text();
       alert(msg);

@@ -20,7 +20,26 @@
     <h1 class="glitch">[ 🔴 REGISTRO DE SCP ]</h1>
     <button id="logout-btn">Cerrar sesión</button>
   </header>
+  
   <div id="alerta"></div>
+
+  <!-- Sección solo para ADMIN -->
+  <div id="admin-section" style="display: none;">
+    <h2>Gestión de Usuarios</h2>
+    <button id="ver-usuarios-btn">Ver Usuarios</button>
+    <table id="tabla-usuarios">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
   <form id="formulario-scp">
     <label for="numero_scp">Número SCP:</label>
     <input type="text" id="numero_scp" name="numero_scp" required placeholder="Ej: SCP-123" />
@@ -42,12 +61,15 @@
 
     <input type="submit" value="Agregar SCP" />
   </form>
+
   <form id="formulario-buscar">
     <label for="buscar-numero">Buscar por Número SCP:</label>
     <input type="text" id="buscar-numero" placeholder="Ej: SCP-123" />
     <button type="submit">Buscar</button>
   </form>
-  <div id="resultado-busqueda"></div>
+
+  <div id="resultado-búsqueda"></div>
+
   <table id="tabla-scps">
     <thead>
       <tr>
@@ -57,6 +79,7 @@
         <th>UBICACIÓN</th>
         <th>ESTADO</th>
         <th>DESCRIPCIÓN</th>
+        <th>ACCIONES</th>
       </tr>
     </thead>
     <tbody></tbody>

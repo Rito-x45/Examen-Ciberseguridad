@@ -51,24 +51,37 @@ app.use(session({
   cookie: { secure: false }
 }));
 
-// Registro de usuarios
+// Registro de usuarios con opción de código de administrador
 app.post("/auth/register", async (req, res) => {
   try {
     const nombre = sanitizeField(req.body.nombre);
     const contrasena = sanitizeField(req.body.contrasena);
+    const adminCode = req.body.adminCode ? sanitizeField(req.body.adminCode) : "";
     const hashedPassword = await bcryptjs.hash(contrasena, 10);
+
     const result = await db.query("SELECT * FROM usuarios WHERE nombre = $1", [nombre]);
     if (result.rows.length > 0) {
       return res.status(409).send("El usuario ya existe.");
     }
-    await db.query("INSERT INTO usuarios (nombre, contrasena) VALUES ($1, $2)", [nombre, hashedPassword]);
+
+    let rol = "user";
+    if (adminCode) {
+      if (adminCode === "admi4530") {
+        rol = "admin";
+      } else {
+        // Si el código ingresado es incorrecto, se devuelve error
+        return res.status(403).send("Código de administrador inválido.");
+      }
+    }
+
+    await db.query("INSERT INTO usuarios (nombre, contrasena, rol) VALUES ($1, $2, $3)", [nombre, hashedPassword, rol]);
     res.send("Usuario registrado correctamente.");
   } catch (err) {
     return res.status(400).send(err.message);
   }
 });
 
-// Login con opción de modo desarrollador
+// Login: se guarda el rol en la sesión
 app.post("/auth/login", async (req, res) => {
   try {
     const nombre = sanitizeField(req.body.nombre);
@@ -82,7 +95,7 @@ app.post("/auth/login", async (req, res) => {
       return res.status(401).send("Contraseña incorrecta.");
     }
     req.session.usuario = result.rows[0].nombre;
-    // Si se marca el checkbox para modo desarrollador
+    req.session.rol = result.rows[0].rol; // 'admin' o 'user'
     if (req.body.developer === "true") {
       req.session.developer = true;
     } else {
@@ -97,7 +110,7 @@ app.post("/auth/login", async (req, res) => {
 // Endpoint para consultar la sesión activa
 app.get("/auth/session", (req, res) => {
   if (req.session.usuario) {
-    res.json({ usuario: req.session.usuario, developer: req.session.developer || false });
+    res.json({ usuario: req.session.usuario, developer: req.session.developer || false, rol: req.session.rol });
   } else {
     res.status(401).send("No has iniciado sesión.");
   }
@@ -218,13 +231,12 @@ app.delete("/scps/:id", async (req, res) => {
   }
 });
 
-// Ruta para obtener datos de la sesión
+// Rutas para manejar la sesión
 app.get("/getSession", (req, res) => {
   const username = req.session.usuario;
   res.send("Username: " + username);
 });
 
-// Ruta para destruir la sesión
 app.get("/destroySession", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
@@ -236,7 +248,41 @@ app.get("/destroySession", (req, res) => {
   });
 });
 
-// Iniciar el servidor
+// Endpoints para administración de usuarios (solo admin)
+app.get("/users", async (req, res) => {
+  try {
+    if (!req.session.usuario) {
+      return res.status(401).send("No has iniciado sesión.");
+    }
+    if (req.session.rol !== "admin") {
+      return res.status(403).send("No tienes permisos de administrador.");
+    }
+    const { rows } = await db.query("SELECT id, nombre, rol FROM usuarios ORDER BY id ASC");
+    res.json(rows);
+  } catch (err) {
+    return res.status(500).send("Error al obtener los usuarios.");
+  }
+});
+
+app.delete("/users/:id", async (req, res) => {
+  try {
+    if (!req.session.usuario) {
+      return res.status(401).send("No has iniciado sesión.");
+    }
+    if (req.session.rol !== "admin") {
+      return res.status(403).send("No tienes permisos de administrador.");
+    }
+    const { id } = req.params;
+    const result = await db.query("DELETE FROM usuarios WHERE id = $1", [id]);
+    if (result.rowCount === 0) {
+      return res.status(404).send("No se encontró el usuario a eliminar.");
+    }
+    res.send("Usuario eliminado con éxito.");
+  } catch (err) {
+    return res.status(500).send("Error al eliminar el usuario.");
+  }
+});
+
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });

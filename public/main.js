@@ -1,10 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const formulario = document.getElementById("formulario-scp");
   const alertaDiv = document.getElementById("alerta");
   const tablaBody = document.querySelector("#tabla-scps tbody");
+  const formulario = document.getElementById("formulario-scp");
   const formularioBuscar = document.getElementById("formulario-buscar");
   const resultadoBusqueda = document.getElementById("resultado-busqueda");
   const logoutBtn = document.getElementById("logout-btn");
+
+  // Elementos de la sección de administrador
+  const adminSection = document.getElementById("admin-section");
+  const verUsuariosBtn = document.getElementById("ver-usuarios-btn");
+  const tablaUsuariosBody = document.querySelector("#tabla-usuarios tbody");
 
   // Función para mostrar alertas
   function mostrarAlerta(mensaje, esError = false) {
@@ -72,9 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = Object.fromEntries(formData.entries());
     fetch("/scps", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     })
       .then((response) =>
@@ -205,7 +208,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // Delegación de eventos para botones de editar y borrar
   tablaBody.addEventListener("click", (e) => {
     if (e.target.classList.contains("borrar-btn")) {
       const id = e.target.getAttribute("data-id");
@@ -215,6 +217,68 @@ document.addEventListener("DOMContentLoaded", () => {
       editarSCP(id);
     }
   });
+
+  // Verificar rol de la sesión y mostrar la sección de administración si es admin
+  fetch("/auth/session")
+    .then((res) => {
+      if (!res.ok) throw new Error("No has iniciado sesión");
+      return res.json();
+    })
+    .then((data) => {
+      if (data.rol === "admin") {
+        adminSection.style.display = "block";
+      }
+    })
+    .catch((err) => {
+      window.location.href = "/login.html";
+    });
+
+  // Funcionalidad para ver usuarios (solo para admin)
+  if (verUsuariosBtn) {
+    verUsuariosBtn.addEventListener("click", () => {
+      fetch("/users")
+        .then((res) => {
+          if (!res.ok) throw new Error("Error al obtener usuarios");
+          return res.json();
+        })
+        .then((usuarios) => {
+          tablaUsuariosBody.innerHTML = "";
+          usuarios.forEach((u) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${u.id}</td>
+              <td>${u.nombre}</td>
+              <td>${u.rol}</td>
+              <td>
+                <button class="borrar-usuario" data-id="${u.id}">Borrar</button>
+              </td>
+            `;
+            tablaUsuariosBody.appendChild(row);
+          });
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+    });
+  }
+
+  // Funcionalidad para borrar usuario (solo para admin)
+  if (tablaUsuariosBody) {
+    tablaUsuariosBody.addEventListener("click", (e) => {
+      if (e.target.classList.contains("borrar-usuario")) {
+        const userId = e.target.getAttribute("data-id");
+        if (confirm("¿Estás seguro de borrar a este usuario?")) {
+          fetch(`/users/${userId}`, { method: "DELETE" })
+            .then((res) => res.text())
+            .then((msg) => {
+              alert(msg);
+              verUsuariosBtn.click();
+            })
+            .catch((err) => alert("Error al borrar usuario"));
+        }
+      }
+    });
+  }
 
   cargarSCPs();
 });
