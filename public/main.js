@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Si no se encuentran elementos propios de la página principal, no se ejecuta la lógica.
+  const formularioSCP = document.getElementById("formulario-scp");
+  const tablaScps = document.getElementById("tabla-scps");
+  if (!formularioSCP && !tablaScps) return;
+
   const alertaDiv = document.getElementById("alerta");
   const tablaBody = document.querySelector("#tabla-scps tbody");
   const formulario = document.getElementById("formulario-scp");
@@ -6,12 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultadoBusqueda = document.getElementById("resultado-busqueda");
   const logoutBtn = document.getElementById("logout-btn");
 
-  // Elementos de la sección de administrador
+  // Elementos de la sección de administración (solo para admin)
   const adminSection = document.getElementById("admin-section");
   const verUsuariosBtn = document.getElementById("ver-usuarios-btn");
   const tablaUsuariosBody = document.querySelector("#tabla-usuarios tbody");
 
-  // Función para mostrar alertas
   function mostrarAlerta(mensaje, esError = false) {
     alertaDiv.textContent = mensaje;
     alertaDiv.className = esError ? "alert error" : "alert";
@@ -21,19 +25,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3000);
   }
 
-  // Listener para detectar el cierre de sesión en otras pestañas
+  // Sincroniza el logout entre pestañas
   window.addEventListener("storage", (event) => {
     if (event.key === "logout") {
       window.location.href = "/login.html";
     }
   });
 
-  // Función para cerrar sesión desde el botón
   if (logoutBtn) {
     logoutBtn.addEventListener("click", async () => {
       const res = await fetch("/auth/logout", { method: "POST" });
       if (res.ok) {
-        // Sincronizar logout en todas las pestañas
         localStorage.setItem("logout", Date.now());
         window.location.href = "/login.html";
       } else {
@@ -42,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Cargar y mostrar los SCPs
   function cargarSCPs() {
     fetch("/scps")
       .then((response) => response.json())
@@ -71,7 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // Agregar un nuevo SCP
   formulario.addEventListener("submit", (e) => {
     e.preventDefault();
     const formData = new FormData(formulario);
@@ -99,23 +99,25 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 
-  // Buscar un SCP por número
   formularioBuscar.addEventListener("submit", (e) => {
     e.preventDefault();
     const numero_scp = document.getElementById("buscar-numero").value.trim();
-    if (/<.*?>/.test(numero_scp)) {
-      mostrarAlerta("Entrada no válida. Se detectaron caracteres no permitidos.", true);
+    if (/<[^>]+>/.test(numero_scp)) {
+      mostrarAlerta("Entrada no válida: se detectaron etiquetas HTML.", true);
+      return;
+    }
+    if (/;|--|\/\*|\*\//.test(numero_scp)) {
+      mostrarAlerta("Entrada no válida: se detectaron caracteres especiales no permitidos.", true);
       return;
     }
     if (!numero_scp) {
       mostrarAlerta("Ingresa un número SCP a buscar", true);
       return;
     }
+
     fetch("/scps/buscar?numero_scp=" + encodeURIComponent(numero_scp))
       .then((r) => {
-        if (!r.ok) {
-          throw new Error("No se encontró el SCP con ese número");
-        }
+        if (!r.ok) throw new Error("No se encontró el SCP con ese número");
         return r.json();
       })
       .then((scp) => {
@@ -134,7 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 
-  // Borrar un SCP
   function borrarSCP(id) {
     if (!confirm("¿Estás seguro de borrar este SCP?")) return;
     fetch(`/scps/${id}`, { method: "DELETE" })
@@ -152,7 +153,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // Editar un SCP (con prompts)
   function editarSCP(id) {
     fetch(`/scps/${id}`)
       .then((r) => {
@@ -164,8 +164,8 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((scp) => {
         const numero_scp = prompt("Número SCP:", scp.numero_scp);
         if (numero_scp === null) return;
-        if (/<.*?>/.test(numero_scp)) {
-          mostrarAlerta("Entrada no válida. Se detectaron caracteres no permitidos.", true);
+        if (/<[^>]+>/.test(numero_scp)) {
+          mostrarAlerta("Entrada no válida: se detectaron etiquetas HTML.", true);
           return;
         }
         const clasificacion_contencion = prompt("Clasificación:", scp.clasificacion_contencion);
@@ -211,7 +211,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // Delegar eventos para botones de editar y borrar en la tabla de SCPs
   tablaBody.addEventListener("click", (e) => {
     if (e.target.classList.contains("borrar-btn")) {
       const id = e.target.getAttribute("data-id");
@@ -222,14 +221,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Verificar rol de la sesión y mostrar la sección de administración si es admin
+  // Verificar la sesión y mostrar la sección de administración si es admin
   fetch("/auth/session")
     .then((res) => {
       if (!res.ok) throw new Error("No has iniciado sesión");
       return res.json();
     })
     .then((data) => {
-      // data.rol -> 'admin' o 'user'
       if (data.rol === "admin") {
         adminSection.style.display = "block";
       }
@@ -238,7 +236,6 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "/login.html";
     });
 
-  // Ver usuarios (solo admin)
   if (verUsuariosBtn) {
     verUsuariosBtn.addEventListener("click", () => {
       fetch("/users")
@@ -267,7 +264,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Borrar usuario (solo admin)
   if (tablaUsuariosBody) {
     tablaUsuariosBody.addEventListener("click", (e) => {
       if (e.target.classList.contains("borrar-usuario")) {
@@ -285,6 +281,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Cargar SCPs al inicio
   cargarSCPs();
 });

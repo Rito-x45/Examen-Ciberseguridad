@@ -17,7 +17,7 @@ const db = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-// Función para sanitizar campos y evitar inyecciones
+// Función para sanitizar campos y evitar inyecciones SQL y etiquetas HTML
 function sanitizeField(fieldValue) {
   const forbiddenPatterns = [
     /;/g,
@@ -75,7 +75,6 @@ app.post("/auth/register", async (req, res) => {
       if (adminCode === "admi4530") {
         rol = "admin";
       } else {
-        // Código de admin incorrecto => error
         return res.status(403).send("Código de administrador inválido.");
       }
     }
@@ -323,9 +322,6 @@ app.delete("/users/:id", async (req, res) => {
   }
 });
 
-/* ==========================
-   INICIAR SERVIDOR
-   ========================== */
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
