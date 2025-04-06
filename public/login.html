@@ -57,11 +57,11 @@
 
       // Validar entradas en login
       if (contieneHTML(nombre)) {
-        alert("Entrada no válida: no se permiten etiquetas HTML en el usuario.");
+        alert("no se permiten etiquetas HTML en el usuario.");
         return;
       }
       if (contieneSQLInjection(nombre)) {
-        alert("Entrada no válida: no se permiten caracteres especiales en el usuario.");
+        alert("no se permiten caracteres especiales en el usuario.");
         return;
       }
       if (contieneHTML(contrasena)) {

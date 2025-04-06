@@ -103,11 +103,11 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const numero_scp = document.getElementById("buscar-numero").value.trim();
     if (/<[^>]+>/.test(numero_scp)) {
-      mostrarAlerta("Entrada no válida: se detectaron etiquetas HTML.", true);
+      mostrarAlerta("se detectaron etiquetas HTML.", true);
       return;
     }
     if (/;|--|\/\*|\*\//.test(numero_scp)) {
-      mostrarAlerta("Entrada no válida: se detectaron caracteres especiales no permitidos.", true);
+      mostrarAlerta("se detectaron caracteres especiales no permitidos.", true);
       return;
     }
     if (!numero_scp) {
@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const numero_scp = prompt("Número SCP:", scp.numero_scp);
         if (numero_scp === null) return;
         if (/<[^>]+>/.test(numero_scp)) {
-          mostrarAlerta("Entrada no válida: se detectaron etiquetas HTML.", true);
+          mostrarAlerta("se detectaron etiquetas HTML.", true);
           return;
         }
         const clasificacion_contencion = prompt("Clasificación:", scp.clasificacion_contencion);
