@@ -1,72 +1,195 @@
-/* Estilos generales */
+/* public/css/styles.css */
+
+/* =========================== */
+/*          GENERAL            */
+/* =========================== */
 body {
-    font-family: 'Courier New', monospace;
+    font-family: 'Courier New', Courier, monospace;
     background-color: #000;
     color: #C0FFC0;
-    margin: 0; padding: 0; overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
     position: relative;
   }
   
-  /* Brillo lateral */
-  @keyframes glow { 0%,100%{box-shadow:0 0 10px rgba(255,165,0,0.6)}50%{box-shadow:0 0 20px rgba(255,165,0,1)} }
+  /* Brillo lateral naranja */
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 0 10px rgba(255,165,0,0.6); }
+    50%      { box-shadow: 0 0 20px rgba(255,165,0,1); }
+  }
   body::before, body::after {
-    content: ""; position:fixed; top:0; bottom:0; width:8px;
-    background:rgba(255,165,0,0.7); animation:glow 1.5s infinite alternate; z-index:100;
+    content: "";
+    position: fixed;
+    top: 0; bottom: 0;
+    width: 8px;
+    background: rgba(255,165,0,0.7);
+    animation: glow 1.5s infinite alternate;
+    z-index: 100;
   }
-  body::before { left:0 } body::after { right:0 }
+  body::before { left: 0; }
+  body::after  { right: 0; }
   
-  /* Header y navegación */
+  /* =========================== */
+  /*           HEADER            */
+  /* =========================== */
   header {
-    display:flex; align-items:center; justify-content:space-between;
-    background:#001F1F; padding:10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #001F1F;
+    padding: 10px 20px;
   }
-  header img { height:50px }
+  #logo {
+    height: 50px;
+  }
   nav a {
-    color:#FFA500; text-decoration:none; margin:0 10px;
-    font-weight:bold; text-transform:uppercase;
+    color: #FFA500;
+    text-decoration: none;
+    margin: 0 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: relative;
+    padding: 4px 0;
   }
-  nav a.active { border-bottom:2px solid #FFA500; }
-  
-  /* Glitch en títulos */
-  @keyframes glitch { 0%,100%{text-shadow:2px 2px 5px rgba(255,165,0,0.7)}50%{text-shadow:-2px -2px 5px rgba(0,255,0,0.7)} }
-  h1, h2 { color:#FFA500; text-transform:uppercase; }
-  h1.glitch { animation:glitch 1s infinite }
-  
-  /* Formularios */
-  form {
-    background:rgba(0,31,31,0.9); margin:20px auto;
-    padding:20px; border:2px solid #FFA500; border-radius:8px;
-    max-width:600px; text-align:left;
+  nav a:hover,
+  nav a.active {
+    color: #FFF;
   }
-  label { color:#FFA500; display:block; margin-top:10px; }
-  input, textarea, select {
-    width:100%; margin-top:4px; padding:8px;
-    background:#002A2A; color:#C0FFC0;
-    border:1px solid #FFA500; border-radius:4px;
-  }
-  button, input[type="submit"] {
-    background:#FFA500; color:#000;
-    border:none; padding:10px 20px;
-    text-transform:uppercase; font-weight:bold;
-    margin-top:15px; cursor:pointer;
-  }
-  button:hover, input[type="submit"]:hover {
-    background:#CC8400;
+  nav a.active::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0; right: 0;
+    height: 3px;
+    background: #FFA500;
+    border-radius: 2px;
   }
   
-  /* Alertas */
+  /* LOGOUT BUTTON */
+  #logout-btn {
+    background: #FFA500;
+    border: none;
+    color: #000;
+    padding: 8px 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  #logout-btn:hover {
+    background: #CC8400;
+  }
+  
+  /* =========================== */
+  /*         HERO SECTION        */
+  /* =========================== */
+  .hero {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .hero h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: #C0FFC0;
+    text-transform: uppercase;
+    position: relative;
+  }
+  .hero h1.glitch {
+    animation: glitch 1s infinite;
+  }
+  .hero p {
+    margin-top: 12px;
+    font-size: 1rem;
+    color: #C0FFC0;
+  }
+  @keyframes glitch {
+    0%,100% { text-shadow: 2px 2px 5px rgba(255,165,0,0.7); }
+    50%     { text-shadow: -2px -2px 5px rgba(0,255,0,0.7); }
+  }
+  
+  /* =========================== */
+  /*        ACCORDION/DETAILS    */
+  /* =========================== */
+  details {
+    background: rgba(0,31,31,0.9);
+    border: 2px solid #FFA500;
+    border-radius: 8px;
+    margin: 12px auto;
+    max-width: 90%;
+    overflow: hidden;
+  }
+  details summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 12px 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.7);
+    color: #FFA500;
+    position: relative;
+  }
+  details summary:hover {
+    background: rgba(0,0,0,0.85);
+  }
+  details[open] summary {
+    background: rgba(0,0,0,0.85);
+  }
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+  details summary::before {
+    content: "+";
+    position: absolute;
+    left: 16px;
+    font-size: 1.2em;
+  }
+  details[open] summary::before {
+    content: "–";
+  }
+  details .content {
+    padding: 12px 16px;
+    border-top: 1px solid #FFA500;
+    animation: fadeIn 0.3s ease-in-out;
+    color: #C0FFC0;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* =========================== */
+  /*        INLINE LINKS         */
+  /* =========================== */
+  .content-sections a {
+    color: #FFA500;
+    text-decoration: none;
+  }
+  .content-sections a:hover {
+    text-decoration: underline;
+  }
+  
+  /* =========================== */
+  /*          ALERTA DIV         */
+  /* =========================== */
   #alerta {
-    max-width:600px; margin:10px auto;
-    padding:10px; background:rgba(255,165,0,0.8);
-    color:#000; font-weight:bold; border-radius:4px;
+    max-width: 90%;
+    margin: 10px auto;
+    padding: 10px;
+    background: rgba(255,165,0,0.8);
+    color: #000;
+    font-weight: bold;
+    border-radius: 4px;
+    text-align: center;
   }
   
-  /* Tablas */
-  table {
-    width:90%; margin:20px auto; border-collapse:collapse;
+  /* =========================== */
+  /*       MOBILE ADJUSTMENTS    */
+  /* =========================== */
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 2rem; }
+    nav a { margin: 0 6px; font-size: 0.9rem; }
+    #logout-btn { padding: 6px 12px; font-size: 0.9rem; }
+    details { margin: 8px auto; }
   }
-  th, td {
-    border:1px solid #FFA500; padding:8px; color:#C0FFC0;
-  }
-  th { background:#002A2A; text-transform:uppercase; }
   

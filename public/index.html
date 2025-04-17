@@ -1,28 +1,250 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>UNSC Home</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8" />
+  <title>UNSC Command</title>
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+
+  <!-- HEADER -->
   <header>
-    <img src="images/logo.png" alt="UNSC Logo">
+    <img src="images/logo.png" alt="UNSC Logo" id="logo" />
     <nav>
-      <a class="active" href="index.html">Home</a>
-      <a href="login.html">Login</a>
-      <a href="login.html#register">Register</a>
-      <a href="misiones.html">Mission</a>
+      <a href="index.html" class="active">HOME</a>
+      <a href="login.html">LOGIN</a>
+      <a href="login.html#register">REGISTER</a>
+      <a href="misiones.html">MISSION</a>
     </nav>
-    <button id="logout-btn">Logout</button>
+    <button id="logout-btn">LOGOUT</button>
   </header>
 
-  <section>
-    <h1 class="glitch">United Nations Space Command</h1>
-    <p>Bienvenido al cuartel general táctico de la UNSC. Usa el menú para navegar.</p>
+  <!-- HERO -->
+  <section class="hero">
+    <h1 class="glitch">Comando Espacial de las Naciones Unidas</h1>
+    <p><em>Inicia sesión para editar</em></p>
   </section>
 
   <div id="alerta"></div>
+
+  <!-- CONTENIDO ACORDIÓN -->
+  <main class="content-sections">
+
+    <details>
+      <summary>Información General</summary>
+      <div class="content">
+        <p>El Comando Espacial de las Naciones Unidas [1] o Mando Espacial de las Naciones Unidas es la agencia militar, exploradora y científica del Gobierno Unificado de la Tierra (UEG). Formado en 2163, en un período donde los restos de viejas ideologías culturales se enfrentaban por la supremacía en el Sistema Solar, el UNSC servía principalmente como un observador de operaciones militares en el espacio de las Naciones Unidas.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Información Política</summary>
+      <div class="content">
+        <ul>
+          <li><strong>Tipo de Gobierno:</strong> Militar Emergente</li>
+          <li><strong>Líder de facto:</strong> Almirante de Flota Lord Terrence Hood</li>
+          <li><strong>Capital:</strong> Sydney, Australia, Tierra</li>
+          <li><strong>Documento de Fundación:</strong> Naciones Unidas</li>
+          <li><strong>Fundación:</strong> Diciembre de 2163</li>
+          <li><strong>Constitución:</strong> Democracia</li>
+          <li><strong>Jefe de Estado:</strong> Naciones Unidas / Gobierno Unificado de la Tierra / Autoridad de Administración Colonial</li>
+          <li><strong>Jefe de Gobierno:</strong> Gobierno Unificado de la Tierra</li>
+          <li><strong>Poder Ejecutivo:</strong> Consejo de Seguridad del UNSC</li>
+          <li><strong>Poder Legislativo:</strong> Consejo de Seguridad del UNSC</li>
+          <li><strong>Poder Judicial:</strong> Oficina de Investigaciones</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>Información Social</summary>
+      <div class="content">
+        <ul>
+          <li><strong>Lenguaje:</strong> Multilingüismo</li>
+          <li><strong>Moneda:</strong> cR</li>
+          <li><strong>Religión:</strong> Politeísmo</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>Sumario</summary>
+      <div class="content">
+        <ul>
+          <li><a href="#mision">1 Misión</a></li>
+          <li><a href="#antecedentes">2 Antecedentes</a></li>
+          <li><a href="#historia">3 Historia</a></li>
+          <li><a href="#organizacion">4 Organización Administrativa</a></li>
+          <li><a href="#rangos">5 Rangos del UNSC</a></li>
+          <li><a href="#economia">6 Economía</a></li>
+          <li><a href="#bases">7 Bases</a></li>
+          <li><a href="#leyes">8 Leyes del UNSC</a></li>
+          <li><a href="#curiosidades">9 Curiosidades</a></li>
+          <li><a href="#galeria">10 Galería</a></li>
+          <li><a href="#articulos-relacionados">11 Artículos Relacionados</a></li>
+          <li><a href="#fuentes">12 Fuentes</a></li>
+        </ul>
+      </div>
+    </details>
+
+    <details id="mision">
+      <summary>1. Misión</summary>
+      <div class="content">
+        <p>Aunque modificada desde que se estableció en 2163, la declaración de funciones del UNSC se puede resumir en dos puntos. [2]</p>
+        <ul>
+          <li>Defender y promover las políticas del UEG</li>
+          <li>Garantizar la seguridad de los territorios, posesiones y áreas vitales del UEG para sus intereses.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details id="antecedentes">
+      <summary>2. Antecedentes</summary>
+      <div class="content">
+        <p>El Comando Espacial de las Naciones Unidas fue formado durante la Guerra Interplanetaria por la ONU. Después de su victoria, la sobrepoblación en la Tierra se volvió un verdadero problema a inicios del siglo XXII. Este problema se resolvió, pero surgieron desastres causados por la colonización y construcción de varias ciudades en otros planetas del Brazo de Orión, las Colonias Interiores y las Colonias Exteriores.</p>
+      </div>
+    </details>
+
+    <details id="historia">
+      <summary>3. Historia</summary>
+      <div class="content">
+
+        <details>
+          <summary>3.1 Antecedentes</summary>
+          <div class="content">
+            <p>El UNSC tiene sus raíces en la Segunda Guerra Mundial... </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>3.2 Guerra Covenant</summary>
+          <div class="content">
+            <p>El año 2525 marcó un punto importante... </p>
+          </div>
+        </details>
+
+      </div>
+    </details>
+
+    <details id="organizacion">
+      <summary>4. Organización Administrativa</summary>
+      <div class="content">
+
+        <details>
+          <summary>4.1 Departamentos Militares</summary>
+          <div class="content">
+            <p>Hay seis ramas militares del UNSC...</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>4.2 Consejo de Seguridad</summary>
+          <div class="content">
+            <p>El Consejo de Seguridad es el elemento principal...</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>4.3 Alto Mando</summary>
+          <div class="content">
+            <p>El Alto Mando coordina los protocolos...</p>
+          </div>
+        </details>
+
+      </div>
+    </details>
+
+    <details id="rangos">
+      <summary>5. Rangos del UNSC</summary>
+      <div class="content">
+        <ul>
+          <li>Oficiales</li>
+          <li>Oficiales Técnicos</li>
+          <li>Oficiales No‑Comisionados</li>
+        </ul>
+      </div>
+    </details>
+
+    <details id="economia">
+      <summary>6. Economía</summary>
+      <div class="content">
+        <p>El UNSC usa el Crédito de las Naciones Unidas para ...</p>
+      </div>
+    </details>
+
+    <details id="bases">
+      <summary>7. Bases</summary>
+      <div class="content">
+        <strong>Tierra:</strong>
+        <ul>
+          <li>Fuerte York</li>
+          <li>Fuerte Deen</li>
+          <li>Base Militar Roosevelt</li>
+          <li>Nido del Cuervo</li>
+          <li>…</li>
+        </ul>
+        <strong>Reach:</strong>
+        <ul>
+          <li>Montañas Tierras Altas</li>
+          <li>Base CASTILLO</li>
+          <li>Campamento Hathcock</li>
+          <li>…</li>
+        </ul>
+      </div>
+    </details>
+
+    <details id="leyes">
+      <summary>8. Leyes del UNSC</summary>
+      <div class="content">
+        <ul>
+          <li>Protocolo Cole</li>
+          <li>WINTER CONTINGENCY</li>
+        </ul>
+      </div>
+    </details>
+
+    <details id="curiosidades">
+      <summary>9. Curiosidades</summary>
+      <div class="content">
+        <ul>
+          <li>El UNSC fue accidentalmente mal escrito como “USNC” en algunos libros.</li>
+          <li>El Cuerpo de Marines está inspirado por la USMC real.</li>
+          <li>…</li>
+        </ul>
+      </div>
+    </details>
+
+    <details id="galeria">
+      <summary>10. Galería</summary>
+      <div class="content">
+        <p>Antiguo logo del UNSC</p>
+        <p>UEG, organización de la cual surgió el UNSC</p>
+        <!-- Aquí podrías insertar <img src="…"> -->
+      </div>
+    </details>
+
+    <details id="articulos-relacionados">
+      <summary>11. Artículos Relacionados</summary>
+      <div class="content">
+        <ul>
+          <li>Guerra Interplanetaria</li>
+          <li>Guerra Covenant</li>
+          <li>UNSCDF</li>
+        </ul>
+      </div>
+    </details>
+
+    <details id="fuentes">
+      <summary>12. Fuentes</summary>
+      <div class="content">
+        <p>[1] Manual Oficial UNSC, 2163.</p>
+        <p>[2] Archivo de la ONI, Sección Historias.</p>
+        <!-- Agrega tus referencias aquí -->
+      </div>
+    </details>
+
+  </main>
+
   <script src="js/auth.js"></script>
 </body>
 </html>
