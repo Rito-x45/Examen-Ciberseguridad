@@ -134,6 +134,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Obtener misión por ID
+app.get("/misiones/:id", async (req, res) => {
+  try {
+    const { rows } = await db.query(
+      "SELECT * FROM misiones WHERE id = $1",
+      [req.params.id]
+    );
+    if (!rows.length) {
+      return res.status(404).send("Misión no encontrada.");
+    }
+    res.json(rows[0]);
+  } catch (err) {
+    console.error("Error GET /misiones/:id:", err);
+    res.status(500).send("Error al buscar misión.");
+  }
+});
+
+
   // 6) Al arrancar, mostramos todo
   cargar();
 });
