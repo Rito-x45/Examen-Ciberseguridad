@@ -1,3 +1,4 @@
+// app.js
 const express         = require("express");
 const { Pool }        = require("pg");
 const bodyParser      = require("body-parser");
@@ -38,6 +39,7 @@ app.use(session({
 }));
 
 /* ======== RUTAS AUTENTICACIÓN ======== */
+
 // Registro
 app.post("/auth/register", async (req, res) => {
   try {
@@ -72,6 +74,7 @@ app.post("/auth/login", async (req, res) => {
   try {
     const nombre = sanitizeField(req.body.nombre);
     const pass   = sanitizeField(req.body.contrasena);
+
     const { rows } = await db.query(
       "SELECT * FROM usuarios WHERE nombre=$1", [nombre]
     );
@@ -102,8 +105,9 @@ app.post("/auth/logout", (req, res) => {
   });
 });
 
-/* ======== RUTAS MISIÓN ======== */
-// Listar
+/* ======== RUTAS DE MISIONES ======== */
+
+// Listar todas las misiones
 app.get("/misiones", async (req, res) => {
   try {
     const { rows } = await db.query("SELECT * FROM misiones ORDER BY id");
@@ -113,11 +117,27 @@ app.get("/misiones", async (req, res) => {
   }
 });
 
-// Crear
+// Obtener misión por ID (para edición)
+app.get("/misiones/:id", async (req, res) => {
+  try {
+    const { rows } = await db.query(
+      "SELECT * FROM misiones WHERE id = $1",
+      [req.params.id]
+    );
+    if (!rows.length) return res.status(404).send("Misión no encontrada.");
+    res.json(rows[0]);
+  } catch (err) {
+    console.error("Error GET /misiones/:id:", err);
+    res.status(500).send("Error al buscar misión.");
+  }
+});
+
+// Crear nueva misión
 app.post("/misiones", async (req, res) => {
   try {
     let { nombre, ubicacion, objetivo, unidad, comandante, fecha, nivel_amenaza, estado } = req.body;
     if (!nombre || !objetivo) return res.status(400).send("Nombre y objetivo son obligatorios.");
+
     [nombre, ubicacion, objetivo, unidad, comandante, nivel_amenaza, estado] =
       [nombre, ubicacion||"", objetivo, unidad||"", comandante||"", nivel_amenaza||"", estado||""]
       .map(v => sanitizeField(v));
@@ -134,11 +154,12 @@ app.post("/misiones", async (req, res) => {
   }
 });
 
-// Actualizar
+// Actualizar misión existente
 app.put("/misiones/:id", async (req, res) => {
   try {
     let { nombre, ubicacion, objetivo, unidad, comandante, fecha, nivel_amenaza, estado } = req.body;
     if (!nombre || !objetivo) return res.status(400).send("Nombre y objetivo son obligatorios.");
+
     [nombre, ubicacion, objetivo, unidad, comandante, nivel_amenaza, estado] =
       [nombre, ubicacion||"", objetivo, unidad||"", comandante||"", nivel_amenaza||"", estado||""]
       .map(v => sanitizeField(v));
@@ -157,10 +178,13 @@ app.put("/misiones/:id", async (req, res) => {
   }
 });
 
-// Eliminar
+// Eliminar misión
 app.delete("/misiones/:id", async (req, res) => {
   try {
-    const result = await db.query("DELETE FROM misiones WHERE id=$1", [req.params.id]);
+    const result = await db.query(
+      "DELETE FROM misiones WHERE id=$1",
+      [req.params.id]
+    );
     if (!result.rowCount) return res.status(404).send("Misión no encontrada.");
     res.send("Misión eliminada con éxito.");
   } catch {

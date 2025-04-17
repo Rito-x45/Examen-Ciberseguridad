@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const alertaDiv  = document.getElementById("alerta");
   const formMision = document.getElementById("form-mision");
   const tbody       = document.querySelector("#tabla-misiones tbody");
-  const btnSearch   = document.getElementById("btn-search");
   const searchInput = document.getElementById("search-input");
   const btnNew      = document.getElementById("btn-new");
 
@@ -105,7 +104,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // 5) Delegación en la tabla para editar o borrar
   tbody.addEventListener("click", async e => {
     const id = e.target.dataset.id;
-    // BORRAR
+
+    // Borrar
     if (e.target.classList.contains("del")) {
       if (!confirm("¿Eliminar misión?")) return;
       const res = await fetch(`/misiones/${id}`, { method: "DELETE" });
@@ -114,14 +114,16 @@ document.addEventListener("DOMContentLoaded", () => {
       cargar();
       return;
     }
-    // EDITAR
+
+    // Editar
     if (e.target.classList.contains("edit")) {
       try {
         const res = await fetch(`/misiones/${id}`);
         if (!res.ok) throw new Error(res.statusText);
         const m = await res.json();
-        // Rellenar form
-        Object.entries(m).forEach(([key,val]) => {
+
+        // Rellenar formulario
+        Object.entries(m).forEach(([key, val]) => {
           const fld = formMision.elements[key];
           if (fld) fld.value = val || "";
         });
@@ -134,24 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Obtener misión por ID
-app.get("/misiones/:id", async (req, res) => {
-  try {
-    const { rows } = await db.query(
-      "SELECT * FROM misiones WHERE id = $1",
-      [req.params.id]
-    );
-    if (!rows.length) {
-      return res.status(404).send("Misión no encontrada.");
-    }
-    res.json(rows[0]);
-  } catch (err) {
-    console.error("Error GET /misiones/:id:", err);
-    res.status(500).send("Error al buscar misión.");
-  }
-});
-
-
-  // 6) Al arrancar, mostramos todo
+  // 6) Arranque: mostramos todo al cargar
   cargar();
 });
