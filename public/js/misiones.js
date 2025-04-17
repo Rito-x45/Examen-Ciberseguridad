@@ -1,11 +1,11 @@
 // public/js/misiones.js
 document.addEventListener("DOMContentLoaded", () => {
-  const alertaDiv    = document.getElementById("alerta");
-  const formMision   = document.getElementById("form-mision");
-  const tbody         = document.querySelector("#tabla-misiones tbody");
-  const btnSearch     = document.getElementById("btn-search");
-  const searchInput   = document.getElementById("search-input");
-  const btnNew        = document.getElementById("btn-new");
+  const alertaDiv  = document.getElementById("alerta");
+  const formMision = document.getElementById("form-mision");
+  const tbody       = document.querySelector("#tabla-misiones tbody");
+  const btnSearch   = document.getElementById("btn-search");
+  const searchInput = document.getElementById("search-input");
+  const btnNew      = document.getElementById("btn-new");
 
   function showAlert(msg, isErr = false) {
     alertaDiv.textContent = msg;
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return /<[^>]+>/.test(text) || /;|--|\/\*/.test(text);
   }
 
-  // Carga todas o filtra por nombre
+  // 1) Cargar (o filtrar) misiones
   async function cargar(filter = "") {
     try {
       const res = await fetch("/misiones");
@@ -52,24 +52,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Mostrar/ocultar el formulario
+  // 2) Toggle formulario “Nueva misión”
   btnNew.addEventListener("click", () => {
-    formMision.style.display =
-      formMision.style.display === "none" ? "grid" : "none";
-    if (formMision.style.display === "none") formMision.reset(), delete formMision.dataset.id;
+    const showing = formMision.style.display !== "none";
+    formMision.style.display = showing ? "none" : "grid";
+    if (showing) {
+      formMision.reset();
+      delete formMision.dataset.id;
+    }
   });
 
-  // Búsqueda por nombre
-  btnSearch.addEventListener("click", () => {
+  // 3) Búsqueda en caliente + validación
+  searchInput.addEventListener("input", () => {
     const q = searchInput.value.trim();
-    cargar(q);
+    if (badInput(q)) {
+      showAlert("Caracteres inválidos detectados.", true);
+      searchInput.value = "";
+      cargar();
+    } else {
+      cargar(q);
+    }
   });
 
-  // CRUD: Crear o actualizar
+  // 4) Crear / actualizar misión
   formMision.addEventListener("submit", async e => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(formMision));
-    // Validación básica
     for (const k in data) {
       if (badInput(data[k])) {
         showAlert("Caracteres inválidos detectados.", true);
@@ -94,79 +102,38 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Editar / Borrar desde tabla
+  // 5) Delegación en la tabla para editar o borrar
   tbody.addEventListener("click", async e => {
     const id = e.target.dataset.id;
-    if (e.target.classList.contains("edit")) {
-      const res = await fetch(`/misiones/${id}`);
-      const m   = await res.json();
-      Object.keys(m).forEach(k => {
-        if (formMision.elements[k]) formMision.elements[k].value = m[k] || "";
-      });
-      formMision.dataset.id   = id;
-      formMision.style.display = "grid";
-    }
+    // BORRAR
     if (e.target.classList.contains("del")) {
       if (!confirm("¿Eliminar misión?")) return;
       const res = await fetch(`/misiones/${id}`, { method: "DELETE" });
       const msg = await res.text();
       showAlert(msg, !res.ok);
       cargar();
+      return;
+    }
+    // EDITAR
+    if (e.target.classList.contains("edit")) {
+      try {
+        const res = await fetch(`/misiones/${id}`);
+        if (!res.ok) throw new Error(res.statusText);
+        const m = await res.json();
+        // Rellenar form
+        Object.entries(m).forEach(([key,val]) => {
+          const fld = formMision.elements[key];
+          if (fld) fld.value = val || "";
+        });
+        formMision.dataset.id = id;
+        formMision.style.display = "grid";
+        formMision.scrollIntoView({ behavior: "smooth", block: "center" });
+      } catch (err) {
+        showAlert("No se pudo cargar la misión: " + err.message, true);
+      }
     }
   });
 
-  // Arranque: cargar todo
+  // 6) Al arrancar, mostramos todo
   cargar();
-});
-
-// Capturar el input de búsqueda (ajusta el selector si tu id o clase es distinto)
-const searchInput = document.getElementById("search-mision");
-
-// Cada vez que el usuario teclee algo, validamos
-searchInput.addEventListener("input", () => {
-  const val = searchInput.value;
-
-  // Reutilizamos la función badInput() que ya tienes:
-  // detecta <etiquetas> o patrones ; -- /* etc.
-  if (badInput(val)) {
-    showAlert("Caracteres inválidos detectados.", true);
-    // opcional: limpiamos el campo para que no se quede el texto sucio
-    searchInput.value = "";
-    return;
-  }
-
-  // Si pasa la validación, llamas a tu filtro normal:
-  // por ejemplo, recorrer tu tabla y ocultar filas que no coincidan
-  filtrarMisiones(val);
-});
-
-// Delegación completa sobre la tabla para capturar siempre los clicks en "Editar"
-const tabla = document.getElementById("tabla-misiones");
-tabla.addEventListener("click", async e => {
-  // Sólo nos interesa el botón con clase .edit
-  if (!e.target.classList.contains("edit")) return;
-  e.preventDefault();
-  
-  const id = e.target.getAttribute("data-id");
-  if (!id) return console.error("Falta data-id en el botón Editar");
-  
-  try {
-    const res = await fetch(`/misiones/${id}`);
-    if (!res.ok) throw new Error("No se pudo cargar la misión");
-    const m = await res.json();
-    
-    // Rellenamos el formulario
-    const form = document.getElementById("form-mision");
-    Object.entries(m).forEach(([key, val]) => {
-      const field = form.querySelector(`[name="${key}"]`);
-      if (field) field.value = val || "";
-    });
-    form.dataset.id = id;
-    
-    // Scroll al formulario para que el usuario lo vea
-    form.scrollIntoView({ behavior: "smooth" });
-    
-  } catch (err) {
-    showAlert(err.message, true);
-  }
 });
