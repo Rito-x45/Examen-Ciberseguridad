@@ -2,10 +2,11 @@
 /*          VARIABLES          */
 /* =========================== */
 :root {
-    --bg-dark:    #001f00;  /* verde muy oscuro */
-    --bg-nav:     #004d00;  /* verde fuerte */
-    --accent:     #00ff00;  /* verde neón */
-    --text-light: #c0ffc0;  /* texto claro */
+    --bg-dark:     #0e1b0e;  /* verde bosque muy oscuro */
+    --bg-nav:      #194919;  /* verde fuerte para la barra */
+    --text-light:  #c0d0b0;  /* verde pálido para texto */
+    --glow-color:  #3a8c45;  /* verde ligeramente atenuado para glow */
+    --btn-color:   #d68b00;  /* naranja oscuro para botones */
   }
   
   /* =========================== */
@@ -19,15 +20,19 @@
     overflow-x: hidden; position: relative;
   }
   
-  /* Brillo lateral verde */
+  /* Brillo lateral verde tenue */
   @keyframes glow {
-    0%,100%{ box-shadow:0 0 10px rgba(0,255,0,0.6); }
-    50%    { box-shadow:0 0 20px rgba(0,255,0,1); }
+    0%,100%{ box-shadow:0 0 10px rgba(var(--glow-rgb),0.6); }
+    50%    { box-shadow:0 0 20px rgba(var(--glow-rgb),1); }
+  }
+  /* extra: precompute glow RGB */
+  body {
+    --glow-rgb: 58,140,69;
   }
   body::before, body::after {
     content:""; position:fixed; top:0; bottom:0; width:8px;
-    background:rgba(0,255,0,0.7); animation:glow 1.5s infinite alternate;
-    z-index:100;
+    background:rgba(var(--glow-rgb),0.4);
+    animation:glow 1.5s infinite alternate; z-index:100;
   }
   body::before { left:0 } body::after { right:0 }
   
@@ -40,34 +45,33 @@
     padding: 10px 20px;
   }
   #logo {
-    height:50px;
+    height: 50px;
   }
   nav a {
     color: var(--text-light);
-    text-decoration:none; margin:0 12px;
-    font-weight:bold; text-transform:uppercase;
-    position:relative; padding:4px 0;
+    text-decoration: none; margin:0 12px;
+    font-weight: bold; text-transform: uppercase;
+    position: relative; padding:4px 0;
   }
   nav a:hover,
   nav a.active {
-    color:#fff;
+    color: #fff;
   }
   nav a.active::after {
     content:""; position:absolute;
     bottom:-4px; left:0; right:0;
-    height:3px; background: var(--accent);
+    height:3px; background: var(--btn-color);
     border-radius:2px;
   }
-  
   /* LOGOUT BUTTON */
   #logout-btn {
-    background: var(--accent);
+    background: var(--btn-color);
     border:none; color:#000;
     padding:8px 16px; text-transform:uppercase;
     font-weight:bold; cursor:pointer; border-radius:4px;
   }
   #logout-btn:hover {
-    background:#00cc00;
+    background: #b56000;
   }
   
   /* =========================== */
@@ -87,23 +91,22 @@
     margin:12px 0; color: var(--text-light);
   }
   @keyframes glitch {
-    0%,100%{ text-shadow:2px 2px 5px rgba(0,255,0,0.7); }
-    50%    { text-shadow:-2px -2px 5px rgba(0,128,0,0.7); }
+    0%,100%{ text-shadow:2px 2px 5px rgba(var(--glow-rgb),0.7); }
+    50%    { text-shadow:-2px -2px 5px rgba(0,100,0,0.7); }
   }
-  
-  /* BUTTON MISSION */
+  /* MISSION BUTTON */
   .btn-mission {
     display:inline-block;
     margin-top:20px; padding:12px 32px;
-    background: var(--accent); color:#000;
+    background: var(--btn-color); color:#000;
     text-decoration:none; text-transform:uppercase;
     font-weight:bold; border-radius:4px;
-    box-shadow:0 0 10px rgba(0,255,0,0.6);
+    box-shadow:0 0 10px rgba(var(--glow-rgb),0.6);
     transition:all .3s ease;
   }
   .btn-mission:hover {
-    background:#00cc00;
-    box-shadow:0 0 20px rgba(0,255,0,1);
+    background:#b56000;
+    box-shadow:0 0 20px rgba(var(--glow-rgb),1);
   }
   
   /* =========================== */
@@ -111,7 +114,7 @@
   /* =========================== */
   details {
     background: rgba(0,31,31,0.9);
-    border:2px solid var(--accent);
+    border:2px solid var(--btn-color);
     border-radius:8px;
     margin:12px auto; max-width:90%;
     overflow:hidden;
@@ -121,7 +124,7 @@
     padding:12px 16px;
     font-weight:bold; text-transform:uppercase;
     background:rgba(0,0,0,0.7);
-    color: var(--accent);
+    color: var(--btn-color);
   }
   details summary:hover {
     background:rgba(0,0,0,0.85);
@@ -139,7 +142,7 @@
   }
   details .content {
     padding:12px 16px;
-    border-top:1px solid var(--accent);
+    border-top:1px solid var(--btn-color);
     animation:fadeIn .3s ease-in-out;
     color: var(--text-light);
   }
@@ -152,7 +155,7 @@
   /*        INLINE LINKS         */
   /* =========================== */
   .content-sections a {
-    color: var(--accent);
+    color: var(--btn-color);
     text-decoration:none;
   }
   .content-sections a:hover {
@@ -164,7 +167,7 @@
   /* =========================== */
   #alerta {
     max-width:90%; margin:10px auto;
-    padding:10px; background:rgba(0,255,0,0.8);
+    padding:10px; background:rgba(var(--glow-rgb),0.8);
     color:#000; font-weight:bold; border-radius:4px;
     text-align:center;
   }
