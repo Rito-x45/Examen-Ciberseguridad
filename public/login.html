@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>UNSC - Login</title>
   <link rel="stylesheet" href="/css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Source+Sans+Pro&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
@@ -12,8 +12,7 @@
     <nav>
       <a href="/index.html">Home</a>
       <a href="/login.html" class="active">Login</a>
-      <a href="/login.html#register">Register</a>
-      <a href="/misiones.html">Mission</a>
+      <a href="/misiones.html">Misiones</a>
     </nav>
   </header>
 
@@ -21,6 +20,7 @@
 
   <section class="auth-container">
     <div class="auth-card">
+      <!-- Login Card -->
       <form id="form-login">
         <h1 class="glitch">UNSC AUTH</h1>
         <label for="nombre">Usuario</label>
@@ -28,11 +28,14 @@
         <label for="contrasena">Contraseña</label>
         <input type="password" id="contrasena" name="contrasena" required>
         <input type="submit" value="Iniciar Sesión" class="btn-submit">
-        <div class="switch-link">¿No tienes cuenta? <a href="#register">Regístrate</a></div>
+        <div class="switch-link">
+          ¿No tienes cuenta? <a href="#register">Regístrate</a>
+        </div>
       </form>
     </div>
 
     <div class="auth-card" id="register">
+      <!-- Register Card -->
       <form id="form-register">
         <h1 class="glitch">UNSC REG</h1>
         <label for="nombre-reg">Usuario</label>
@@ -42,7 +45,9 @@
         <label for="adminCode-reg">Código Admin (opcional)</label>
         <input type="text" id="adminCode-reg" name="adminCode">
         <input type="submit" value="Registrarse" class="btn-submit">
-        <div class="switch-link">¿Ya tienes cuenta? <a href="#login">Iniciar sesión</a></div>
+        <div class="switch-link">
+          ¿Ya tienes cuenta? <a href="#login">Iniciar sesión</a>
+        </div>
       </form>
     </div>
   </section>

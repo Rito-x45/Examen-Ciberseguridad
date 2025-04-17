@@ -38,6 +38,7 @@ app.use(session({
 }));
 
 /* ======== RUTAS AUTENTICACIÓN ======== */
+// Registro
 app.post("/auth/register", async (req, res) => {
   try {
     const nombre    = sanitizeField(req.body.nombre);
@@ -66,6 +67,7 @@ app.post("/auth/register", async (req, res) => {
   }
 });
 
+// Login
 app.post("/auth/login", async (req, res) => {
   try {
     const nombre = sanitizeField(req.body.nombre);
@@ -86,11 +88,13 @@ app.post("/auth/login", async (req, res) => {
   }
 });
 
+// Comprobar sesión
 app.get("/auth/session", (req, res) => {
   if (!req.session.usuario) return res.status(401).send("No has iniciado sesión.");
   res.json({ usuario: req.session.usuario, rol: req.session.rol });
 });
 
+// Logout
 app.post("/auth/logout", (req, res) => {
   req.session.destroy(err => {
     if (err) return res.status(500).send("Error al cerrar sesión.");
@@ -98,7 +102,8 @@ app.post("/auth/logout", (req, res) => {
   });
 });
 
-/* ======== RUTAS MISIONES ======== */
+/* ======== RUTAS MISIÓN ======== */
+// Listar
 app.get("/misiones", async (req, res) => {
   try {
     const { rows } = await db.query("SELECT * FROM misiones ORDER BY id");
@@ -108,17 +113,18 @@ app.get("/misiones", async (req, res) => {
   }
 });
 
+// Crear
 app.post("/misiones", async (req, res) => {
   try {
     let { nombre, ubicacion, objetivo, unidad, comandante, fecha, nivel_amenaza, estado } = req.body;
     if (!nombre || !objetivo) return res.status(400).send("Nombre y objetivo son obligatorios.");
     [nombre, ubicacion, objetivo, unidad, comandante, nivel_amenaza, estado] =
-      [nombre, ubicacion || "", objetivo, unidad || "", comandante || "", nivel_amenaza || "", estado || ""]
-      .map(val => sanitizeField(val));
+      [nombre, ubicacion||"", objetivo, unidad||"", comandante||"", nivel_amenaza||"", estado||""]
+      .map(v => sanitizeField(v));
 
     await db.query(
       `INSERT INTO misiones
-        (nombre, ubicacion, objetivo, unidad, comandante, fecha, nivel_amenaza, estado)
+         (nombre, ubicacion, objetivo, unidad, comandante, fecha, nivel_amenaza, estado)
        VALUES($1,$2,$3,$4,$5,$6,$7,$8)`,
       [nombre, ubicacion, objetivo, unidad, comandante, fecha, nivel_amenaza, estado]
     );
@@ -128,13 +134,14 @@ app.post("/misiones", async (req, res) => {
   }
 });
 
+// Actualizar
 app.put("/misiones/:id", async (req, res) => {
   try {
     let { nombre, ubicacion, objetivo, unidad, comandante, fecha, nivel_amenaza, estado } = req.body;
     if (!nombre || !objetivo) return res.status(400).send("Nombre y objetivo son obligatorios.");
     [nombre, ubicacion, objetivo, unidad, comandante, nivel_amenaza, estado] =
-      [nombre, ubicacion || "", objetivo, unidad || "", comandante || "", nivel_amenaza || "", estado || ""]
-      .map(val => sanitizeField(val));
+      [nombre, ubicacion||"", objetivo, unidad||"", comandante||"", nivel_amenaza||"", estado||""]
+      .map(v => sanitizeField(v));
 
     const result = await db.query(
       `UPDATE misiones SET
@@ -150,6 +157,7 @@ app.put("/misiones/:id", async (req, res) => {
   }
 });
 
+// Eliminar
 app.delete("/misiones/:id", async (req, res) => {
   try {
     const result = await db.query("DELETE FROM misiones WHERE id=$1", [req.params.id]);

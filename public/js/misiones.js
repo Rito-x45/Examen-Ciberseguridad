@@ -1,4 +1,3 @@
-// public/js/misiones.js
 document.addEventListener("DOMContentLoaded", () => {
   const alertaDiv  = document.getElementById("alerta");
   const formMision = document.getElementById("form-mision");
@@ -6,8 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showAlert(msg, isErr=false) {
     alertaDiv.textContent = msg;
-    alertaDiv.style.background = isErr ? "rgba(255,50,50,0.8)" : "rgba(255,165,0,0.8)";
-    setTimeout(() => alertaDiv.textContent = "", 4000);
+    alertaDiv.style.background = isErr
+      ? "rgba(255,50,50,0.8)"
+      : "rgba(255,165,0,0.8)";
+    setTimeout(() => (alertaDiv.textContent = ""), 4000);
   }
 
   function badInput(text) {
@@ -32,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <td>${m.estado}</td>
             <td>
               <button class="edit" data-id="${m.id}">Editar</button>
-              <button class="del" data-id="${m.id}">Borrar</button>
+              <button class="del"  data-id="${m.id}">Borrar</button>
             </td>
           </tr>`;
       });
@@ -75,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const res = await fetch(`/misiones/${id}`);
         const m   = await res.json();
         Object.keys(m).forEach(k => {
-          if (formMision.elements[k]) formMision.elements[k].value = m[k] || '';
+          if (formMision.elements[k]) formMision.elements[k].value = m[k] || "";
         });
         formMision.dataset.id = id;
       }

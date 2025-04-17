@@ -1,24 +1,44 @@
-// public/js/auth.js
 document.addEventListener("DOMContentLoaded", () => {
   const alertaDiv = document.getElementById("alerta");
+  const loginCard = document.querySelector(".auth-card:first-of-type");
+  const regCard   = document.getElementById("register");
   const formLogin = document.getElementById("form-login");
   const formReg   = document.getElementById("form-register");
   const btnLogout = document.getElementById("logout-btn");
 
+  // Inicialmente ocultar alertas y cards
+  alertaDiv.textContent = "";
+  if (loginCard && regCard) {
+    regCard.style.display  = "none";
+    loginCard.style.display = "block";
+    // enlaces para alternar
+    document.querySelector(".auth-card:first-of-type .switch-link a").addEventListener("click", e => {
+      e.preventDefault();
+      loginCard.style.display = "none";
+      regCard.style.display   = "block";
+    });
+    regCard.querySelector(".switch-link a").addEventListener("click", e => {
+      e.preventDefault();
+      regCard.style.display   = "none";
+      loginCard.style.display = "block";
+    });
+  }
+
   function showAlert(msg, isErr=false) {
     alertaDiv.textContent = msg;
-    alertaDiv.style.background = isErr ? "rgba(255,50,50,0.8)" : "rgba(255,165,0,0.8)";
-    setTimeout(() => alertaDiv.textContent = "", 3000);
+    alertaDiv.style.background = isErr
+      ? "rgba(255,50,50,0.8)"
+      : "rgba(255,165,0,0.8)";
+    setTimeout(() => (alertaDiv.textContent = ""), 3000);
   }
 
   function badInput(text) {
     return /<[^>]+>/.test(text) || /;|--|\/\*/.test(text);
   }
 
-  // Forzar login en páginas protegidas
+  // Forzar login en Home y Misiones
   const path = window.location.pathname;
-  const protectedPages = ["/", "/index.html", "/misiones.html"];
-  if (protectedPages.includes(path)) {
+  if (["/", "/index.html", "/misiones.html"].includes(path)) {
     fetch("/auth/session").then(r => {
       if (!r.ok) window.location.href = "/login.html";
     });
@@ -53,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Registro
+  // Register
   if (formReg) {
     formReg.addEventListener("submit", async e => {
       e.preventDefault();

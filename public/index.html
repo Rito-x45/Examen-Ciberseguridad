@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>UNSC - Home</title>
   <link rel="stylesheet" href="/css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Source+Sans+Pro&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
@@ -12,50 +12,106 @@
     <nav>
       <a href="/index.html" class="active">Home</a>
       <a href="/login.html">Login</a>
-      <a href="/login.html#register">Register</a>
-      <a href="/misiones.html">Mission</a>
+      <a href="/misiones.html">Misiones</a>
     </nav>
     <button id="logout-btn">Logout</button>
   </header>
 
   <section class="hero">
     <h1 class="glitch">UNITED NATIONS SPACE COMMAND</h1>
-    <p><em>Inicia sesión para editar</em></p>
-    <a href="/misiones.html" class="btn-mission">Mission</a>
+    <p><em>Bienvenido al portal UNSC</em></p>
   </section>
 
   <div id="alerta"></div>
 
   <section class="page-container">
-    <!-- Info existing details... -->
-    <details id="estructura-info">
-      <summary>Estructura de Información</summary>
-      <ul>
-        <li>1. Misión</li>
-        <li>2. Antecedentes</li>
-        <li>3. Historia</li>
-        <li>3.1 Antecedentes</li>
-        <li>3.2 Guerra Covenant</li>
-        <li>4. Organización Administrativa</li>
-        <li>4.1 Departamentos Militares</li>
-        <li>4.2 Consejo de Seguridad</li>
-        <li>4.3 Alto Mando</li>
-        <li>5. Rangos del UNSC</li>
-        <li>5.1 Oficiales</li>
-        <li>5.2 Oficiales Técnicos</li>
-        <li>5.3 Oficiales No-Comisionados</li>
-        <li>6. Economía</li>
-        <li>7. Bases</li>
-        <li>7.1 Tierra</li>
-        <li>7.2 Reach</li>
-        <li>8. Leyes del UNSC</li>
-        <li>9. Curiosidades</li>
-        <li>10. Galería</li>
-        <li>11. Artículos Relacionados</li>
-        <li>12. Bajas más honorables</li>
-        <li>13. Soldados / Divisiones</li>
-      </ul>
+
+    <details id="mision">
+      <summary>1. Misión</summary>
+      <div class="content">
+        <p><strong>Operación:</strong> Silent Storm</p>
+        <p><strong>Ubicación:</strong> Sistema Epsilon Eridani – Órbita de Reach</p>
+        <p><strong>Objetivo:</strong> Infiltrar y destruir nave madre Covenant antes de su arribo a la superficie.</p>
+        <p><strong>Unidad:</strong> Spartan‑II Blue Team + escuadrón ODST Echo.</p>
+        <p><strong>Comandante:</strong> Cap. Jacob Keyes.</p>
+        <p><strong>Fecha:</strong> 3 de julio, 2552.</p>
+        <p><strong>Nivel de amenaza:</strong> ALTO (Elite y tecnología Forerunner detectada).</p>
+        <p><strong>Estado:</strong> Éxito parcial (nave destruida, múltiples bajas).</p>
+      </div>
     </details>
+
+    <details id="antecedentes">
+      <summary>2. Antecedentes</summary>
+      <div class="content">
+        <p>El UNSC se formó tras la Guerra Interplanetaria para unificar fuerzas de la Tierra y colonias exteriores.</p>
+      </div>
+    </details>
+
+    <details id="historia">
+      <summary>3. Historia</summary>
+      <div class="content">
+        <details><summary>3.1 Antecedentes</summary><div class="content"><p>Origen en proyectos satelitales WWII y luego fuerza armada espacial.</p></div></details>
+        <details><summary>3.2 Guerra Covenant</summary><div class="content"><p>Entre 2525 y 2552, el Covenant puso en jaque a la humanidad; Reach cayó en 2552.</p></div></details>
+      </div>
+    </details>
+
+    <details id="organizacion">
+      <summary>4. Organización Administrativa</summary>
+      <div class="content">
+        <details><summary>4.1 Departamentos Militares</summary><div class="content"><ul><li>Cuerpo de Marines</li><li>Fuerza Naval Espacial</li><li>ONI</li></ul></div></details>
+        <details><summary>4.2 Consejo de Seguridad</summary><div class="content"><p>Órgano de mando para despliegues.</p></div></details>
+        <details><summary>4.3 Alto Mando</summary><div class="content"><p>Dirige estrategias desde Lunar Tranquility.</p></div></details>
+      </div>
+    </details>
+
+    <details id="rangos">
+      <summary>5. Rangos del UNSC</summary>
+      <div class="content"><ul><li>Oficiales Comisionados</li><li>Oficiales Técnicos</li><li>No‑Comisionados</li></ul></div>
+    </details>
+
+    <details id="economia">
+      <summary>6. Economía</summary>
+      <div class="content"><p>El Crédito UN (cR) financia flotas, investigación y colonias.</p></div>
+    </details>
+
+    <details id="bases">
+      <summary>7. Bases</summary>
+      <div class="content">
+        <p><strong>Tierra:</strong> Fuerte York, Deen, Roosevelt.</p>
+        <p><strong>Reach:</strong> Castillo, Meridian, Hathcock.</p>
+      </div>
+    </details>
+
+    <details id="leyes">
+      <summary>8. Leyes del UNSC</summary>
+      <div class="content"><ul><li>Protocolo Cole</li><li>WINTER CONTINGENCY</li></ul></div>
+    </details>
+
+    <details id="curiosidades">
+      <summary>9. Curiosidades</summary>
+      <div class="content"><ul><li>“USNC” aparece por error.</li><li>Marines inspirados en USMC real.</li></ul></div>
+    </details>
+
+    <details id="galeria">
+      <summary>10. Galería</summary>
+      <div class="content"><p>Logos antiguos, imágenes de la flota UNSC.</p></div>
+    </details>
+
+    <details id="articulos-relacionados">
+      <summary>11. Artículos Relacionados</summary>
+      <div class="content"><ul><li>Guerra Interplanetaria</li><li>UNSCDF</li></ul></div>
+    </details>
+
+    <details id="bajas">
+      <summary>12. Bajas más honorables</summary>
+      <div class="content"><p>Spartan-II Linda, Spartan-III Alice, ODST Echo.</p></div>
+    </details>
+
+    <details id="soldados">
+      <summary>13. Soldados / Divisiones</summary>
+      <div class="content"><p>Spartan-II, Spartan-III, ODST, Cuerpo de Marines, ONI.</p></div>
+    </details>
+
   </section>
 
   <script src="/js/auth.js"></script>
