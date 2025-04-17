@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const formMision = document.getElementById("form-mision");
   const tbody       = document.querySelector("#tabla-misiones tbody");
 
-  function showAlert(msg, isErr = false) {
+  function showAlert(msg, isErr=false) {
     alertaDiv.textContent = msg;
     alertaDiv.style.background = isErr ? "rgba(255,50,50,0.8)" : "rgba(255,165,0,0.8)";
     setTimeout(() => alertaDiv.textContent = "", 4000);
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(formMision));
       for (const key in data) {
-        if (typeof data[key] === 'string' && badInput(data[key])) {
+        if (badInput(data[key])) {
           showAlert("Caracteres inválidos detectados.", true);
           return;
         }

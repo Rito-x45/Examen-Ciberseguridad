@@ -10,22 +10,20 @@
   --shadow:       0 2px 8px rgba(0,0,0,0.5);
   --light-shadow: 0 0 8px var(--text-light);
 }
-/* Reset y estilos generales */
 * { box-sizing: border-box; }
 body {
   margin:0; padding:0;
-  font-family:'Source Sans Pro', sans-serif;
+  font-family:'Source Sans Pro',sans-serif;
   background: var(--bg-dark);
   color: var(--text-light);
 }
-/* Header */
 header {
   display:flex; align-items:center; justify-content:space-between;
   background: var(--bg-nav);
   padding:12px 24px;
   box-shadow: var(--shadow);
 }
-#logo { height:48px; }
+#logo { height:80px; }
 nav a {
   color: var(--text-light);
   margin:0 12px;
@@ -42,7 +40,6 @@ nav a.active::after {
   height:3px; background: var(--btn-color);
   border-radius:2px;
 }
-/* Botón logout */
 #logout-btn {
   background: var(--btn-color);
   border:none;
@@ -55,18 +52,17 @@ nav a.active::after {
   transition: background .3s;
 }
 #logout-btn:hover { background:#9a5900; }
-/* Contenedores */
-.page-container,.auth-container,.mission-container {
+.page-container,
+.auth-container,
+.mission-container {
   max-width:1000px;
   margin:24px auto;
   padding:0 20px;
 }
-/* Glitch */
 @keyframes glitch {
   0%,100%{ text-shadow:2px 2px 5px rgba(255,255,255,0.2); }
   50%{ text-shadow:-2px -2px 5px var(--accent); }
 }
-/* Hero */
 .hero { text-align:center; padding:60px 20px; }
 .hero h1 {
   font-family:'Orbitron',sans-serif;
@@ -87,8 +83,9 @@ nav a.active::after {
   transition: background .3s;
 }
 .btn-mission:hover { background:#9a5900; }
-/* Cards y detalles */
-.page-card,.auth-card,#form-mision {
+.page-card,
+.auth-card,
+#form-mision {
   background:rgba(0,0,0,0.6);
   border:2px solid var(--btn-color);
   border-radius:var(--radius);
@@ -108,27 +105,19 @@ nav a.active::after {
 .page-card summary::before { content:'+'; margin-right:8px; }
 .page-card[open] summary::before { content:'–'; }
 .page-card .content { padding:12px; border-top:1px solid var(--btn-color); }
-/* Auth */
 .auth-container { display:flex; gap:40px; flex-wrap:wrap; }
 .auth-card { width:320px; }
 .auth-card h1 { font-family:'Orbitron',sans-serif; }
 .auth-card label { font-family:'Orbitron',sans-serif; }
-.auth-card input { width:100%; padding:8px; border:1px solid var(--input-border); border-radius:var(--radius); background:var(--input-bg); color:var(--text-light); }
+.auth-card input { width:100%; padding:8px; border:1px solid var(--input-border); border-radius:var(--radius); background:var(--input-bg); color:var(--text-light); font-family:'Source Sans Pro',sans-serif; }
 .auth-card .btn-submit { width:100%; padding:12px; background:var(--btn-color); color:#000; border:none; border-radius:var(--radius); cursor:pointer; }
-/* Misiones */
 .mission-container h2 { font-family:'Orbitron',sans-serif; }
-#form-mision {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:16px;
-}
+#form-mision { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
 #form-mision label { font-family:'Orbitron',sans-serif; }
-#form-mision input,#form-mision textarea,#form-mision select { padding:8px; border:1px solid var(--input-border); border-radius:var(--radius); background:var(--input-bg); color:var(--text-light); }
+#form-mision input,#form-mision textarea,#form-mision select { padding:8px; border:1px solid var(--input-border); border-radius:var(--radius); background:var(--input-bg); color:var(--text-light); font-family:'Source Sans Pro',sans-serif; }
 #form-mision .btn-submit { grid-column:1/-1; justify-self:center; }
 #tabla-misiones { width:100%; border-collapse:collapse; margin-top:20px; background:rgba(0,0,0,0.5); }
 #tabla-misiones th,#tabla-misiones td { padding:12px; border:1px solid var(--btn-color); }
 #tabla-misiones tr:nth-child(even) { background:rgba(255,255,255,0.02); }
-/* Alerta */
 #alerta { max-width:95%; margin:10px auto; padding:12px; background:var(--btn-color); color:#000; text-align:center; border-radius:var(--radius); }
-/* Responsive */
-@media(max-width:700px){.mission-container,#form-mision{grid-template-columns:1fr;} .auth-card{width:100%;max-width:400px;}}
+@media(max-width:700px){ .mission-container,#form-mision{grid-template-columns:1fr;} .auth-card{width:100%;max-width:400px;} }

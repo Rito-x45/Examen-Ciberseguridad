@@ -1,11 +1,11 @@
 // public/js/auth.js
 document.addEventListener("DOMContentLoaded", () => {
-  const alertaDiv   = document.getElementById("alerta");
-  const formLogin   = document.getElementById("form-login");
-  const formReg     = document.getElementById("form-register");
-  const btnLogout   = document.getElementById("logout-btn");
+  const alertaDiv = document.getElementById("alerta");
+  const formLogin = document.getElementById("form-login");
+  const formReg   = document.getElementById("form-register");
+  const btnLogout = document.getElementById("logout-btn");
 
-  function showAlert(msg, isErr = false) {
+  function showAlert(msg, isErr=false) {
     alertaDiv.textContent = msg;
     alertaDiv.style.background = isErr ? "rgba(255,50,50,0.8)" : "rgba(255,165,0,0.8)";
     setTimeout(() => alertaDiv.textContent = "", 3000);
@@ -15,15 +15,16 @@ document.addEventListener("DOMContentLoaded", () => {
     return /<[^>]+>/.test(text) || /;|--|\/\*/.test(text);
   }
 
-  // Sólo en páginas protegidas
+  // Forzar login en páginas protegidas
   const path = window.location.pathname;
-  const protectedPages = ["/misiones.html", "/index.html", "/"];
-  if (protectedPages.includes(path) && btnLogout) {
+  const protectedPages = ["/", "/index.html", "/misiones.html"];
+  if (protectedPages.includes(path)) {
     fetch("/auth/session").then(r => {
       if (!r.ok) window.location.href = "/login.html";
     });
   }
 
+  // Logout
   if (btnLogout) {
     btnLogout.addEventListener("click", async () => {
       await fetch("/auth/logout", { method: "POST" });
@@ -31,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Login
   if (formLogin) {
     formLogin.addEventListener("submit", async e => {
       e.preventDefault();
@@ -51,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Registro
   if (formReg) {
     formReg.addEventListener("submit", async e => {
       e.preventDefault();
