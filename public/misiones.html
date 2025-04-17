@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>UNSC Misiones</title>
   <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -14,7 +15,7 @@
       <a href="index.html">Home</a>
       <a href="login.html">Login</a>
       <a href="login.html#register">Register</a>
-      <a href="misiones.html" class="active">Mission</a>
+      <a href="misiones.html" class="active">Misiones</a>
     </nav>
     <button id="logout-btn">Logout</button>
   </header>
@@ -27,38 +28,108 @@
 
     <div class="page-card">
       <form id="form-mision">
-        <div>
-          <label for="nombre">Misión</label>
-          <input type="text" id="nombre" name="nombre" required>
-        </div>
-        <div>
-          <label for="ubicacion">Ubicación</label>
-          <input type="text" id="ubicacion" name="ubicacion">
-        </div>
-        <div>
-          <label for="objetivo">Objetivo</label>
-          <textarea id="objetivo" name="objetivo" required></textarea>
-        </div>
-        <div>
-          <label for="unidad">Unidad</label>
-          <input type="text" id="unidad" name="unidad">
-        </div>
-        <div>
-          <label for="comandante">Comandante</label>
-          <input type="text" id="comandante" name="comandante">
-        </div>
-        <div>
-          <label for="fecha">Fecha</label>
-          <input type="date" id="fecha" name="fecha">
-        </div>
-        <div>
-          <label for="nivel_amenaza">Nivel de amenaza</label>
-          <input type="text" id="nivel_amenaza" name="nivel_amenaza">
-        </div>
-        <div>
-          <label for="estado">Estado</label>
-          <input type="text" id="estado" name="estado">
-        </div>
+        <!-- Datos básicos -->
+        <label for="nombre">1. Misión</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Operación: Silent Storm" required>
+
+        <label for="ubicacion">Ubicación</label>
+        <input type="text" id="ubicacion" name="ubicacion" placeholder="Sistema Epsilon Eridani – Órbita de Reach">
+
+        <label for="objetivo">Objetivo</label>
+        <textarea id="objetivo" name="objetivo" placeholder="Infiltrar y destruir nave madre Covenant…" required></textarea>
+
+        <label for="unidad">Unidad</label>
+        <input type="text" id="unidad" name="unidad" placeholder="Spartan‑II Blue Team + ODST Echo">
+
+        <label for="comandante">Comandante</label>
+        <input type="text" id="comandante" name="comandante" placeholder="Cap. Jacob Keyes">
+
+        <label for="fecha">Fecha</label>
+        <input type="date" id="fecha" name="fecha">
+
+        <label for="nivel_amenaza">Nivel de amenaza</label>
+        <select id="nivel_amenaza" name="nivel_amenaza">
+          <option value="LOW">BAJO</option>
+          <option value="MEDIUM">MEDIO</option>
+          <option value="HIGH">ALTO</option>
+        </select>
+
+        <label for="estado">Estado</label>
+        <select id="estado" name="estado">
+          <option value="SUCCESS">Éxito</option>
+          <option value="PARTIAL">Éxito parcial</option>
+          <option value="FAILURE">Fallido</option>
+        </select>
+
+        <hr>
+
+        <!-- Información detallada -->
+        <label for="info_1">2. Antecedentes</label>
+        <textarea id="info_1" name="info_1" placeholder="Describe antecedentes…"></textarea>
+
+        <label for="info_2">3. Historia</label>
+        <textarea id="info_2" name="info_2" placeholder="General de la historia…"></textarea>
+
+        <label for="info_3">3.1 Antecedentes</label>
+        <textarea id="info_3" name="info_3" placeholder="Antecedentes específicos…"></textarea>
+
+        <label for="info_3_1">3.2 Guerra Covenant</label>
+        <textarea id="info_3_1" name="info_3_1" placeholder="Detalles de la Guerra Covenant…"></textarea>
+
+        <label for="info_4">4. Organización Administrativa</label>
+        <textarea id="info_4" name="info_4"></textarea>
+
+        <label for="info_4_1">4.1 Departamentos Militares</label>
+        <textarea id="info_4_1" name="info_4_1"></textarea>
+
+        <label for="info_4_2">4.2 Consejo de Seguridad</label>
+        <textarea id="info_4_2" name="info_4_2"></textarea>
+
+        <label for="info_4_3">4.3 Alto Mando</label>
+        <textarea id="info_4_3" name="info_4_3"></textarea>
+
+        <label for="info_5">5. Rangos del UNSC</label>
+        <textarea id="info_5" name="info_5"></textarea>
+
+        <label for="info_5_1">5.1 Oficiales</label>
+        <textarea id="info_5_1" name="info_5_1"></textarea>
+
+        <label for="info_5_2">5.2 Oficiales Técnicos</label>
+        <textarea id="info_5_2" name="info_5_2"></textarea>
+
+        <label for="info_5_3">5.3 Oficiales No‑Comisionados</label>
+        <textarea id="info_5_3" name="info_5_3"></textarea>
+
+        <label for="info_6">6. Economía</label>
+        <textarea id="info_6" name="info_6"></textarea>
+
+        <label for="info_7">7. Bases</label>
+        <textarea id="info_7" name="info_7"></textarea>
+
+        <label for="info_7_1">7.1 Tierra</label>
+        <textarea id="info_7_1" name="info_7_1"></textarea>
+
+        <label for="info_7_2">7.2 Reach</label>
+        <textarea id="info_7_2" name="info_7_2"></textarea>
+
+        <label for="info_8">8. Leyes del UNSC</label>
+        <textarea id="info_8" name="info_8"></textarea>
+
+        <label for="info_9">9. Curiosidades</label>
+        <textarea id="info_9" name="info_9"></textarea>
+
+        <label for="info_10">10. Galería</label>
+        <textarea id="info_10" name="info_10" placeholder="URLs o paths de imágenes…"></textarea>
+
+        <label for="info_11">11. Artículos Relacionados</label>
+        <textarea id="info_11" name="info_11"></textarea>
+
+        <label for="info_12">12. Bajas más honorables</label>
+        <textarea id="info_12" name="info_12"></textarea>
+
+        <label for="info_13">13. Soldados / Divisiones</label>
+        <textarea id="info_13" name="info_13"></textarea>
+
         <button type="submit" class="btn-submit">Guardar Misión</button>
       </form>
     </div>
@@ -66,20 +137,11 @@
     <table id="tabla-misiones">
       <thead>
         <tr>
-          <th>Nombre</th>
-          <th>Ubicación</th>
-          <th>Objetivo</th>
-          <th>Unidad</th>
-          <th>Comandante</th>
-          <th>Fecha</th>
-          <th>Amenaza</th>
-          <th>Estado</th>
-          <th>Acciones</th>
+          <th>Misión</th><th>Ubicación</th><th>Objetivo</th><th>Unidad</th>
+          <th>Comandante</th><th>Fecha</th><th>Amenaza</th><th>Estado</th><th>Acciones</th>
         </tr>
       </thead>
-      <tbody>
-        <!-- Aquí inyecta tus misiones -->
-      </tbody>
+      <tbody></tbody>
     </table>
   </section>
 
