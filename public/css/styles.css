@@ -1,0 +1,72 @@
+/* Estilos generales */
+body {
+    font-family: 'Courier New', monospace;
+    background-color: #000;
+    color: #C0FFC0;
+    margin: 0; padding: 0; overflow-x: hidden;
+    position: relative;
+  }
+  
+  /* Brillo lateral */
+  @keyframes glow { 0%,100%{box-shadow:0 0 10px rgba(255,165,0,0.6)}50%{box-shadow:0 0 20px rgba(255,165,0,1)} }
+  body::before, body::after {
+    content: ""; position:fixed; top:0; bottom:0; width:8px;
+    background:rgba(255,165,0,0.7); animation:glow 1.5s infinite alternate; z-index:100;
+  }
+  body::before { left:0 } body::after { right:0 }
+  
+  /* Header y navegación */
+  header {
+    display:flex; align-items:center; justify-content:space-between;
+    background:#001F1F; padding:10px 20px;
+  }
+  header img { height:50px }
+  nav a {
+    color:#FFA500; text-decoration:none; margin:0 10px;
+    font-weight:bold; text-transform:uppercase;
+  }
+  nav a.active { border-bottom:2px solid #FFA500; }
+  
+  /* Glitch en títulos */
+  @keyframes glitch { 0%,100%{text-shadow:2px 2px 5px rgba(255,165,0,0.7)}50%{text-shadow:-2px -2px 5px rgba(0,255,0,0.7)} }
+  h1, h2 { color:#FFA500; text-transform:uppercase; }
+  h1.glitch { animation:glitch 1s infinite }
+  
+  /* Formularios */
+  form {
+    background:rgba(0,31,31,0.9); margin:20px auto;
+    padding:20px; border:2px solid #FFA500; border-radius:8px;
+    max-width:600px; text-align:left;
+  }
+  label { color:#FFA500; display:block; margin-top:10px; }
+  input, textarea, select {
+    width:100%; margin-top:4px; padding:8px;
+    background:#002A2A; color:#C0FFC0;
+    border:1px solid #FFA500; border-radius:4px;
+  }
+  button, input[type="submit"] {
+    background:#FFA500; color:#000;
+    border:none; padding:10px 20px;
+    text-transform:uppercase; font-weight:bold;
+    margin-top:15px; cursor:pointer;
+  }
+  button:hover, input[type="submit"]:hover {
+    background:#CC8400;
+  }
+  
+  /* Alertas */
+  #alerta {
+    max-width:600px; margin:10px auto;
+    padding:10px; background:rgba(255,165,0,0.8);
+    color:#000; font-weight:bold; border-radius:4px;
+  }
+  
+  /* Tablas */
+  table {
+    width:90%; margin:20px auto; border-collapse:collapse;
+  }
+  th, td {
+    border:1px solid #FFA500; padding:8px; color:#C0FFC0;
+  }
+  th { background:#002A2A; text-transform:uppercase; }
+  

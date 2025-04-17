@@ -1,133 +1,42 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Login SCP</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>UNSC Login</title>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <header>
-    <h1 class="glitch">[ LOGIN SCP ]</h1>
+    <img src="images/logo.png" alt="UNSC Logo">
+    <nav>
+      <a href="index.html">Home</a>
+      <a class="active" href="login.html">Login</a>
+      <a href="login.html#register">Register</a>
+    </nav>
   </header>
   <div id="alerta"></div>
 
-  <!-- Formulario de inicio de sesión -->
   <form id="form-login">
+    <h1 class="glitch">UNSC AUTH</h1>
     <label for="nombre">Usuario:</label>
-    <input type="text" id="nombre" name="nombre" required />
-
+    <input type="text" id="nombre" name="nombre" required>
     <label for="contrasena">Contraseña:</label>
-    <input type="password" id="contrasena" name="contrasena" required />
-
-    <input type="submit" value="Iniciar sesión" />
+    <input type="password" id="contrasena" name="contrasena" required>
+    <input type="submit" value="Iniciar Sesión">
+    <p>¿No tienes cuenta? <a href="#register">Regístrate</a></p>
   </form>
 
-  <!-- Formulario de registro -->
   <form id="form-register">
-    <h2>¿No tienes cuenta? Regístrate</h2>
-
+    <h1 class="glitch">UNSC REG</h1>
     <label for="nombre-reg">Usuario:</label>
-    <input type="text" id="nombre-reg" name="nombre" required />
-
+    <input type="text" id="nombre-reg" name="nombre" required>
     <label for="contrasena-reg">Contraseña:</label>
-    <input type="password" id="contrasena-reg" name="contrasena" required />
-
-    <!-- Campo opcional para código de administrador -->
-    <label for="adminCode-reg">Código de Administrador (opcional):</label>
-    <input type="text" id="adminCode-reg" name="adminCode" placeholder="Código dado por la empresa" />
-
-    <input type="submit" value="Registrarse" />
+    <input type="password" id="contrasena-reg" name="contrasena" required>
+    <label for="adminCode-reg">Código Admin (opcional):</label>
+    <input type="text" id="adminCode-reg" name="adminCode">
+    <input type="submit" value="Registrarse">
   </form>
 
-  <script>
-    // Funciones de validación para evitar etiquetas HTML y inyecciones SQL
-    function contieneHTML(texto) {
-      return /<[^>]+>/.test(texto);
-    }
-    function contieneSQLInjection(texto) {
-      return /;|--|\/\*|\*\//.test(texto);
-    }
-
-    // Manejo del formulario de Login
-    document.getElementById("form-login").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const formLogin = e.target;
-      const nombre = document.getElementById("nombre").value;
-      const contrasena = document.getElementById("contrasena").value;
-
-      // Validar entradas en login
-      if (contieneHTML(nombre)) {
-        alert("no se permiten etiquetas HTML en el usuario.");
-        return;
-      }
-      if (contieneSQLInjection(nombre)) {
-        alert("no se permiten caracteres especiales en el usuario.");
-        return;
-      }
-      if (contieneHTML(contrasena)) {
-        alert("Entrada no válida: no se permiten etiquetas HTML en la contraseña.");
-        return;
-      }
-      if (contieneSQLInjection(contrasena)) {
-        alert("Entrada no válida: no se permiten caracteres especiales en la contraseña.");
-        return;
-      }
-
-      const res = await fetch("/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, contrasena }),
-      });
-      const msg = await res.text();
-      alert(msg);
-      formLogin.reset();
-      if (res.ok) {
-        window.location.href = "/index.html";
-      }
-    });
-
-    // Manejo del formulario de Registro
-    document.getElementById("form-register").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const formRegister = e.target;
-      const nombre = document.getElementById("nombre-reg").value;
-      const contrasena = document.getElementById("contrasena-reg").value;
-      const adminCode = document.getElementById("adminCode-reg").value;
-
-      // Validar entradas en registro
-      if (contieneHTML(nombre)) {
-        alert("Entrada no válida: no se permiten etiquetas HTML en el usuario.");
-        return;
-      }
-      if (contieneSQLInjection(nombre)) {
-        alert("Entrada no válida: no se permiten caracteres especiales en el usuario.");
-        return;
-      }
-      if (contieneHTML(contrasena)) {
-        alert("Entrada no válida: no se permiten etiquetas HTML en la contraseña.");
-        return;
-      }
-      if (contieneSQLInjection(contrasena)) {
-        alert("Entrada no válida: no se permiten caracteres especiales en la contraseña.");
-        return;
-      }
-      // Validar campo adminCode si se ingresa
-      if (adminCode && (contieneHTML(adminCode) || contieneSQLInjection(adminCode))) {
-        alert("Entrada no válida en el código de administrador.");
-        return;
-      }
-
-      const res = await fetch("/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, contrasena, adminCode }),
-      });
-      const msg = await res.text();
-      alert(msg);
-      formRegister.reset();
-    });
-  </script>
-
-  <script src="main.js"></script>
+  <script src="js/auth.js"></script>
 </body>
 </html>

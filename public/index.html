@@ -1,94 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Registro de SCP</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>UNSC Home</title>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <script>
-    // Verifica si hay sesión iniciada; de lo contrario, redirige a login
-    fetch("/auth/session")
-      .then((res) => {
-        if (!res.ok) {
-          window.location.href = "/login.html";
-        }
-      });
-  </script>
-
   <header>
-    <img src="/public/Imagenes/logo.png" alt="Logo de la Fundación SCP" id="logo"/>
-    <h1 class="glitch">[ 🔴 REGISTRO DE SCP ]</h1>
-    <button id="logout-btn">Cerrar sesión</button>
+    <img src="images/logo.png" alt="UNSC Logo">
+    <nav>
+      <a class="active" href="index.html">Home</a>
+      <a href="login.html">Login</a>
+      <a href="login.html#register">Register</a>
+      <a href="misiones.html">Mission</a>
+    </nav>
+    <button id="logout-btn">Logout</button>
   </header>
 
+  <section>
+    <h1 class="glitch">United Nations Space Command</h1>
+    <p>Bienvenido al cuartel general táctico de la UNSC. Usa el menú para navegar.</p>
+  </section>
+
   <div id="alerta"></div>
-
-  <!-- Sección para admin (oculta por defecto) -->
-  <div id="admin-section" style="display: none;">
-    <h2>Gestión de Usuarios</h2>
-    <button id="ver-usuarios-btn">Ver Usuarios</button>
-    <table id="tabla-usuarios">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Rol</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-
-  <!-- Formulario para registrar nuevos SCP -->
-  <form id="formulario-scp">
-    <label for="numero_scp">Número SCP:</label>
-    <input type="text" id="numero_scp" name="numero_scp" required placeholder="Ej: SCP-123" />
-
-    <label for="clasificacion_contencion">Clasificación de Contención:</label>
-    <input type="text" id="clasificacion_contencion" name="clasificacion_contencion" required placeholder="Euclid" />
-
-    <label for="nivel_peligro">Nivel de Peligro:</label>
-    <input type="text" id="nivel_peligro" name="nivel_peligro" required placeholder="Verde" />
-
-    <label for="ubicacion_actual">Ubicación Actual:</label>
-    <input type="text" id="ubicacion_actual" name="ubicacion_actual" required />
-
-    <label for="estado_investigacion">Estado de Investigación:</label>
-    <input type="text" id="estado_investigacion" name="estado_investigacion" required placeholder="Contención" />
-
-    <label for="descripcion">Descripción:</label>
-    <textarea id="descripcion" name="descripcion" required placeholder="Describe el SCP..."></textarea>
-
-    <input type="submit" value="Agregar SCP" />
-  </form>
-
-  <!-- Formulario para buscar SCP -->
-  <form id="formulario-buscar">
-    <label for="buscar-numero">Buscar por Número SCP:</label>
-    <input type="text" id="buscar-numero" placeholder="Ej: SCP-123" />
-    <button type="submit">Buscar</button>
-  </form>
-
-  <div id="resultado-busqueda"></div>
-
-  <!-- Tabla con SCPs -->
-  <table id="tabla-scps">
-    <thead>
-      <tr>
-        <th>NÚMERO SCP</th>
-        <th>CLASIFICACIÓN</th>
-        <th>PELIGRO</th>
-        <th>UBICACIÓN</th>
-        <th>ESTADO</th>
-        <th>DESCRIPCIÓN</th>
-        <th>ACCIONES</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
-  <script src="main.js"></script>
+  <script src="js/auth.js"></script>
 </body>
 </html>

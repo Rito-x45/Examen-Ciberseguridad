@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>UNSC Misiones</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header>
+    <img src="images/logo.png" alt="UNSC Logo">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="login.html">Login</a>
+      <a href="login.html#register">Register</a>
+      <a class="active" href="misiones.html">Mission</a>
+    </nav>
+    <button id="logout-btn">Logout</button>
+  </header>
+
+  <div id="alerta"></div>
+  <h2 class="glitch">Gestión de Misiones</h2>
+
+  <form id="form-mision">
+    <label for="nombre">Misión:</label>
+    <input type="text" id="nombre" name="nombre" required>
+
+    <label for="ubicacion">Ubicación:</label>
+    <input type="text" id="ubicacion" name="ubicacion">
+
+    <label for="objetivo">Objetivo:</label>
+    <textarea id="objetivo" name="objetivo" required></textarea>
+
+    <label for="unidad">Unidad:</label>
+    <input type="text" id="unidad" name="unidad">
+
+    <label for="comandante">Comandante:</label>
+    <input type="text" id="comandante" name="comandante">
+
+    <label for="fecha">Fecha:</label>
+    <input type="date" id="fecha" name="fecha">
+
+    <label for="nivel_amenaza">Nivel de amenaza:</label>
+    <input type="text" id="nivel_amenaza" name="nivel_amenaza">
+
+    <label for="estado">Estado:</label>
+    <input type="text" id="estado" name="estado">
+
+    <input type="submit" value="Guardar Misión">
+  </form>
+
+  <table id="tabla-misiones">
+    <thead>
+      <tr>
+        <th>Nombre</th><th>Ubicación</th><th>Objetivo</th>
+        <th>Unidad</th><th>Comandante</th><th>Fecha</th>
+        <th>Amenaza</th><th>Estado</th><th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="js/auth.js"></script>
+  <script src="js/misiones.js"></script>
+</body>
+</html>

@@ -1,50 +1,36 @@
-const express = require("express");
-const { Pool } = require("pg");
-const bodyParser = require("body-parser");
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
+// app.js
+const express         = require("express");
+const { Pool }        = require("pg");
+const bodyParser      = require("body-parser");
+const jsdom           = require("jsdom");
+const { JSDOM }       = jsdom;
 const createDOMPurify = require("dompurify");
-const session = require("express-session");
-const bcryptjs = require("bcryptjs");
+const session         = require("express-session");
+const bcryptjs        = require("bcryptjs");
+require("dotenv").config();
 
-const window = new JSDOM("").window;
+const window    = new JSDOM("").window;
 const DOMPurify = createDOMPurify(window);
-const app = express();
+const app       = express();
 
 const db = new Pool({
-  connectionString: process.env.DATABASE_URL ||
-    "postgresql://neondb_owner:npg_qsrFJBo1a0Xf@ep-purple-tree-a5qalheh-pooler.us-east-2.aws.neon.tech/scp_database?sslmode=require",
+  connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
 });
 
-// Función para sanitizar campos y evitar inyecciones SQL y etiquetas HTML
-function sanitizeField(fieldValue) {
-  const forbiddenPatterns = [
-    /;/g,
-    /'/g,
-    /--/g,
-    /\/\*[\s\S]*?\*\//g,
-    /\bxp_/gi
-  ];
-
-  forbiddenPatterns.forEach((pattern) => {
-    if (pattern.test(fieldValue)) {
-      throw new Error("Se detectaron patrones SQL no permitidos en la entrada.");
-    }
+function sanitizeField(value) {
+  const forbidden = [/;/g, /'/g, /--/g, /\/\*[\s\S]*?\*\//g, /\bxp_/gi];
+  forbidden.forEach(pat => {
+    if (pat.test(value)) throw new Error("Entrada contiene patrones SQL prohibidos.");
   });
-
-  const sanitized = DOMPurify.sanitize(fieldValue);
-  if (sanitized !== fieldValue) {
-    throw new Error("Se han detectado etiquetas HTML no permitidas en la entrada.");
-  }
-
-  return sanitized;
+  const clean = DOMPurify.sanitize(value);
+  if (clean !== value) throw new Error("Se detectaron etiquetas HTML no permitidas.");
+  return clean;
 }
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
-
 app.use(session({
   secret: "clave-ultra-secreta",
   resave: false,
@@ -52,276 +38,158 @@ app.use(session({
   cookie: { secure: false }
 }));
 
-/* ==========================
-   REGISTRO DE USUARIOS
-   ========================== */
+/* ======== RUTAS AUTENTICACIÓN ======== */
+// Registro
 app.post("/auth/register", async (req, res) => {
   try {
-    const nombre = sanitizeField(req.body.nombre);
-    const contrasena = sanitizeField(req.body.contrasena);
+    const nombre    = sanitizeField(req.body.nombre);
+    const pass      = sanitizeField(req.body.contrasena);
     const adminCode = req.body.adminCode ? sanitizeField(req.body.adminCode) : "";
+    const hash      = await bcryptjs.hash(pass, 10);
 
-    const hashedPassword = await bcryptjs.hash(contrasena, 10);
+    const { rows } = await db.query(
+      "SELECT 1 FROM usuarios WHERE nombre=$1", [nombre]
+    );
+    if (rows.length) return res.status(409).send("El usuario ya existe.");
 
-    // Verificar si el usuario ya existe
-    const result = await db.query("SELECT * FROM usuarios WHERE nombre = $1", [nombre]);
-    if (result.rows.length > 0) {
-      return res.status(409).send("El usuario ya existe.");
-    }
-
-    // Determinar rol según el código de admin
     let rol = "user";
     if (adminCode) {
-      if (adminCode === "admi4530") {
-        rol = "admin";
-      } else {
-        return res.status(403).send("Código de administrador inválido.");
-      }
+      if (adminCode !== "admi4530") return res.status(403).send("Código admin inválido.");
+      rol = "admin";
     }
 
     await db.query(
-      "INSERT INTO usuarios (nombre, contrasena, rol) VALUES ($1, $2, $3)",
-      [nombre, hashedPassword, rol]
+      "INSERT INTO usuarios(nombre, contrasena, rol) VALUES($1,$2,$3)",
+      [nombre, hash, rol]
     );
-
     res.send("Usuario registrado correctamente.");
   } catch (err) {
-    return res.status(400).send(err.message);
+    res.status(400).send(err.message);
   }
 });
 
-/* ==========================
-   LOGIN
-   ========================== */
+// Login
 app.post("/auth/login", async (req, res) => {
   try {
     const nombre = sanitizeField(req.body.nombre);
-    const contrasena = sanitizeField(req.body.contrasena);
+    const pass   = sanitizeField(req.body.contrasena);
+    const { rows } = await db.query(
+      "SELECT * FROM usuarios WHERE nombre=$1", [nombre]
+    );
+    if (!rows.length) return res.status(401).send("Usuario no encontrado.");
 
-    const result = await db.query("SELECT * FROM usuarios WHERE nombre = $1", [nombre]);
-    if (result.rows.length === 0) {
-      return res.status(401).send("Usuario no encontrado.");
-    }
+    const valid = await bcryptjs.compare(pass, rows[0].contrasena);
+    if (!valid) return res.status(401).send("Contraseña incorrecta.");
 
-    const validPass = await bcryptjs.compare(contrasena, result.rows[0].contrasena);
-    if (!validPass) {
-      return res.status(401).send("Contraseña incorrecta.");
-    }
-
-    // Guardar datos en sesión
-    req.session.usuario = result.rows[0].nombre;
-    req.session.rol = result.rows[0].rol; // 'admin' o 'user'
-
+    req.session.usuario = rows[0].nombre;
+    req.session.rol     = rows[0].rol;
     res.send("Inicio de sesión exitoso.");
   } catch (err) {
-    return res.status(400).send(err.message);
+    res.status(400).send(err.message);
   }
 });
 
-/* ==========================
-   CONSULTAR SESIÓN
-   ========================== */
+// Comprobar sesión
 app.get("/auth/session", (req, res) => {
-  if (req.session.usuario) {
-    res.json({
-      usuario: req.session.usuario,
-      rol: req.session.rol
-    });
-  } else {
-    res.status(401).send("No has iniciado sesión.");
-  }
+  if (!req.session.usuario) return res.status(401).send("No has iniciado sesión.");
+  res.json({ usuario: req.session.usuario, rol: req.session.rol });
 });
 
-/* ==========================
-   LOGOUT
-   ========================== */
+// Logout
 app.post("/auth/logout", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).send("Error al cerrar sesión.");
-    }
+  req.session.destroy(err => {
+    if (err) return res.status(500).send("Error al cerrar sesión.");
     res.send("Sesión cerrada.");
   });
 });
 
-/* ==========================
-   ENDPOINTS PARA SCPs
-   ========================== */
-app.get("/scps", async (req, res) => {
+/* ======== RUTAS MISIONES ======== */
+// Listar
+app.get("/misiones", async (req, res) => {
   try {
-    const { rows } = await db.query("SELECT * FROM scps");
+    const { rows } = await db.query("SELECT * FROM misiones ORDER BY id");
     res.json(rows);
-  } catch (err) {
-    res.status(500).send("Error al obtener los SCPs.");
+  } catch {
+    res.status(500).send("Error al obtener misiones.");
   }
 });
 
-app.post("/scps", async (req, res) => {
+// Crear
+app.post("/misiones", async (req, res) => {
   try {
-    let {
-      numero_scp,
-      clasificacion_contencion,
-      nivel_peligro,
-      ubicacion_actual,
-      estado_investigacion,
-      descripcion
-    } = req.body;
+    let { nombre, ubicacion, objetivo, unidad, comandante, fecha, nivel_amenaza, estado } = req.body;
+    if (!nombre || !objetivo) return res.status(400).send("Nombre y objetivo son obligatorios.");
 
-    if (!numero_scp || !descripcion) {
-      return res.status(400).send("Número SCP y descripción son obligatorios.");
-    }
-
-    numero_scp = sanitizeField(numero_scp);
-    clasificacion_contencion = sanitizeField(clasificacion_contencion || "");
-    nivel_peligro = sanitizeField(nivel_peligro || "");
-    ubicacion_actual = sanitizeField(ubicacion_actual || "");
-    estado_investigacion = sanitizeField(estado_investigacion || "");
-    descripcion = sanitizeField(descripcion);
+    nombre        = sanitizeField(nombre);
+    ubicacion     = sanitizeField(ubicacion || "");
+    objetivo      = sanitizeField(objetivo);
+    unidad        = sanitizeField(unidad || "");
+    comandante    = sanitizeField(comandante || "");
+    nivel_amenaza = sanitizeField(nivel_amenaza || "");
+    estado        = sanitizeField(estado || "");
 
     await db.query(
-      `INSERT INTO scps 
-       (numero_scp, clasificacion_contencion, nivel_peligro, ubicacion_actual, estado_investigacion, descripcion)
-       VALUES ($1, $2, $3, $4, $5, $6)`,
-      [numero_scp, clasificacion_contencion, nivel_peligro, ubicacion_actual, estado_investigacion, descripcion]
+      `INSERT INTO misiones
+       (nombre, ubicacion, objetivo, unidad, comandante, fecha, nivel_amenaza, estado)
+       VALUES($1,$2,$3,$4,$5,$6,$7,$8)`,
+      [nombre, ubicacion, objetivo, unidad, comandante, fecha, nivel_amenaza, estado]
     );
-
-    res.send("SCP creado con éxito.");
+    res.send("Misión creada con éxito.");
   } catch (err) {
-    return res.status(400).send(err.message);
+    res.status(400).send(err.message);
   }
 });
 
-app.get("/scps/buscar", async (req, res) => {
+// Obtener por ID
+app.get("/misiones/:id", async (req, res) => {
   try {
-    const { numero_scp } = req.query;
-    if (!numero_scp) {
-      return res.status(400).send("Falta el parámetro numero_scp en la URL.");
-    }
-
-    const sanitizedNumeroSCP = sanitizeField(numero_scp);
-    const { rows } = await db.query("SELECT * FROM scps WHERE numero_scp = $1", [sanitizedNumeroSCP]);
-    if (rows.length === 0) {
-      return res.status(404).send("No se encontró el SCP con ese número.");
-    }
-
+    const { rows } = await db.query("SELECT * FROM misiones WHERE id=$1", [req.params.id]);
+    if (!rows.length) return res.status(404).send("Misión no encontrada.");
     res.json(rows[0]);
-  } catch (err) {
-    return res.status(400).send(err.message);
+  } catch {
+    res.status(500).send("Error al buscar misión.");
   }
 });
 
-app.get("/scps/:id", async (req, res) => {
+// Actualizar
+app.put("/misiones/:id", async (req, res) => {
   try {
-    const { id } = req.params;
-    const { rows } = await db.query("SELECT * FROM scps WHERE id = $1", [id]);
-    if (rows.length === 0) {
-      return res.status(404).send("No se encontró el SCP con ese ID.");
-    }
-    res.json(rows[0]);
-  } catch (err) {
-    res.status(500).send("Error al buscar el SCP por ID.");
-  }
-});
+    let { nombre, ubicacion, objetivo, unidad, comandante, fecha, nivel_amenaza, estado } = req.body;
+    if (!nombre || !objetivo) return res.status(400).send("Nombre y objetivo son obligatorios.");
 
-app.put("/scps/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    let {
-      numero_scp,
-      clasificacion_contencion,
-      nivel_peligro,
-      ubicacion_actual,
-      estado_investigacion,
-      descripcion
-    } = req.body;
-
-    if (!numero_scp || !descripcion) {
-      return res.status(400).send("Número SCP y descripción son obligatorios.");
-    }
-
-    numero_scp = sanitizeField(numero_scp);
-    clasificacion_contencion = sanitizeField(clasificacion_contencion || "");
-    nivel_peligro = sanitizeField(nivel_peligro || "");
-    ubicacion_actual = sanitizeField(ubicacion_actual || "");
-    estado_investigacion = sanitizeField(estado_investigacion || "");
-    descripcion = sanitizeField(descripcion);
+    nombre        = sanitizeField(nombre);
+    ubicacion     = sanitizeField(ubicacion || "");
+    objetivo      = sanitizeField(objetivo);
+    unidad        = sanitizeField(unidad || "");
+    comandante    = sanitizeField(comandante || "");
+    nivel_amenaza = sanitizeField(nivel_amenaza || "");
+    estado        = sanitizeField(estado || "");
 
     const result = await db.query(
-      `UPDATE scps
-       SET numero_scp = $1,
-           clasificacion_contencion = $2,
-           nivel_peligro = $3,
-           ubicacion_actual = $4,
-           estado_investigacion = $5,
-           descripcion = $6
-       WHERE id = $7`,
-      [numero_scp, clasificacion_contencion, nivel_peligro, ubicacion_actual, estado_investigacion, descripcion, id]
+      `UPDATE misiones SET
+         nombre=$1, ubicacion=$2, objetivo=$3,
+         unidad=$4, comandante=$5, fecha=$6,
+         nivel_amenaza=$7, estado=$8
+       WHERE id=$9`,
+      [nombre, ubicacion, objetivo, unidad, comandante, fecha, nivel_amenaza, estado, req.params.id]
     );
-
-    if (result.rowCount === 0) {
-      return res.status(404).send("No se encontró el SCP a actualizar.");
-    }
-
-    res.send("SCP actualizado con éxito.");
+    if (!result.rowCount) return res.status(404).send("Misión no encontrada.");
+    res.send("Misión actualizada con éxito.");
   } catch (err) {
-    return res.status(400).send(err.message);
+    res.status(400).send(err.message);
   }
 });
 
-app.delete("/scps/:id", async (req, res) => {
+// Eliminar
+app.delete("/misiones/:id", async (req, res) => {
   try {
-    const { id } = req.params;
-    const result = await db.query("DELETE FROM scps WHERE id = $1", [id]);
-    if (result.rowCount === 0) {
-      return res.status(404).send("No se encontró el SCP a eliminar.");
-    }
-    res.send("SCP eliminado con éxito.");
-  } catch (err) {
-    res.status(500).send("Error al eliminar el SCP.");
+    const result = await db.query("DELETE FROM misiones WHERE id=$1", [req.params.id]);
+    if (!result.rowCount) return res.status(404).send("Misión no encontrada.");
+    res.send("Misión eliminada con éxito.");
+  } catch {
+    res.status(500).send("Error al eliminar misión.");
   }
 });
 
-/* ==========================
-   ADMINISTRACIÓN DE USUARIOS
-   ========================== */
-// Listar usuarios (solo admin)
-app.get("/users", async (req, res) => {
-  try {
-    if (!req.session.usuario) {
-      return res.status(401).send("No has iniciado sesión.");
-    }
-    if (req.session.rol !== "admin") {
-      return res.status(403).send("No tienes permisos de administrador.");
-    }
-
-    const { rows } = await db.query("SELECT id, nombre, rol FROM usuarios ORDER BY id ASC");
-    res.json(rows);
-  } catch (err) {
-    return res.status(500).send("Error al obtener los usuarios.");
-  }
-});
-
-// Eliminar un usuario (solo admin)
-app.delete("/users/:id", async (req, res) => {
-  try {
-    if (!req.session.usuario) {
-      return res.status(401).send("No has iniciado sesión.");
-    }
-    if (req.session.rol !== "admin") {
-      return res.status(403).send("No tienes permisos de administrador.");
-    }
-
-    const { id } = req.params;
-    const result = await db.query("DELETE FROM usuarios WHERE id = $1", [id]);
-    if (result.rowCount === 0) {
-      return res.status(404).send("No se encontró el usuario a eliminar.");
-    }
-    res.send("Usuario eliminado con éxito.");
-  } catch (err) {
-    return res.status(500).send("Error al eliminar el usuario.");
-  }
-});
-
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
