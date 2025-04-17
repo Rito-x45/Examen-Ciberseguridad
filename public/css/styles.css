@@ -148,3 +148,116 @@ nav a.active::after {
   padding: 12px; text-align: left;
 }
 #tabla-misiones tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px); /* resta la altura aproximada del header */
+  padding: 20px;
+}
+
+.auth-card {
+  width: 360px;
+  margin: 0 auto;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-card form label {
+  margin-bottom: 4px;
+}
+
+.auth-card form input[type="text"],
+.auth-card form input[type="password"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.auth-card .btn-submit {
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* Oculta el registro hasta que se solicite */
+#register {
+  display: none;
+}
+
+/* ====== Centrar y cardear Login/Register ====== */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+  padding: 20px;
+}
+
+.auth-card {
+  width: 360px;
+  background: rgba(0,0,0,0.6);
+  border: 2px solid var(--btn-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  margin: 12px 0;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ====== Cardear y centrar Home sections ====== */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.page-container details {
+  width: 90%;
+  max-width: 800px;
+  background: rgba(0,0,0,0.6);
+  border: 2px solid var(--btn-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin: 12px 0;
+}
+
+.page-container summary {
+  padding: 12px 16px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  color: var(--btn-color);
+  background: rgba(0,0,0,0.7);
+  cursor: pointer;
+}
+
+.page-container details[open] summary {
+  background: rgba(0,0,0,0.85);
+}
+
+.page-container ul {
+  list-style: disc inside;
+  padding: 12px 16px;
+  color: var(--text-light);
+}
+
+/* Asegúrate de que el <details> abra y cierre suavemente */
+.page-container .content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
