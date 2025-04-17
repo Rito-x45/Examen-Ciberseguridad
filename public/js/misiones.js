@@ -118,3 +118,55 @@ document.addEventListener("DOMContentLoaded", () => {
   // Arranque: cargar todo
   cargar();
 });
+
+// Capturar el input de búsqueda (ajusta el selector si tu id o clase es distinto)
+const searchInput = document.getElementById("search-mision");
+
+// Cada vez que el usuario teclee algo, validamos
+searchInput.addEventListener("input", () => {
+  const val = searchInput.value;
+
+  // Reutilizamos la función badInput() que ya tienes:
+  // detecta <etiquetas> o patrones ; -- /* etc.
+  if (badInput(val)) {
+    showAlert("Caracteres inválidos detectados.", true);
+    // opcional: limpiamos el campo para que no se quede el texto sucio
+    searchInput.value = "";
+    return;
+  }
+
+  // Si pasa la validación, llamas a tu filtro normal:
+  // por ejemplo, recorrer tu tabla y ocultar filas que no coincidan
+  filtrarMisiones(val);
+});
+
+// Delegación completa sobre la tabla para capturar siempre los clicks en "Editar"
+const tabla = document.getElementById("tabla-misiones");
+tabla.addEventListener("click", async e => {
+  // Sólo nos interesa el botón con clase .edit
+  if (!e.target.classList.contains("edit")) return;
+  e.preventDefault();
+  
+  const id = e.target.getAttribute("data-id");
+  if (!id) return console.error("Falta data-id en el botón Editar");
+  
+  try {
+    const res = await fetch(`/misiones/${id}`);
+    if (!res.ok) throw new Error("No se pudo cargar la misión");
+    const m = await res.json();
+    
+    // Rellenamos el formulario
+    const form = document.getElementById("form-mision");
+    Object.entries(m).forEach(([key, val]) => {
+      const field = form.querySelector(`[name="${key}"]`);
+      if (field) field.value = val || "";
+    });
+    form.dataset.id = id;
+    
+    // Scroll al formulario para que el usuario lo vea
+    form.scrollIntoView({ behavior: "smooth" });
+    
+  } catch (err) {
+    showAlert(err.message, true);
+  }
+});
