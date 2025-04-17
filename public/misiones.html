@@ -21,8 +21,20 @@
 
   <section class="mission-container">
     <h2 class="glitch">Gestión de Misiones</h2>
+
     <div class="page-card">
-      <form id="form-mision">
+
+      <!-- BARRA DE BÚSQUEDA + NUEVA MISIÓN -->
+      <div class="form-header">
+        <div class="search-group">
+          <input type="text" id="search-input" placeholder="Buscar misión por nombre...">
+          <button class="btn-search" id="btn-search">Buscar</button>
+        </div>
+        <button class="btn" id="btn-new">Nueva Misión</button>
+      </div>
+
+      <!-- FORMULARIO OCULTO AL PRINCIPIO -->
+      <form id="form-mision" style="display:none;">
         <label for="nombre">Misión</label>
         <input type="text" id="nombre" name="nombre" placeholder="Operación: Silent Storm" required>
 
@@ -57,17 +69,19 @@
 
         <button type="submit" class="btn-submit">Guardar Misión</button>
       </form>
-    </div>
 
-    <table id="tabla-misiones">
-      <thead>
-        <tr>
-          <th>Misión</th><th>Ubicación</th><th>Objetivo</th><th>Unidad</th>
-          <th>Comandante</th><th>Fecha</th><th>Amenaza</th><th>Estado</th><th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+      <!-- TABLA DE MISIONES -->
+      <table id="tabla-misiones">
+        <thead>
+          <tr>
+            <th>Misión</th><th>Ubicación</th><th>Objetivo</th><th>Unidad</th>
+            <th>Comandante</th><th>Fecha</th><th>Amenaza</th><th>Estado</th><th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+    </div>
   </section>
 
   <script src="/js/auth.js"></script>
