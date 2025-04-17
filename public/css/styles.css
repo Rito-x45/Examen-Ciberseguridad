@@ -261,3 +261,51 @@ nav a.active::after {
   from { opacity: 0; transform: translateY(-8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ===== Estilo para botones de acción (Nueva Misión, Editar, Borrar) ===== */
+#tabla-misiones button,
+.btn-new-mision {
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+  background: var(--btn-color);
+  color: #000;
+  border: none;
+  border-radius: var(--radius);
+  padding: 8px 16px;
+  margin: 0 4px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+#tabla-misiones button:hover,
+.btn-new-mision:hover {
+  background: #9a5900;
+}
+
+/* ===== Estilo para el cuadro de búsqueda (o cualquier input de texto) ===== */
+input[type="search"],
+input[type="text"],
+select,
+textarea {
+  font-family: 'Source Sans Pro', sans-serif;
+  padding: 8px 12px;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+  background: var(--input-bg);
+  color: var(--text-light);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input[type="search"]:focus,
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+  outline: none;
+}
+
+/* ===== Ejemplo de clase para el botón “Nueva Misión” ===== */
+.btn-new-mision {
+  display: inline-block;   /* o block si lo necesitas full-width */
+  margin: 16px 0;
+}
