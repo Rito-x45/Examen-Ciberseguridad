@@ -19,49 +19,49 @@
     <button id="logout-btn">Logout</button>
   </header>
 
-  <!-- ALERTA -->
   <div id="alerta"></div>
 
   <!-- GESTIÓN DE MISIONES -->
   <section class="mission-container">
     <h2 class="glitch">Gestión de Misiones</h2>
 
-    <form id="form-mision">
-      <div>
-        <label for="nombre">Misión</label>
-        <input type="text" id="nombre" name="nombre" required>
-      </div>
-      <div>
-        <label for="ubicacion">Ubicación</label>
-        <input type="text" id="ubicacion" name="ubicacion">
-      </div>
-      <div>
-        <label for="objetivo">Objetivo</label>
-        <textarea id="objetivo" name="objetivo" required></textarea>
-      </div>
-      <div>
-        <label for="unidad">Unidad</label>
-        <input type="text" id="unidad" name="unidad">
-      </div>
-      <div>
-        <label for="comandante">Comandante</label>
-        <input type="text" id="comandante" name="comandante">
-      </div>
-      <div>
-        <label for="fecha">Fecha</label>
-        <input type="date" id="fecha" name="fecha">
-      </div>
-      <div>
-        <label for="nivel_amenaza">Nivel de amenaza</label>
-        <input type="text" id="nivel_amenaza" name="nivel_amenaza">
-      </div>
-      <div>
-        <label for="estado">Estado</label>
-        <input type="text" id="estado" name="estado">
-      </div>
-
-      <button type="submit" class="btn-submit">Guardar Misión</button>
-    </form>
+    <div class="page-card">
+      <form id="form-mision">
+        <div>
+          <label for="nombre">Misión</label>
+          <input type="text" id="nombre" name="nombre" required>
+        </div>
+        <div>
+          <label for="ubicacion">Ubicación</label>
+          <input type="text" id="ubicacion" name="ubicacion">
+        </div>
+        <div>
+          <label for="objetivo">Objetivo</label>
+          <textarea id="objetivo" name="objetivo" required></textarea>
+        </div>
+        <div>
+          <label for="unidad">Unidad</label>
+          <input type="text" id="unidad" name="unidad">
+        </div>
+        <div>
+          <label for="comandante">Comandante</label>
+          <input type="text" id="comandante" name="comandante">
+        </div>
+        <div>
+          <label for="fecha">Fecha</label>
+          <input type="date" id="fecha" name="fecha">
+        </div>
+        <div>
+          <label for="nivel_amenaza">Nivel de amenaza</label>
+          <input type="text" id="nivel_amenaza" name="nivel_amenaza">
+        </div>
+        <div>
+          <label for="estado">Estado</label>
+          <input type="text" id="estado" name="estado">
+        </div>
+        <button type="submit" class="btn-submit">Guardar Misión</button>
+      </form>
+    </div>
 
     <table id="tabla-misiones">
       <thead>

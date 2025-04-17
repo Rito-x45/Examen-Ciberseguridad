@@ -6,7 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
   
     function showAlert(msg, isErr=false) {
       alertaDiv.textContent = msg;
-      alertaDiv.style.background = isErr ? "rgba(255,50,50,0.8)" : "rgba(255,165,0,0.8)";
+      alertaDiv.style.background = isErr
+        ? "rgba(255,50,50,0.8)"
+        : "rgba(255,165,0,0.8)";
       setTimeout(()=> alertaDiv.textContent="", 3000);
     }
   
@@ -18,11 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
         data.forEach(m => {
           tbody.innerHTML += `
             <tr>
-              <td>${m.nombre}</td><td>${m.ubicacion}</td>
-              <td>${m.objetivo}</td><td>${m.unidad}</td>
+              <td>${m.nombre}</td>
+              <td>${m.ubicacion}</td>
+              <td>${m.objetivo}</td>
+              <td>${m.unidad}</td>
               <td>${m.comandante}</td>
               <td>${new Date(m.fecha).toLocaleDateString()}</td>
-              <td>${m.nivel_amenaza}</td><td>${m.estado}</td>
+              <td>${m.nivel_amenaza}</td>
+              <td>${m.estado}</td>
               <td>
                 <button class="edit" data-id="${m.id}">Editar</button>
                 <button class="del"  data-id="${m.id}">Borrar</button>
@@ -48,13 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify(data)
         });
         const msg = await res.text();
+        showAlert(msg, !res.ok);
         if (res.ok) {
-          showAlert(msg);
           formMision.reset();
           delete formMision.dataset.id;
           cargar();
-        } else {
-          showAlert(msg, true);
         }
       });
   
@@ -72,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (!confirm("¿Borrar misión?")) return;
           const res = await fetch(`/misiones/${id}`, { method:"DELETE" });
           const msg = await res.text();
-          showAlert(msg);
+          showAlert(msg, false);
           cargar();
         }
       });
