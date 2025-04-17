@@ -183,3 +183,90 @@
     details { margin:8px auto; }
   }
   
+  /* =========================== */
+/*     AUTENTICACIÓN (LOGIN/REG)   */
+/* =========================== */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 40px 20px;
+  }
+  .auth-card {
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid var(--btn-color);
+    border-radius: 8px;
+    padding: 24px;
+    width: 320px;
+    box-shadow: 0 0 15px rgba(var(--glow-rgb), 0.4);
+  }
+  .auth-card h1 {
+    font-size: 1.8rem;
+    margin-bottom: 16px;
+    color: var(--text-light);
+    text-transform: uppercase;
+  }
+  .auth-card h1.glitch {
+    animation: glitch 1s infinite;
+  }
+  .auth-card label {
+    display: block;
+    margin: 12px 0 4px;
+    font-weight: bold;
+    color: var(--text-light);
+  }
+  .auth-card input[type="text"],
+  .auth-card input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--btn-color);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+    transition: all .2s ease;
+  }
+  .auth-card input[type="text"]:focus,
+  .auth-card input[type="password"]:focus {
+    outline: none;
+    border-color: #fff;
+    box-shadow: 0 0 8px rgba(var(--glow-rgb), 0.7);
+  }
+  .auth-card .btn-submit {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    background: var(--btn-color);
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(var(--glow-rgb), 0.6);
+    transition: all .3s ease;
+  }
+  .auth-card .btn-submit:hover {
+    background: #b56000;
+    box-shadow: 0 0 20px rgba(var(--glow-rgb), 1);
+  }
+  .auth-card .switch-link {
+    text-align: center;
+    margin-top: 12px;
+  }
+  .auth-card .switch-link a {
+    color: var(--btn-color);
+    text-decoration: none;
+  }
+  .auth-card .switch-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* =========================== */
+  /*    AJUSTES MÓVIL AUTENTICACIÓN   */
+  /* =========================== */
+  @media (max-width: 700px) {
+    .auth-container { gap: 20px; padding: 20px; }
+    .auth-card { width: 100%; max-width: 400px; }
+  }
