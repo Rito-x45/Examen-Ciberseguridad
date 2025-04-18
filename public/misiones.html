@@ -1,3 +1,4 @@
+<!-- public/misiones.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -20,12 +21,8 @@
   <div id="alerta"></div>
 
   <section class="mission-container">
-  <center>
-    <h2 class="glitch">Gestión de Misiones</h2>
-  </center>
+    <center><h2 class="glitch">Gestión de Misiones</h2></center>
     <div class="page-card">
-
-      <!-- BARRA DE BÚSQUEDA + NUEVA MISIÓN -->
       <div class="form-header">
         <div class="search-group">
           <input type="text" id="search-input" placeholder="Buscar misión por nombre...">
@@ -34,47 +31,46 @@
         <button class="btn" id="btn-new">Nueva Misión</button>
       </div>
 
-      <!-- FORMULARIO OCULTO AL PRINCIPIO -->
-      <form id="form-mision" style="display:none;">
-        <label for="nombre">Misión</label>
-        <input type="text" id="nombre" name="nombre" placeholder="Operación: Silent Storm" required>
+    <!-- FORMULARIO OCULTO AL PRINCIPIO -->
+    <form id="form-mision" style="display:none;">
+      <label for="nombre">Misión</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Operación: Silent Storm" required>
 
-        <label for="ubicacion">Ubicación</label>
-        <input type="text" id="ubicacion" name="ubicacion" placeholder="Sistema Epsilon Eridani – Órbita de Reach">
+      <label for="ubicacion">Ubicación</label>
+      <input type="text" id="ubicacion" name="ubicacion" placeholder="Sistema Epsilon Eridani – Órbita de Reach">
 
-        <br>
-        <label for="objetivo">Objetivo</label>
-        <textarea id="objetivo" name="objetivo" placeholder="Infiltrar y destruir nave madre Covenant…" required></textarea>
+      <br>
+      <label for="objetivo">Objetivo</label>
+      <textarea id="objetivo" name="objetivo" placeholder="Infiltrar y destruir nave madre Covenant…" required></textarea>
 
-        <label for="unidad">Unidad</label>
-        <input type="text" id="unidad" name="unidad" placeholder="Spartan‑II Blue Team + ODST Echo">
+      <label for="unidad">Unidad</label>
+      <input type="text" id="unidad" name="unidad" placeholder="Spartan‑II Blue Team + ODST Echo">
 
-        <br>
-        <label for="comandante">Comandante</label>
-        <input type="text" id="comandante" name="comandante" placeholder="Cap. Jacob Keyes">
+      <br>
+      <label for="comandante">Comandante</label>
+      <input type="text" id="comandante" name="comandante" placeholder="Cap. Jacob Keyes">
 
-        <label for="fecha">Fecha</label>
-        <input type="date" id="fecha" name="fecha">
+      <label for="fecha">Fecha</label>
+      <input type="date" id="fecha" name="fecha">
 
-        <br>
-        <label for="nivel_amenaza">Nivel de amenaza</label>
-        <select id="nivel_amenaza" name="nivel_amenaza">
-          <option value="LOW">BAJO</option>
-          <option value="MEDIUM">MEDIO</option>
-          <option value="HIGH">ALTO</option>
-        </select>
+      <br>
+      <label for="nivel_amenaza">Nivel de amenaza</label>
+      <select id="nivel_amenaza" name="nivel_amenaza">
+        <option value="LOW">BAJO</option>
+        <option value="MEDIUM">MEDIO</option>
+        <option value="HIGH">ALTO</option>
+      </select>
 
-        <label for="estado">Estado</label>
-        <select id="estado" name="estado">
-          <option value="SUCCESS">Éxito</option>
-          <option value="PARTIAL">Éxito parcial</option>
-          <option value="FAILURE">Fallido</option>
-        </select>
+      <label for="estado">Estado</label>
+      <select id="estado" name="estado">
+        <option value="SUCCESS">Éxito</option>
+        <option value="PARTIAL">Éxito parcial</option>
+        <option value="FAILURE">Fallido</option>
+      </select>
 
-        <button type="submit" class="btn-submit">Guardar Misión</button>
-      </form>
+      <button type="submit" class="btn-submit">Guardar Misión</button>
+    </form>
 
-      <!-- TABLA DE MISIONES -->
       <table id="tabla-misiones">
         <thead>
           <tr>
@@ -84,11 +80,10 @@
         </thead>
         <tbody></tbody>
       </table>
-
     </div>
   </section>
 
-  <script src="/js/auth.js"></script>
   <script src="/js/misiones.js"></script>
+  <script src="/js/auth.js"></script>
 </body>
 </html>

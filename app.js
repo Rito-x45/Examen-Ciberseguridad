@@ -192,7 +192,7 @@ app.delete("/misiones/:id", async (req, res) => {
   }
 });
 
-// Rutas al final, antes de app.listen:
+/* ======== RUTAS DE USUARIOS (ADMIN) ======== */
 
 // Listar usuarios (solo admin)
 app.get("/users", async (req, res) => {
@@ -208,7 +208,6 @@ app.delete("/users/:id", async (req, res) => {
   if (!result.rowCount) return res.status(404).send("Usuario no encontrado.");
   res.send("Usuario eliminado exitosamente.");
 });
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor escuchando en puerto ${PORT}`));

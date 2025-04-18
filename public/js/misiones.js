@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return /<[^>]+>/.test(text) || /;|--|\/\*/.test(text);
   }
 
-  // 1) Cargar (o filtrar) misiones
   async function cargar(filter = "") {
     try {
       const res = await fetch("/misiones");
@@ -51,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 2) Toggle formulario “Nueva misión”
   btnNew.addEventListener("click", () => {
     const showing = formMision.style.display !== "none";
     formMision.style.display = showing ? "none" : "grid";
@@ -61,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 3) Búsqueda en caliente + validación
   searchInput.addEventListener("input", () => {
     const q = searchInput.value.trim();
     if (badInput(q)) {
@@ -73,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 4) Crear / actualizar misión
   formMision.addEventListener("submit", async e => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(formMision));
@@ -101,11 +97,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 5) Delegación en la tabla para editar o borrar
   tbody.addEventListener("click", async e => {
     const id = e.target.dataset.id;
 
-    // Borrar
     if (e.target.classList.contains("del")) {
       if (!confirm("¿Eliminar misión?")) return;
       const res = await fetch(`/misiones/${id}`, { method: "DELETE" });
@@ -115,14 +109,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Editar
     if (e.target.classList.contains("edit")) {
       try {
         const res = await fetch(`/misiones/${id}`);
         if (!res.ok) throw new Error(res.statusText);
         const m = await res.json();
-
-        // Rellenar formulario
         Object.entries(m).forEach(([key, val]) => {
           const fld = formMision.elements[key];
           if (fld) fld.value = val || "";
@@ -136,6 +127,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 6) Arranque: mostramos todo al cargar
   cargar();
 });

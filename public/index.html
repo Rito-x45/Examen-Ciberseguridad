@@ -1,3 +1,4 @@
+<!-- public/index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -26,12 +27,29 @@
   
   <div id="alerta"></div>
 
-  <!-- Añadir justo después de <section class="hero"> -->
   <section class="page-card">
     <h2 class="glitch">Nuestra Misión</h2>
     <p>El UNSC protege a la Humanidad frente a amenazas exteriores y vela por la paz interplanetaria.</p>
     <p>Fundado tras la Guerra Interplanetaria, su flota cuenta con naves de asalto, transportes y equipos especiales: Spartans, ODST y Marines.</p>
     <p>Investigación Forerunner, alianzas coloniales y defensa estratégica son algunos de sus pilares fundamentales.</p>
+  </section>
+
+  <section class="page-container">
+
+    <details id="mision">
+      <summary>1. Misión</summary>
+      <div class="content">
+        <p><strong>Operación:</strong> Silent Storm</p>
+        <p><strong>Ubicación:</strong> Sistema Epsilon Eridani – Órbita de Reach</p>
+        <p><strong>Objetivo:</strong> Infiltrar y destruir nave madre Covenant antes de su arribo a la superficie.</p>
+        <p><strong>Unidad:</strong> Spartan‑II Blue Team + escuadrón ODST Echo.</p>
+        <p><strong>Comandante:</strong> Cap. Jacob Keyes.</p>
+        <p><strong>Fecha:</strong> 3 de julio, 2552.</p>
+        <p><strong>Nivel de amenaza:</strong> ALTO (Elite y tecnología Forerunner detectada).</p>
+        <p><strong>Estado:</strong> Éxito parcial (nave destruida, múltiples bajas).</p>
+      </div>
+    </details>
+    <!-- resto de <details> igual que antes -->
   </section>
 
   <section class="page-container">
@@ -138,7 +156,7 @@
     </details>
 
   </section>
-
+  
   <script src="/js/auth.js"></script>
 </body>
 </html>

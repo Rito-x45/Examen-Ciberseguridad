@@ -1,3 +1,4 @@
+<!-- public/users.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,8 +13,8 @@
       <a href="/index.html">Home</a>
       <a href="/misiones.html">Misiones</a>
       <a href="/users.html" class="active">Usuarios</a>
-      <button id="logout-btn">CERRAR SESIÓN</button>
     </nav>
+    <button id="logout-btn">CERRAR SESIÓN</button>
   </header>
 
   <div id="alerta"></div>
@@ -38,32 +39,29 @@
         setTimeout(()=>alerta.textContent='',3000);
       }
 
-      // Cargar usuarios
       const res = await fetch('/users');
       if (!res.ok) return showAlert(await res.text(), true);
       const users = await res.json();
-      tbody.innerHTML = users.map(u => 
+      tbody.innerHTML = users.map(u =>
         `<tr>
           <td>${u.id}</td><td>${u.nombre}</td><td>${u.rol}</td>
           <td><button data-id="${u.id}" class="del">Borrar</button></td>
         </tr>`
       ).join('');
 
-      // Borrar usuario
       tbody.addEventListener('click', async e => {
         if (!e.target.classList.contains('del')) return;
         if (!confirm('¿Eliminar usuario?')) return;
         const id = e.target.dataset.id;
-        const r = await fetch(`/users/${id}`,{ method:'DELETE' });
+        const r = await fetch(`/users/${id}`, { method:'DELETE' });
         const msg = await r.text();
         showAlert(msg, !r.ok);
         if (r.ok) e.target.closest('tr').remove();
       });
 
-      // Logout
-      document.getElementById('logout-btn').addEventListener('click',async()=>{
-        await fetch('/auth/logout',{method:'POST'});
-        window.location.href='/login.html';
+      document.getElementById('logout-btn').addEventListener('click', async () => {
+        await fetch('/auth/logout', { method:'POST' });
+        window.location.href = '/login.html';
       });
     });
   </script>
