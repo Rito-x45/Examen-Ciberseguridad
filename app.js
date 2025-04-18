@@ -192,5 +192,23 @@ app.delete("/misiones/:id", async (req, res) => {
   }
 });
 
+// Rutas al final, antes de app.listen:
+
+// Listar usuarios (solo admin)
+app.get("/users", async (req, res) => {
+  if (req.session.rol !== "admin") return res.status(403).send("Acceso denegado.");
+  const { rows } = await db.query("SELECT id, nombre, rol FROM usuarios ORDER BY id");
+  res.json(rows);
+});
+
+// Eliminar usuario (solo admin)
+app.delete("/users/:id", async (req, res) => {
+  if (req.session.rol !== "admin") return res.status(403).send("Acceso denegado.");
+  const result = await db.query("DELETE FROM usuarios WHERE id = $1", [req.params.id]);
+  if (!result.rowCount) return res.status(404).send("Usuario no encontrado.");
+  res.send("Usuario eliminado exitosamente.");
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor escuchando en puerto ${PORT}`));

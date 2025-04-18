@@ -94,3 +94,39 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// Dentro de DOMContentLoaded, tras definiciones de formReg:
+const pwdInput = formReg.contrasena;
+const strengthDiv = document.createElement('div');
+strengthDiv.id = 'password-strength';
+strengthDiv.style.marginTop = '4px';
+pwdInput.parentNode.insertBefore(strengthDiv, formReg.adminCode);
+
+pwdInput.addEventListener('input', () => {
+  const val = pwdInput.value;
+  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{6,}$/;
+  if (regex.test(val)) {
+    strengthDiv.textContent = 'Contraseña segura ✓';
+    strengthDiv.style.color = 'lightgreen';
+  } else {
+    strengthDiv.textContent = 'Debe tener min. 6 caracteres, mayúscula, minúscula, número y carácter especial.';
+    strengthDiv.style.color = 'salmon';
+  }
+});
+
+// Después de fetch('/auth/session') y antes de cerrar DOMContentLoaded:
+function addAdminLink() {
+  const nav = document.querySelector('nav');
+  const link = document.createElement('a');
+  link.href = '/users.html';
+  link.textContent = 'Usuarios';
+  nav.appendChild(link);
+}
+
+if (btnLogout) {
+  fetch('/auth/session')
+    .then(r => r.json())
+    .then(data => {
+      if (data.rol === 'admin') addAdminLink();
+    });
+}
