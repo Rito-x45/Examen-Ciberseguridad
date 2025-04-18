@@ -14,8 +14,10 @@
 }
 
 * { box-sizing: border-box; }
+
 body {
-  margin: 0; padding: 0;
+  margin: 0;
+  padding: 0;
   font-family: var(--font-main);
   background: var(--bg-dark);
   color: var(--text-light);
@@ -24,7 +26,9 @@ body {
 
 /* HEADER */
 header {
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background: var(--bg-nav);
   padding: 12px 24px;
   box-shadow: var(--shadow);
@@ -43,18 +47,24 @@ nav a:hover, nav a.active { color: var(--accent); }
 nav a.active::after {
   content: '';
   position: absolute;
-  bottom: -4px; left: 0; right: 0;
+  bottom: -4px;
+  left: 0;
+  right: 0;
   height: 2px;
   background: var(--btn-color);
   border-radius: 2px;
 }
 #logout-btn {
   background: var(--btn-color);
-  border: none; color: #000;
-  padding: 8px 16px; text-transform: uppercase;
-  font-family: var(--font-head); font-size: .9rem;
+  border: none;
+  color: #000;
+  padding: 8px 16px;
+  text-transform: uppercase;
+  font-family: var(--font-head);
+  font-size: .9rem;
   border-radius: var(--radius);
-  cursor: pointer; box-shadow: var(--shadow);
+  cursor: pointer;
+  box-shadow: var(--shadow);
 }
 #logout-btn:hover { background: #9a5900; }
 
@@ -91,14 +101,14 @@ nav a.active::after {
   border-radius: var(--radius);
   padding: 24px;
   box-shadow: var(--shadow);
-  margin-bottom: 24px;
   width: 70%;
-
+  margin: 0 auto 24px;
 }
 
 /* layout: columnas con gap */
 .form-header {
-  display: flex; justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
 }
@@ -128,78 +138,46 @@ nav a.active::after {
 #form-mision input,
 #form-mision textarea,
 #form-mision select {
-  width: 100%; padding: 8px;
+  width: 100%;
+  padding: 8px;
   border: 1px solid var(--input-border);
   border-radius: var(--radius);
   background: var(--input-bg);
   color: var(--text-light);
   font-family: var(--font-main);
 }
-#form-mision textarea { resize: vertical; min-height: 60px; }
+#form-mision textarea {
+  resize: vertical;
+  min-height: 60px;
+}
 #form-mision .btn-submit {
   grid-column: 1 / -1;
   justify-self: center;
 }
 
 #tabla-misiones {
-  width: 100%; border-collapse: collapse;
-  margin-top: 24px; background: rgba(0,0,0,0.5);
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 24px;
+  background: rgba(0,0,0,0.5);
 }
 #tabla-misiones th, #tabla-misiones td {
   border: 1px solid var(--btn-color);
-  padding: 12px; text-align: left;
+  padding: 12px;
+  text-align: left;
 }
-#tabla-misiones tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+#tabla-misiones tr:nth-child(even) {
+  background: rgba(255,255,255,0.02);
+}
 
+/* Autenticación */
 .auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 80px); /* resta la altura aproximada del header */
-  padding: 20px;
-}
-
-.auth-card {
-  width: 360px;
-  margin: 0 auto;
-}
-
-.auth-card form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.auth-card form label {
-  margin-bottom: 4px;
-}
-
-.auth-card form input[type="text"],
-.auth-card form input[type="password"] {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.auth-card .btn-submit {
-  width: 100%;
-  margin-top: 8px;
-}
-
-/* Oculta el registro hasta que se solicite */
-#register {
-  display: none;
-}
-
-/* ====== Centrar y cardear Login/Register ====== */
-.auth-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   min-height: calc(100vh - 80px);
   padding: 20px;
 }
-
 .auth-card {
   width: 360px;
   background: rgba(0,0,0,0.6);
@@ -209,21 +187,30 @@ nav a.active::after {
   padding: 24px;
   margin: 12px 0;
 }
-
 .auth-card form {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
+.auth-card form label {
+  margin-bottom: 4px;
+}
+.auth-card form input[type="text"],
+.auth-card form input[type="password"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+#register {
+  display: none;
+}
 
-/* ====== Cardear y centrar Home sections ====== */
+/* Home/Card */
 .page-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px 0;
 }
-
 .page-container details {
   width: 90%;
   max-width: 800px;
@@ -233,41 +220,36 @@ nav a.active::after {
   box-shadow: var(--shadow);
   margin: 12px 0;
 }
-
 .page-container summary {
   padding: 12px 16px;
-  font-family: 'Orbitron', sans-serif;
+  font-family: var(--font-head);
   font-size: 1.1rem;
   text-transform: uppercase;
   color: var(--btn-color);
   background: rgba(0,0,0,0.7);
   cursor: pointer;
 }
-
 .page-container details[open] summary {
   background: rgba(0,0,0,0.85);
 }
-
 .page-container ul {
   list-style: disc inside;
   padding: 12px 16px;
   color: var(--text-light);
 }
-
-/* Asegúrate de que el <details> abra y cierre suavemente */
 .page-container .content {
   animation: fadeIn 0.3s ease-in-out;
 }
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== Estilo para botones de acción (Nueva Misión, Editar, Borrar) ===== */
+/* Tablas de usuarios/acciones */
 #tabla-misiones button,
-.btn-new-mision {
-  font-family: 'Orbitron', sans-serif;
+.btn-new-mision,
+#tabla-usuarios button {
+  font-family: var(--font-head);
   text-transform: uppercase;
   background: var(--btn-color);
   color: #000;
@@ -280,281 +262,7 @@ nav a.active::after {
   transition: background 0.3s;
 }
 #tabla-misiones button:hover,
-.btn-new-mision:hover {
-  background: #9a5900;
-}
-
-/* ===== Estilo para el cuadro de búsqueda (o cualquier input de texto) ===== */
-input[type="search"],
-input[type="text"],
-select,
-textarea {
-  font-family: 'Source Sans Pro', sans-serif;
-  padding: 8px 12px;
-  border: 1px solid var(--input-border);
-  border-radius: var(--radius);
-  background: var(--input-bg);
-  color: var(--text-light);
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-input[type="search"]:focus,
-input[type="text"]:focus,
-select:focus,
-textarea:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 6px var(--accent);
-  outline: none;
-}
-
-/* ===== Ejemplo de clase para el botón “Nueva Misión” ===== */
-.btn-new-mision {
-  display: inline-block;   /* o block si lo necesitas full-width */
-  margin: 16px 0;
-}
-
-/* public/css/styles.css */
-:root {
-  --bg-dark:      #0e1b0e;
-  --bg-nav:       #194919;
-  --text-light:   #c0d0b0;
-  --btn-color:    #b36b00;
-  --accent:       #0096FF;
-  --input-bg:     rgba(255,255,255,0.05);
-  --input-border: rgba(255,255,255,0.2);
-  --radius:       6px;
-  --shadow:       0 2px 8px rgba(0,0,0,0.5);
-  --font-main:    'Source Sans Pro', sans-serif;
-  --font-head:    'Orbitron', sans-serif;
-}
-
-* { box-sizing: border-box; }
-body {
-  margin: 0; padding: 0;
-  font-family: var(--font-main);
-  background: var(--bg-dark);
-  color: var(--text-light);
-  overflow-x: hidden;
-}
-
-header {
-  display: flex; align-items: center; justify-content: space-between;
-  background: var(--bg-nav);
-  padding: 12px 24px;
-  box-shadow: var(--shadow);
-}
-#logo { height: 80px; }
-nav a {
-  color: var(--text-light);
-  margin: 0 12px;
-  text-decoration: none;
-  text-transform: uppercase;
-  font-weight: bold;
-  position: relative;
-  transition: color .3s;
-}
-nav a:hover, nav a.active { color: var(--accent); }
-nav a.active::after {
-  content: '';
-  position: absolute;
-  bottom: -4px; left: 0; right: 0;
-  height: 2px;
-  background: var(--btn-color);
-  border-radius: 2px;
-}
-#logout-btn {
-  background: var(--btn-color);
-  border: none; color: #000;
-  padding: 8px 16px; text-transform: uppercase;
-  font-family: var(--font-head); font-size: .9rem;
-  border-radius: var(--radius);
-  cursor: pointer; box-shadow: var(--shadow);
-}
-#logout-btn:hover { background: #9a5900; }
-
-.btn, .btn-submit, .btn-search {
-  display: inline-block;
-  background: var(--btn-color);
-  color: #000;
-  text-transform: uppercase;
-  font-family: var(--font-head);
-  font-weight: bold;
-  padding: 10px 20px;
-  border: none;
-  border-radius: var(--radius);
-  cursor: pointer;
-  box-shadow: var(--shadow);
-  transition: background .3s, transform .2s;
-}
-.btn:hover, .btn-submit:hover, .btn-search:hover {
-  background: #9a5900;
-  transform: translateY(-2px);
-}
-
-.mission-container h2 {
-  font-family: var(--font-head);
-  font-size: 2.2rem;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.page-card {
-  background: rgba(0,0,0,0.6);
-  border: 2px solid var(--btn-color);
-  border-radius: var(--radius);
-  padding: 24px;
-  box-shadow: var(--shadow);
-  margin-bottom: 24px;
-}
-
-.form-header {
-  display: flex; justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-.search-group {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-.search-group input {
-  padding: 8px;
-  border: 1px solid var(--input-border);
-  border-radius: var(--radius);
-  background: var(--input-bg);
-  color: var(--text-light);
-  flex: 1;
-}
-
-#form-mision {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
-  gap: 16px;
-}
-#form-mision label {
-  font-family: var(--font-head);
-  font-weight: bold;
-}
-#form-mision input,
-#form-mision textarea,
-#form-mision select {
-  width: 100%; padding: 8px;
-  border: 1px solid var(--input-border);
-  border-radius: var(--radius);
-  background: var(--input-bg);
-  color: var(--text-light);
-  font-family: var(--font-main);
-}
-#form-mision textarea { resize: vertical; min-height: 60px; }
-#form-mision .btn-submit {
-  grid-column: 1 / -1;
-  justify-self: center;
-}
-
-#tabla-misiones {
-  width: 100%; border-collapse: collapse;
-  margin-top: 24px; background: rgba(0,0,0,0.5);
-}
-#tabla-misiones th, #tabla-misiones td {
-  border: 1px solid var(--btn-color);
-  padding: 12px; text-align: left;
-}
-#tabla-misiones tr:nth-child(even) { background: rgba(255,255,255,0.02); }
-
-.auth-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 80px);
-  padding: 20px;
-}
-
-.auth-card {
-  width: 360px;
-  background: rgba(0,0,0,0.6);
-  border: 2px solid var(--btn-color);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 24px;
-  margin: 12px 0;
-}
-
-.auth-card form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.auth-card form label {
-  margin-bottom: 4px;
-}
-
-.auth-card form input[type="text"],
-.auth-card form input[type="password"] {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-#register {
-  display: none;
-}
-
-.page-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 0;
-}
-
-.page-container details {
-  width: 90%;
-  max-width: 800px;
-  background: rgba(0,0,0,0.6);
-  border: 2px solid var(--btn-color);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  margin: 12px 0;
-}
-
-.page-container summary {
-  padding: 12px 16px;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  color: var(--btn-color);
-  background: rgba(0,0,0,0.7);
-  cursor: pointer;
-}
-
-.page-container details[open] summary {
-  background: rgba(0,0,0,0.85);
-}
-
-.page-container ul {
-  list-style: disc inside;
-  padding: 12px 16px;
-  color: var(--text-light);
-}
-
-.page-container .content {
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-#tabla-usuarios button {
-  font-family: 'Orbitron', sans-serif;
-  text-transform: uppercase;
-  background: var(--btn-color);
-  color: #000;
-  border: none;
-  border-radius: var(--radius);
-  padding: 8px 16px;
-  box-shadow: var(--shadow);
-  cursor: pointer;
-  transition: background 0.3s;
-}
+.btn-new-mision:hover,
 #tabla-usuarios button:hover {
   background: #9a5900;
 }
