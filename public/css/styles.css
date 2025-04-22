@@ -338,3 +338,43 @@ nav a.active::after {
 #tabla-usuarios button:hover {
   background: #9a5900;
 }
+
+
+:root {
+  --background: #1e2d1e;
+  --primary-light: #88aa66;
+  --accent: #ff6600;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: var(--background);
+  color: var(--primary-light);
+  background-image: url("/grid-pattern.svg");
+  background-repeat: repeat;
+  background-size: 50px 50px;
+}
+
+.unsc-background {
+  background-color: var(--background);
+}
+
+.nav-link {
+  color: var(--primary-light);
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: opacity 0.3s ease;
+}
+
+.nav-link:hover {
+  opacity: 0.8;
+}
+
+.feature-card {
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
