@@ -1,4 +1,3 @@
-<!-- public/login.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,9 +8,10 @@
 </head>
 <body>
   <header>
-    <img src="/images/logo.png" alt="UNSC Logo" id="logo">
+    <img src="/images/logo.png" alt="UNSC Emblem" id="logo" title="UNSC Emblem">
+    <button id="nav-toggle" aria-label="Menú">☰</button>
     <nav>
-      <a href="/index.html">Inicio</a>
+      <a href="/index.html">Home</a>
       <a href="/login.html" class="active">Login</a>
       <a href="/misiones.html">Misiones</a>
     </nav>
@@ -22,39 +22,36 @@
   <section class="auth-container">
     <div class="auth-card">
       <form id="form-login">
-        <center><h1 class="glitch">UNSC INICIA SESIÓN</h1></center>
+        <h1>UNSC INICIA SESIÓN</h1>
         <label for="nombre">Usuario</label>
         <input type="text" id="nombre" name="nombre" required>
         <label for="contrasena">Contraseña</label>
         <input type="password" id="contrasena" name="contrasena" required>
         <input type="submit" value="Iniciar Sesión" class="btn-submit">
-        <center>
-          <div class="switch-link">
-            ¿No tienes cuenta? <a href="#register">Regístrate</a>
-          </div>
-        </center>
+        <div class="switch-link">
+          ¿No tienes cuenta? <a href="#register">Regístrate</a>
+        </div>
       </form>
     </div>
 
     <div class="auth-card" id="register">
       <form id="form-register">
-        <center><h1 class="glitch">UNSC REGISTRO</h1></center>
+        <h1>UNSC REGISTRO</h1>
         <label for="nombre-reg">Usuario</label>
         <input type="text" id="nombre-reg" name="nombre" required>
         <label for="contrasena-reg">Contraseña</label>
         <input type="password" id="contrasena" name="contrasena" required>
-        <label for="adminCode-reg">Código Admin (opcional)</label>
+        <label for="adminCode">Código Admin (opcional)</label>
         <input type="text" id="adminCode" name="adminCode">
         <input type="submit" value="Registrarse" class="btn-submit">
-        <center>
-          <div class="switch-link">
-            ¿Ya tienes cuenta? <a href="#login">Iniciar sesión</a>
-          </div>
-        </center>
+        <div class="switch-link">
+          ¿Ya tienes cuenta? <a href="#login">Iniciar sesión</a>
+        </div>
       </form>
     </div>
   </section>
 
+  <script src="/js/main.js"></script>
   <script src="/js/auth.js"></script>
 </body>
 </html>

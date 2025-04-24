@@ -1,4 +1,3 @@
-// public/js/auth.js
 document.addEventListener("DOMContentLoaded", () => {
   const alertaDiv  = document.getElementById("alerta");
   const loginCard  = document.querySelector(".auth-card:first-of-type");
@@ -37,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return /<[^>]+>/.test(text) || /;|--|\/\*/.test(text);
   }
 
-  // Validación de fuerza de contraseña en registro
   if (formReg) {
     const pwdInput = formReg.querySelector('input[name="contrasena"]');
     const strengthDiv = document.createElement('div');
@@ -58,7 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Menú dinámico para admin
   function addAdminLink() {
     const nav = document.querySelector('nav');
     const link = document.createElement('a');
@@ -75,7 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // Forzar login en Home y Misiones
   const path = window.location.pathname;
   if (["/", "/index.html", "/misiones.html"].includes(path)) {
     fetch("/auth/session").then(r => {
@@ -83,7 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Logout
   if (btnLogout) {
     btnLogout.addEventListener("click", async () => {
       await fetch("/auth/logout", { method: "POST" });
@@ -91,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Login
   if (formLogin) {
     formLogin.addEventListener("submit", async e => {
       e.preventDefault();
@@ -112,7 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Register
   if (formReg) {
     formReg.addEventListener("submit", async e => {
       e.preventDefault();

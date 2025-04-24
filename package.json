@@ -2,13 +2,13 @@
   "name": "examen",
   "version": "1.0.0",
   "scripts": {
-    "build:css": "postcss src/css/globals.css -o public/css/styles.css",
-    "start":     "npm run build:css && node app.js",
-    "test":      "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "body-parser": "^1.20.3",
@@ -22,21 +22,5 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.13.0",
     "pg": "^8.13.3"
-  },
-  "main": "app.js",
-  "devDependencies": {
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.3",
-    "postcss-cli": "^11.0.1",
-    "tailwindcss": "^4.1.4"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Rito-x45/Examen-Ciberseguridad.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Rito-x45/Examen-Ciberseguridad/issues"
-  },
-  "homepage": "https://github.com/Rito-x45/Examen-Ciberseguridad#readme",
-  "description": ""
+  }
 }

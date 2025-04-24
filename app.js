@@ -1,4 +1,3 @@
-// app.js
 const express         = require("express");
 const { Pool }        = require("pg");
 const bodyParser      = require("body-parser");
@@ -12,7 +11,6 @@ require("dotenv").config();
 const window    = new JSDOM("").window;
 const DOMPurify = createDOMPurify(window);
 const app       = express();
-
 const db = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
@@ -38,9 +36,7 @@ app.use(session({
   cookie: { secure: false }
 }));
 
-/* ======== RUTAS AUTENTICACIÓN ======== */
-
-// Registro
+// ===== Autenticación =====
 app.post("/auth/register", async (req, res) => {
   try {
     const nombre    = sanitizeField(req.body.nombre);
@@ -48,9 +44,7 @@ app.post("/auth/register", async (req, res) => {
     const adminCode = req.body.adminCode ? sanitizeField(req.body.adminCode) : "";
     const hash      = await bcryptjs.hash(pass, 10);
 
-    const { rows } = await db.query(
-      "SELECT 1 FROM usuarios WHERE nombre=$1", [nombre]
-    );
+    const { rows } = await db.query("SELECT 1 FROM usuarios WHERE nombre=$1", [nombre]);
     if (rows.length) return res.status(409).send("El usuario ya existe.");
 
     let rol = "user";
@@ -69,15 +63,12 @@ app.post("/auth/register", async (req, res) => {
   }
 });
 
-// Login
 app.post("/auth/login", async (req, res) => {
   try {
     const nombre = sanitizeField(req.body.nombre);
     const pass   = sanitizeField(req.body.contrasena);
 
-    const { rows } = await db.query(
-      "SELECT * FROM usuarios WHERE nombre=$1", [nombre]
-    );
+    const { rows } = await db.query("SELECT * FROM usuarios WHERE nombre=$1", [nombre]);
     if (!rows.length) return res.status(401).send("Usuario no encontrado.");
 
     const valid = await bcryptjs.compare(pass, rows[0].contrasena);
@@ -91,13 +82,11 @@ app.post("/auth/login", async (req, res) => {
   }
 });
 
-// Comprobar sesión
 app.get("/auth/session", (req, res) => {
   if (!req.session.usuario) return res.status(401).send("No has iniciado sesión.");
   res.json({ usuario: req.session.usuario, rol: req.session.rol });
 });
 
-// Logout
 app.post("/auth/logout", (req, res) => {
   req.session.destroy(err => {
     if (err) return res.status(500).send("Error al cerrar sesión.");
@@ -105,9 +94,7 @@ app.post("/auth/logout", (req, res) => {
   });
 });
 
-/* ======== RUTAS DE MISIONES ======== */
-
-// Listar todas las misiones
+// ===== Misiones =====
 app.get("/misiones", async (req, res) => {
   try {
     const { rows } = await db.query("SELECT * FROM misiones ORDER BY id");
@@ -117,27 +104,20 @@ app.get("/misiones", async (req, res) => {
   }
 });
 
-// Obtener misión por ID (para edición)
 app.get("/misiones/:id", async (req, res) => {
   try {
-    const { rows } = await db.query(
-      "SELECT * FROM misiones WHERE id = $1",
-      [req.params.id]
-    );
+    const { rows } = await db.query("SELECT * FROM misiones WHERE id = $1", [req.params.id]);
     if (!rows.length) return res.status(404).send("Misión no encontrada.");
     res.json(rows[0]);
   } catch (err) {
-    console.error("Error GET /misiones/:id:", err);
     res.status(500).send("Error al buscar misión.");
   }
 });
 
-// Crear nueva misión
 app.post("/misiones", async (req, res) => {
   try {
     let { nombre, ubicacion, objetivo, unidad, comandante, fecha, nivel_amenaza, estado } = req.body;
     if (!nombre || !objetivo) return res.status(400).send("Nombre y objetivo son obligatorios.");
-
     [nombre, ubicacion, objetivo, unidad, comandante, nivel_amenaza, estado] =
       [nombre, ubicacion||"", objetivo, unidad||"", comandante||"", nivel_amenaza||"", estado||""]
       .map(v => sanitizeField(v));
@@ -154,12 +134,10 @@ app.post("/misiones", async (req, res) => {
   }
 });
 
-// Actualizar misión existente
 app.put("/misiones/:id", async (req, res) => {
   try {
     let { nombre, ubicacion, objetivo, unidad, comandante, fecha, nivel_amenaza, estado } = req.body;
     if (!nombre || !objetivo) return res.status(400).send("Nombre y objetivo son obligatorios.");
-
     [nombre, ubicacion, objetivo, unidad, comandante, nivel_amenaza, estado] =
       [nombre, ubicacion||"", objetivo, unidad||"", comandante||"", nivel_amenaza||"", estado||""]
       .map(v => sanitizeField(v));
@@ -178,13 +156,9 @@ app.put("/misiones/:id", async (req, res) => {
   }
 });
 
-// Eliminar misión
 app.delete("/misiones/:id", async (req, res) => {
   try {
-    const result = await db.query(
-      "DELETE FROM misiones WHERE id=$1",
-      [req.params.id]
-    );
+    const result = await db.query("DELETE FROM misiones WHERE id=$1", [req.params.id]);
     if (!result.rowCount) return res.status(404).send("Misión no encontrada.");
     res.send("Misión eliminada con éxito.");
   } catch {
@@ -192,16 +166,13 @@ app.delete("/misiones/:id", async (req, res) => {
   }
 });
 
-/* ======== RUTAS DE USUARIOS (ADMIN) ======== */
-
-// Listar usuarios (solo admin)
+// ===== Usuarios (admin) =====
 app.get("/users", async (req, res) => {
   if (req.session.rol !== "admin") return res.status(403).send("Acceso denegado.");
   const { rows } = await db.query("SELECT id, nombre, rol FROM usuarios ORDER BY id");
   res.json(rows);
 });
 
-// Eliminar usuario (solo admin)
 app.delete("/users/:id", async (req, res) => {
   if (req.session.rol !== "admin") return res.status(403).send("Acceso denegado.");
   const result = await db.query("DELETE FROM usuarios WHERE id = $1", [req.params.id]);
@@ -210,4 +181,4 @@ app.delete("/users/:id", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor escuchando en puerto ${PORT}`));
+app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));

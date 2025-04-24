@@ -1,4 +1,3 @@
-// public/js/misiones.js
 document.addEventListener("DOMContentLoaded", () => {
   const alertaDiv  = document.getElementById("alerta");
   const formMision = document.getElementById("form-mision");
@@ -99,7 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   tbody.addEventListener("click", async e => {
     const id = e.target.dataset.id;
-
     if (e.target.classList.contains("del")) {
       if (!confirm("¿Eliminar misión?")) return;
       const res = await fetch(`/misiones/${id}`, { method: "DELETE" });
@@ -108,7 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
       cargar();
       return;
     }
-
     if (e.target.classList.contains("edit")) {
       try {
         const res = await fetch(`/misiones/${id}`);

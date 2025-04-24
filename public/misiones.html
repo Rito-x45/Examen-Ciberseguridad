@@ -1,4 +1,3 @@
-<!-- public/misiones.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,7 +8,8 @@
 </head>
 <body>
   <header>
-    <img src="/images/logo.png" alt="UNSC Logo" id="logo">
+    <img src="/images/logo.png" alt="UNSC Emblem" id="logo" title="UNSC Emblem">
+    <button id="nav-toggle" aria-label="Menú">☰</button>
     <nav>
       <a href="/index.html">Home</a>
       <a href="/login.html">Login</a>
@@ -21,7 +21,7 @@
   <div id="alerta"></div>
 
   <section class="mission-container">
-    <center><h2 class="glitch">Gestión de Misiones</h2></center>
+    <h2>Gestión de Misiones</h2>
     <div class="page-card">
       <div class="form-header">
         <div class="search-group">
@@ -31,45 +31,33 @@
         <button class="btn" id="btn-new">Nueva Misión</button>
       </div>
 
-    <!-- FORMULARIO OCULTO AL PRINCIPIO -->
-    <form id="form-mision" style="display:none;">
-      <label for="nombre">Misión</label>
-      <input type="text" id="nombre" name="nombre" placeholder="Operación: Silent Storm" required>
-
-      <label for="ubicacion">Ubicación</label>
-      <input type="text" id="ubicacion" name="ubicacion" placeholder="Sistema Epsilon Eridani – Órbita de Reach">
-
-      <br>
-      <label for="objetivo">Objetivo</label>
-      <textarea id="objetivo" name="objetivo" placeholder="Infiltrar y destruir nave madre Covenant…" required></textarea>
-
-      <label for="unidad">Unidad</label>
-      <input type="text" id="unidad" name="unidad" placeholder="Spartan‑II Blue Team + ODST Echo">
-
-      <br>
-      <label for="comandante">Comandante</label>
-      <input type="text" id="comandante" name="comandante" placeholder="Cap. Jacob Keyes">
-
-      <label for="fecha">Fecha</label>
-      <input type="date" id="fecha" name="fecha">
-
-      <br>
-      <label for="nivel_amenaza">Nivel de amenaza</label>
-      <select id="nivel_amenaza" name="nivel_amenaza">
-        <option value="LOW">BAJO</option>
-        <option value="MEDIUM">MEDIO</option>
-        <option value="HIGH">ALTO</option>
-      </select>
-
-      <label for="estado">Estado</label>
-      <select id="estado" name="estado">
-        <option value="SUCCESS">Éxito</option>
-        <option value="PARTIAL">Éxito parcial</option>
-        <option value="FAILURE">Fallido</option>
-      </select>
-
-      <button type="submit" class="btn-submit">Guardar Misión</button>
-    </form>
+      <form id="form-mision" style="display:none;">
+        <label for="nombre">Misión</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Operación: Silent Storm" required>
+        <label for="ubicacion">Ubicación</label>
+        <input type="text" id="ubicacion" name="ubicacion" placeholder="Sistema Epsilon Eridani – Órbita de Reach">
+        <label for="objetivo">Objetivo</label>
+        <textarea id="objetivo" name="objetivo" placeholder="Infiltrar y destruir nave madre Covenant…" required></textarea>
+        <label for="unidad">Unidad</label>
+        <input type="text" id="unidad" name="unidad" placeholder="Spartan-II Blue Team + ODST Echo">
+        <label for="comandante">Comandante</label>
+        <input type="text" id="comandante" name="comandante" placeholder="Cap. Jacob Keyes">
+        <label for="fecha">Fecha</label>
+        <input type="date" id="fecha" name="fecha">
+        <label for="nivel_amenaza">Nivel de amenaza</label>
+        <select id="nivel_amenaza" name="nivel_amenaza">
+          <option value="LOW">BAJO</option>
+          <option value="MEDIUM">MEDIO</option>
+          <option value="HIGH">ALTO</option>
+        </select>
+        <label for="estado">Estado</label>
+        <select id="estado" name="estado">
+          <option value="SUCCESS">Éxito</option>
+          <option value="PARTIAL">Éxito parcial</option>
+          <option value="FAILURE">Fallido</option>
+        </select>
+        <button type="submit" class="btn-submit">Guardar Misión</button>
+      </form>
 
       <table id="tabla-misiones">
         <thead>
@@ -83,6 +71,7 @@
     </div>
   </section>
 
+  <script src="/js/main.js"></script>
   <script src="/js/misiones.js"></script>
   <script src="/js/auth.js"></script>
 </body>
