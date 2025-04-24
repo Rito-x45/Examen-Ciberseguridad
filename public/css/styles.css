@@ -26,6 +26,22 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* tamaño y espaciado de los iconos en imagen */
+.card-icon {
+  display: block;
+  width: 48px;       /* ajústalo al tamaño que quieras */
+  height: auto;
+  margin: 0 auto 12px; /* centrado y espacio debajo */
+  filter: drop-shadow(0 0 8px var(--btn-color)); /* opcional: glow suave */
+  transition: transform .3s;
+}
+
+/* opcional: un ligero zoom al pasar el ratón */
+.card-icon:hover {
+  transform: scale(1.1);
+}
+
+
 header {
   display: flex;
   align-items: center;
