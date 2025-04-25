@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>UNSC - Login</title>
+  <meta name="description" content="Inicia sesión en el portal UNSC o regístrate.">
+  <title>UNSC – Login</title>
   <link rel="stylesheet" href="/css/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Source+Sans+Pro&display=swap" rel="stylesheet">
 </head>
@@ -17,39 +18,49 @@
     </nav>
   </header>
 
-  <div id="alerta"></div>
+  <main class="page-container">
+    <section id="auth-section">
+      <h1 class="glitch">UNSC Inicia Sesión</h1>
 
-  <section class="auth-container">
-    <div class="auth-card">
-      <form id="form-login">
-        <h1>UNSC INICIA SESIÓN</h1>
-        <label for="nombre">Usuario</label>
-        <input type="text" id="nombre" name="nombre" required>
-        <label for="contrasena">Contraseña</label>
-        <input type="password" id="contrasena" name="contrasena" required>
-        <input type="submit" value="Iniciar Sesión" class="btn-submit">
-        <div class="switch-link">
-          ¿No tienes cuenta? <a href="#register">Regístrate</a>
-        </div>
-      </form>
-    </div>
+      <div class="auth-container">
+        <div class="auth-card">
+          <form id="form-login">
+            <label for="nombre">Usuario</label>
+            <input type="text" id="nombre" name="nombre" required>
 
-    <div class="auth-card" id="register">
-      <form id="form-register">
-        <h1>UNSC REGISTRO</h1>
-        <label for="nombre-reg">Usuario</label>
-        <input type="text" id="nombre-reg" name="nombre" required>
-        <label for="contrasena-reg">Contraseña</label>
-        <input type="password" id="contrasena" name="contrasena" required>
-        <label for="adminCode">Código Admin (opcional)</label>
-        <input type="text" id="adminCode" name="adminCode">
-        <input type="submit" value="Registrarse" class="btn-submit">
-        <div class="switch-link">
-          ¿Ya tienes cuenta? <a href="#login">Iniciar sesión</a>
+            <label for="contrasena">Contraseña</label>
+            <input type="password" id="contrasena" name="contrasena" required>
+
+            <button type="submit" class="btn-submit">Iniciar Sesión</button>
+
+            <p class="switch-link">
+              ¿No tienes cuenta? <a href="#register">Regístrate</a>
+            </p>
+          </form>
         </div>
-      </form>
-    </div>
-  </section>
+
+        <div class="auth-card" id="register">
+          <h1 class="glitch">UNSC Registro</h1>
+          <form id="form-register">
+            <label for="nombre-reg">Usuario</label>
+            <input type="text" id="nombre-reg" name="nombre" required>
+
+            <label for="contrasena-reg">Contraseña</label>
+            <input type="password" id="contrasena-reg" name="contrasena" required>
+
+            <label for="adminCode">Código Admin (opcional)</label>
+            <input type="text" id="adminCode" name="adminCode">
+
+            <button type="submit" class="btn-submit">Registrarse</button>
+
+            <p class="switch-link">
+              ¿Ya tienes cuenta? <a href="#login">Iniciar sesión</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <script src="/js/main.js"></script>
   <script src="/js/auth.js"></script>
