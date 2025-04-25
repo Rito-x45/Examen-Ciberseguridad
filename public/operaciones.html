@@ -2,34 +2,58 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Mapa interactivo de las operaciones destacadas del UNSC">
-  <title>UNSC – Operaciones</title>
-
-  <!-- Leaflet CSS -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet/dist/leaflet.css"
-  />
-
-  <!-- Tus estilos generales -->
+  <meta name="description" content="Mapa de operaciones espaciales en Reach">
+  <title>UNSC – Operaciones Espaciales</title>
   <link rel="stylesheet" href="/css/styles.css">
-
   <style>
-    /* Ajuste del contenedor del mapa */
-    #map {
+    /* espacio para el mapa de Reach */
+    #space-map {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
       height: 500px;
+      margin: 24px auto;
+      background: url('/images/reach-map.jpg') center/cover no-repeat;
       border: 2px solid var(--btn-color);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      margin-top: 16px;
     }
-    .section-card h2 {
-      margin-bottom: 8px;
+    .marker {
+      position: absolute;
+      width: 24px; height: 24px;
+      background: var(--btn-color);
+      border: 2px solid #000;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+    .popup {
+      position: absolute;
+      display: none;
+      background: rgba(0,0,0,0.85);
+      border: 1px solid var(--btn-color);
+      border-radius: var(--radius);
+      padding: 12px;
+      color: var(--text-light);
+      max-width: 220px;
+      z-index: 10;
+    }
+    .popup h3 {
+      margin-top: 0;
+      font-family: var(--font-head);
+      color: var(--btn-color);
+      font-size: 1rem;
+    }
+    .popup ul {
+      padding-left: 1.2em;
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.4;
     }
   </style>
 </head>
 <body>
-  <!-- HEADER / NAV -->
   <header>
     <img src="/images/logo.png" alt="UNSC Emblem" id="logo" title="UNSC Emblem">
     <button id="nav-toggle" aria-label="Menú">☰</button>
@@ -44,84 +68,90 @@
     </nav>
   </header>
 
-  <!-- MAIN CONTENT -->
   <main class="page-container">
     <section id="operations" class="section-card">
-      <h2 class="glitch">Operaciones Destacadas</h2>
-      <div id="map"></div>
+      <h2 class="glitch">Operaciones en Reach</h2>
+      <div id="space-map"></div>
+      <div id="popup" class="popup"></div>
     </section>
   </main>
 
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    // Inicializar el mapa (coordenadas y zoom arbitrarios)
-    const map = L.map('map').setView([0, 0], 2);
-
-    // Capa base (OpenStreetMap)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-
-    // Lista de operaciones con coordenadas, título y misiones
-    const operations = [
+    const ops = [
       {
-        coords: [34.05, -118.25],
+        x: 28, y: 45,
         title: 'Silent Storm',
         missions: [
           'Infiltrar nave nodriza Covenant',
-          'Sabotear comunicaciones enemigas',
-          'Evacuar a civiles en órbita',
+          'Sabotear comunicaciones',
+          'Evacuar refugiados orbitales'
         ]
       },
       {
-        coords: [47.38, 8.54],
+        x: 52, y: 30,
         title: 'Iron Forge',
         missions: [
           'Recuperar artefactos Forerunner',
-          'Extraer datos ONI',
+          'Reunir datos ONI',
           'Exfiltración sigilosa'
         ]
       },
       {
-        coords: [51.50, -0.12],
+        x: 65, y: 60,
         title: 'Nova Shield',
         missions: [
-          'Proteger estaciones mineras',
-          'Patrullar espacio local',
-          'Desplegar defensas antinaves'
+          'Proteger astilleros',
+          'Patrullar órbita',
+          'Desplegar torretas antinaves'
         ]
       },
       {
-        coords: [25.20, 55.27],
+        x: 40, y: 75,
         title: 'Eclipse',
         missions: [
-          'Reconocimiento profundo',
-          'Mapeo de posiciones enemigas',
-          'Evaluación de recursos planetarios'
+          'Reconocer zonas enemigas',
+          'Mapeo de pasadizos',
+          'Evaluación de recursos'
         ]
       },
       {
-        coords: [-33.86, 151.21],
+        x: 75, y: 50,
         title: 'Thunderclad',
         missions: [
-          'Despliegue de fuerzas de paz',
-          'Neutralizar insurgentes',
-          'Reforzar alianzas coloniales'
+          'Despliegue de marines',
+          'Neutralizar insurrección',
+          'Fortificar colonias'
         ]
       }
     ];
 
-    // Crear marcadores
-    operations.forEach(op => {
-      const marker = L.marker(op.coords).addTo(map);
-      const html = `
-        <h3>${op.title}</h3>
-        <ul>
-          ${op.missions.map(m => `<li>${m}</li>`).join('')}
-        </ul>
-      `;
-      marker.bindPopup(html);
+    const mapEl = document.getElementById('space-map');
+    const popup = document.getElementById('popup');
+
+    ops.forEach(op => {
+      const m = document.createElement('div');
+      m.className = 'marker';
+      m.style.left = op.x + '%';
+      m.style.top  = op.y + '%';
+      mapEl.appendChild(m);
+
+      m.addEventListener('click', e => {
+        // construir contenido
+        const list = op.missions.map(item => `<li>${item}</li>`).join('');
+        popup.innerHTML = `<h3>${op.title}</h3><ul>${list}</ul>`;
+
+        // posicionar popup
+        const rect = mapEl.getBoundingClientRect();
+        popup.style.left = `${e.pageX - rect.left + 10}px`;
+        popup.style.top  = `${e.pageY - rect.top + 10}px`;
+        popup.style.display = 'block';
+        e.stopPropagation();
+      });
+    });
+
+    // cerrar al clicar fuera
+    document.addEventListener('click', () => {
+      popup.style.display = 'none';
     });
   </script>
 </body>
