@@ -296,4 +296,71 @@
       flex-direction: column;
     }
   }
-  
+
+  /* ──────────────────────────────────────────────────────────────────────────
+   ESTILO ESPECÍFICO PARA GESTIÓN DE MISIONES
+   ────────────────────────────────────────────────────────────────────────── */
+#gestion-misiones .page-card {
+  border: 2px solid var(--btn-color);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin: 20px 0;
+}
+
+#gestion-misiones .form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+/* Input de búsqueda */
+#gestion-misiones .search-group input {
+  background: transparent;
+  border: 1px solid var(--btn-color);
+  border-radius: var(--radius);
+  color: var(--text-light);
+  padding: 6px 8px;
+  width: 200px;
+}
+
+/* Botón de buscar */
+#gestion-misiones .search-group .btn-search {
+  margin-left: 8px;
+}
+
+/* Botón Nueva Misión */
+#gestion-misiones #btn-new {
+  background: var(--btn-color);
+  font-size: .9rem;
+  padding: 8px 16px;
+}
+
+/* La tabla */
+#gestion-misiones #tabla-misiones {
+  width: 100%;
+  border-collapse: collapse;
+}
+#gestion-misiones #tabla-misiones th,
+#gestion-misiones #tabla-misiones td {
+  border: 1px solid var(--btn-color);
+  padding: 12px 8px;
+  text-align: left;
+  color: var(--text-light);
+}
+#gestion-misiones #tabla-misiones th {
+  background: rgba(255,255,255,0.1);
+  color: var(--btn-color);
+}
+
+/* Botones dentro de la tabla */
+#gestion-misiones #tabla-misiones button {
+  margin: 0 4px;
+  padding: 6px 12px;
+  font-size: .85rem;
+}
+
+/* Ajuste general al contenedor */
+#gestion-misiones .page-card {
+  background: rgba(0,0,0,0.6);
+}
