@@ -21,45 +21,44 @@
   <main class="page-container">
     <section id="auth-section">
       <h1 class="glitch">UNSC Inicia Sesión</h1>
-
-      <div class="auth-container">
+      
+      <div id="alerta"></div>
+      
+      <section class="auth-container">
         <div class="auth-card">
           <form id="form-login">
+            <center><h1 class="glitch">UNSC INICIA SESIÓN</h1></center>
             <label for="nombre">Usuario</label>
             <input type="text" id="nombre" name="nombre" required>
-
             <label for="contrasena">Contraseña</label>
             <input type="password" id="contrasena" name="contrasena" required>
-
-            <button type="submit" class="btn-submit">Iniciar Sesión</button>
-
-            <p class="switch-link">
-              ¿No tienes cuenta? <a href="#register">Regístrate</a>
-            </p>
+            <input type="submit" value="Iniciar Sesión" class="btn-submit">
+            <center>
+              <div class="switch-link">
+                ¿No tienes cuenta? <a href="#register">Regístrate</a>
+              </div>
+            </center>
           </form>
         </div>
-
+    
         <div class="auth-card" id="register">
-          <h1 class="glitch">UNSC Registro</h1>
           <form id="form-register">
+            <center><h1 class="glitch">UNSC REGISTRO</h1></center>
             <label for="nombre-reg">Usuario</label>
             <input type="text" id="nombre-reg" name="nombre" required>
-
             <label for="contrasena-reg">Contraseña</label>
-            <input type="password" id="contrasena-reg" name="contrasena" required>
-
-            <label for="adminCode">Código Admin (opcional)</label>
+            <input type="password" id="contrasena" name="contrasena" required>
+            <label for="adminCode-reg">Código Admin (opcional)</label>
             <input type="text" id="adminCode" name="adminCode">
-
-            <button type="submit" class="btn-submit">Registrarse</button>
-
-            <p class="switch-link">
-              ¿Ya tienes cuenta? <a href="#login">Iniciar sesión</a>
-            </p>
+            <input type="submit" value="Registrarse" class="btn-submit">
+            <center>
+              <div class="switch-link">
+                ¿Ya tienes cuenta? <a href="#login">Iniciar sesión</a>
+              </div>
+            </center>
           </form>
         </div>
-      </div>
-    </section>
+      </section>
   </main>
 
   <script src="/js/main.js"></script>
