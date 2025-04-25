@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Archivo de datos UNSC: Proyecto Spartan, información del Covenant, armamento y estadísticas.">
+  <title>UNSC – Datos</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <img src="/images/logo.png" alt="UNSC Emblem" id="logo" title="UNSC Emblem">
+    <button id="nav-toggle" aria-label="Menú">☰</button>
+    <nav>
+      <a href="/index.html">Home</a>
+      <a href="/login.html">Login</a>
+      <a href="/misiones.html">Misiones</a>
+      <a href="/data.html" class="active">Datos</a>
+    </nav>
+    <button id="logout-btn">CERRAR SESIÓN</button>
+  </header>
+
+  <main class="page-container">
+
+    <!-- Descargas -->
+    <section id="descargas">
+      <h1 class="glitch">Archivo de Datos</h1>
+      <h2>Descargas</h2>
+      <div class="download-list">
+        <a href="/data/spartan-ii-manual.pdf" download>Manual Técnico Spartan-II (PDF)</a><br>
+        <a href="/data/covenant-dossier.pdf" download>Informe Covenant (PDF)</a><br>
+        <a href="/data/armamento-specs.csv" download>Especificaciones de Armamento (CSV)</a>
+      </div>
+    </section>
+
+    <!-- Proyecto Spartan -->
+    <section id="spartan">
+      <h2>Proyecto Spartan</h2>
+      <p>
+        Iniciado en 2517 como el Programa ORION, el <strong>Proyecto Spartan-II</strong> consistió
+        en foguear super-soldados a partir de niños de élite para enfrentarse a insurgencias
+        humanas. Más adelante se lanzaron los programas Spartan-III y Spartan-IV.
+      </p>
+      <ul>
+        <li><strong>Spartan-II:</strong> 75 reclutas, mejorados genéticamente, armadura MJOLNIR.</li>
+        <li><strong>Spartan-III:</strong> unidades de bajo costo para ataques encubiertos.</li>
+        <li><strong>Spartan-IV:</strong> veteranos de las Fuerzas Navales con mejoras más seguras.</li>
+      </ul>
+    </section>
+
+    <!-- Información Covenant -->
+    <section id="covenant">
+      <h2>Covenant</h2>
+      <p>
+        Alianza teocrática de varias especies alienígenas. Liderada por los Profetas, su
+        estructura incluye Sangheili (Élites), Unggoy (Grunts) y Kig-Yar (Jackals).
+      </p>
+      <ul>
+        <li><strong>Profetas:</strong> líderes religiosos y políticos.</li>
+        <li><strong>Sangheili:</strong> élite guerrera, comandos de campo.</li>
+        <li><strong>Jiralhanae:</strong> Brutes, fuerzas de choque pesadas.</li>
+        <li><strong>San’Shyuum:</strong> altos mandatarios religiosos.</li>
+      </ul>
+    </section>
+
+    <!-- Armamento -->
+    <section id="armamento">
+      <h2>Armamento</h2>
+      <ul>
+        <li><strong>MA5B Assault Rifle:</strong> fusil de asalto estándar UNSC.</li>
+        <li><strong>M6G Magnum:</strong> pistola pesada semi-automática.</li>
+        <li><strong>SRS99C Sniper:</strong> rifle de francotirador de largo alcance.</li>
+        <li><strong>Energy Sword:</strong> arma cuerpo a cuerpo Covenant de plasma.</li>
+        <li><strong>BR55 Battle Rifle:</strong> rifle de ráfaga de precisión.</li>
+      </ul>
+    </section>
+
+    <!-- Estadísticas -->
+    <section id="estadisticas">
+      <h2>Estadísticas Generales</h2>
+      <ul>
+        <li>Total de Spartan-II desplegados: 75</li>
+        <li>Operaciones exitosas: 128</li>
+        <li>Bajas Covenant registradas: 12,450</li>
+        <li>Proyectos Forerunner descubiertos: 42</li>
+      </ul>
+    </section>
+
+    <!-- Galería de armamento -->
+    <section id="galeria-armas">
+      <h2>Galería de Armamento</h2>
+      <div class="gallery-grid">
+        <img src="/images/weapons/ma5b.png" alt="MA5B Assault Rifle">
+        <img src="/images/weapons/m6g.png" alt="M6G Magnum">
+        <img src="/images/weapons/srs99c.png" alt="SRS99C Sniper">
+        <img src="/images/weapons/energy-sword.png" alt="Energy Sword">
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>
