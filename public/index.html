@@ -11,13 +11,14 @@
     <img src="/images/logo.png" alt="UNSC Emblem" id="logo" title="UNSC Emblem">
     <button id="nav-toggle" aria-label="Menú">☰</button>
     <nav>
-      <a href="#home" class="active">Home</a>
-      <a href="#about">About</a>
-      <a href="#news">News</a>
-      <a href="#login">Contact</a>
+      <a href="/index.html" class="active">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/news.html">News</a>
+      <a href="/login.html">Contact</a>
     </nav>
   </header>
 
+  <!-- HERO -->
   <section class="hero" id="home">
     <div class="hero-content">
       <div class="hero-text">
@@ -30,33 +31,34 @@
     </div>
   </section>
 
+  <!-- INFO CARDS -->
   <section class="info-cards">
-    <div class="card">
-      <img src="/images/mission-icon.png" alt="Mission icon" class="card-icon">
-      <h3>MISION</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet.</p>
-    </div>
-    <div class="card">
-      <img src="/images/operations-icon.png" alt="Operations icon" class="card-icon">
-      <h3>OPERACIONES</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet.</p>
-    </div>
-    <div class="card">
-      <img src="/images/archive-icon.png" alt="Data Archive icon" class="card-icon">
-      <h3>DATOS</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet.</p>
-    </div>
-  </section>
+    <!-- MISION: va a Misiones → sección Misión -->
+    <a href="/misiones.html#mision" class="card-link">
+      <div class="card">
+        <img src="/images/mission-icon.png" alt="Mission icon" class="card-icon">
+        <h3>MISION</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet.</p>
+      </div>
+    </a>
 
-  <section id="login-form">
-    <form class="auth-card">
-      <h2>Iniciar Sesión</h2>
-      <label for="user">Usuario</label>
-      <input type="text" id="user" required>
-      <label for="pass">Contraseña</label>
-      <input type="password" id="pass" required>
-      <button type="submit" class="btn">Login</button>
-    </form>
+    <!-- OPERACIONES: va a Misiones (arriba) -->
+    <a href="/misiones.html" class="card-link">
+      <div class="card">
+        <img src="/images/operations-icon.png" alt="Operations icon" class="card-icon">
+        <h3>OPERACIONES</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet.</p>
+      </div>
+    </a>
+
+    <!-- DATOS: va a Misiones (arriba) -->
+    <a href="/misiones.html" class="card-link">
+      <div class="card">
+        <img src="/images/archive-icon.png" alt="Data icon" class="card-icon">
+        <h3>DATOS</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet.</p>
+      </div>
+    </a>
   </section>
 
   <script src="/js/main.js"></script>
