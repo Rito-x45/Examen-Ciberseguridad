@@ -482,3 +482,292 @@ nav a.active::after {
 #tabla-usuarios button:hover {
   background: #9a5900;
 }
+
+/* Logo en el header */
+#logo {
+  height: 90px;                  /* Altura fija del logo */
+}
+
+/* Enlaces de navegación */
+nav a {
+  color: var(--text-light);      /* Color de texto */
+  margin: 0 12px;                /* Espacio entre enlaces */
+  text-decoration: none;         /* Quitar subrayado */
+  text-transform: uppercase;     /* Texto en mayúsculas */
+  font-weight: bold;             /* Negrita */
+  position: relative;            /* Para pseudo-elementos */
+  transition: color .3s;         /* Transición suave al hover */
+}
+/* Estado hover y enlace activo */
+nav a:hover,
+nav a.active {
+  color: var(--accent);
+}
+/* Línea decorativa bajo el enlace activo */
+nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--btn-color);
+  border-radius: 2px;
+}
+
+/* Botón de logout en header */
+#logout-btn {
+  background: var(--btn-color);
+  border: none;
+  color: #000;
+  padding: 8px 16px;
+  text-transform: uppercase;
+  font-family: var(--font-head);
+  font-size: .9rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+/* Hover del botón logout */
+#logout-btn:hover {
+  background: #9a5900;
+}
+
+/* ======= BOTONES GENERALES ======= */
+/* Clases para botones de formulario, búsqueda y envío */
+.btn, .btn-submit, .btn-search {
+  display: inline-block;
+  background: var(--btn-color);
+  color: #000;
+  text-transform: uppercase;
+  font-family: var(--font-head);
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: background .3s, transform .2s;
+}
+/* Efecto hover y "elevación" */
+.btn:hover,
+.btn-submit:hover,
+.btn-search:hover {
+  background: #9a5900;
+  transform: translateY(-2px);
+}
+
+/* ======= SECCIÓN DE MISIONES ======= */
+/* Encabezado de misión */
+.mission-container h2 {
+  font-family: var(--font-head);
+  font-size: 2.2rem;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+/* Tarjeta contenedora de misión */
+.page-card {
+  background: rgba(0,0,0,0.6);
+  border: 2px solid var(--btn-color);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  margin: 0 auto 24px; /* Centrado horizontal y separación */
+}
+
+/* ======= FORMULARIO DE MISIONES ======= */
+/* Header del formulario: título y búsqueda */
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+/* Grupo de búsqueda con input y botón alineados */
+.search-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+/* Estilo del input de búsqueda */
+.search-group input {
+  padding: 8px;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+  background: var(--input-bg);
+  color: var(--text-light);
+  flex: 1; /* Ocupa todo el espacio disponible */
+}
+
+/* Grid responsivo para el formulario de misiones */
+#form-mision {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+/* Estilo de etiquetas */
+#form-mision label {
+  font-family: var(--font-head);
+  font-weight: bold;
+}
+/* Inputs, textareas y select dentro del formulario */
+#form-mision input,
+#form-mision textarea,
+#form-mision select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+  background: var(--input-bg);
+  color: var(--text-light);
+  font-family: var(--font-main);
+}
+/* Ajustes específicos para textarea */
+#form-mision textarea {
+  resize: vertical; /* Permite cambiar la altura */
+  min-height: 60px;
+}
+/* Botón de envío ocupa toda la fila */
+#form-mision .btn-submit {
+  grid-column: 1 / -1;
+  justify-self: center;
+}
+
+/* ======= TABLA DE MISIONES ======= */
+/* Contenedor de tabla */
+#tabla-misiones {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 24px;
+  background: rgba(0,0,0,0.5);
+}
+/* Celdas y encabezados */
+#tabla-misiones th,
+#tabla-misiones td {
+  border: 1px solid var(--btn-color);
+  padding: 12px;
+  text-align: left;
+}
+/* Fila par con fondo tenue */
+#tabla-misiones tr:nth-child(even) {
+  background: rgba(255,255,255,0.02);
+}
+
+/* ======= AUTENTICACIÓN ======= */
+/* Contenedor centrado para login/register */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px);
+  padding: 20px;
+}
+/* Tarjeta de autenticación */
+.auth-card {
+  width: 360px;
+  background: rgba(0,0,0,0.6);
+  border: 2px solid var(--btn-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  margin: 12px 0;
+}
+/* Formulario en columna */
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+/* Espacio bajo cada label */
+.auth-card form label {
+  margin-bottom: 4px;
+}
+/* Inputs de texto y contraseña full-width */
+.auth-card form input[type="text"],
+.auth-card form input[type="password"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+/* Oculta la sección de registro inicialmente */
+#register {
+  display: none;
+}
+
+/* ======= SECCIÓN HOME / CARDS ======= */
+/* Contenedor principal en columna */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+}
+/* Estilo de cada detalle (card plegable) */
+.page-container details {
+  width: 90%;
+  max-width: 800px;
+  background: rgba(0,0,0,0.6);
+  border: 2px solid var(--btn-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin: 12px 0;
+}
+/* Resumen que actúa como cabecera plegable */
+.page-container summary {
+  padding: 12px 16px;
+  font-family: var(--font-head);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  color: var(--btn-color);
+  background: rgba(0,0,0,0.7);
+  cursor: pointer;
+}
+/* Estilo al estar abierto */
+.page-container details[open] summary {
+  background: rgba(0,0,0,0.85);
+}
+/* Lista interna de contenido */
+.page-container ul {
+  list-style: disc inside;
+  padding: 12px 16px;
+  color: var(--text-light);
+}
+/* Animación al desplegar contenido */
+.page-container .content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+/* Definición de la animación fadeIn */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ======= BOTONES EN TABLAS USUARIOS / ACCIONES ======= */
+/* Botones dentro de tablas y acción nueva misión */
+#tabla-misiones button,
+.btn-new-mision,
+#tabla-usuarios button {
+  font-family: var(--font-head);
+  text-transform: uppercase;
+  background: var(--btn-color);
+  color: #000;
+  border: none;
+  border-radius: var(--radius);
+  padding: 8px 16px;
+  margin: 0 4px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+/* Hover para estos botones */
+#tabla-misiones button:hover,
+.btn-new-mision:hover,
+#tabla-usuarios button:hover {
+  background: #9a5900;
+}
