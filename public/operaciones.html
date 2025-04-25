@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Mapa interactivo de las operaciones destacadas del UNSC">
+  <title>UNSC – Operaciones</title>
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet/dist/leaflet.css"
+  />
+
+  <!-- Tus estilos generales -->
+  <link rel="stylesheet" href="/css/styles.css">
+
+  <style>
+    /* Ajuste del contenedor del mapa */
+    #map {
+      height: 500px;
+      border: 2px solid var(--btn-color);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-top: 16px;
+    }
+    .section-card h2 {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER / NAV -->
+  <header>
+    <img src="/images/logo.png" alt="UNSC Emblem" id="logo" title="UNSC Emblem">
+    <button id="nav-toggle" aria-label="Menú">☰</button>
+    <nav>
+      <a href="/index.html">Inicio</a>
+      <a href="/nosotros.html">Nosotros</a>
+      <a href="/news.html">Novedades</a>
+      <a href="/misiones.html">Misiones</a>
+      <a href="/data.html">Datos</a>
+      <a href="/operations.html" class="active">Operaciones</a>
+      <a href="/login.html">Login</a>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="page-container">
+    <section id="operations" class="section-card">
+      <h2 class="glitch">Operaciones Destacadas</h2>
+      <div id="map"></div>
+    </section>
+  </main>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Inicializar el mapa (coordenadas y zoom arbitrarios)
+    const map = L.map('map').setView([0, 0], 2);
+
+    // Capa base (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Lista de operaciones con coordenadas, título y misiones
+    const operations = [
+      {
+        coords: [34.05, -118.25],
+        title: 'Silent Storm',
+        missions: [
+          'Infiltrar nave nodriza Covenant',
+          'Sabotear comunicaciones enemigas',
+          'Evacuar a civiles en órbita',
+        ]
+      },
+      {
+        coords: [47.38, 8.54],
+        title: 'Iron Forge',
+        missions: [
+          'Recuperar artefactos Forerunner',
+          'Extraer datos ONI',
+          'Exfiltración sigilosa'
+        ]
+      },
+      {
+        coords: [51.50, -0.12],
+        title: 'Nova Shield',
+        missions: [
+          'Proteger estaciones mineras',
+          'Patrullar espacio local',
+          'Desplegar defensas antinaves'
+        ]
+      },
+      {
+        coords: [25.20, 55.27],
+        title: 'Eclipse',
+        missions: [
+          'Reconocimiento profundo',
+          'Mapeo de posiciones enemigas',
+          'Evaluación de recursos planetarios'
+        ]
+      },
+      {
+        coords: [-33.86, 151.21],
+        title: 'Thunderclad',
+        missions: [
+          'Despliegue de fuerzas de paz',
+          'Neutralizar insurgentes',
+          'Reforzar alianzas coloniales'
+        ]
+      }
+    ];
+
+    // Crear marcadores
+    operations.forEach(op => {
+      const marker = L.marker(op.coords).addTo(map);
+      const html = `
+        <h3>${op.title}</h3>
+        <ul>
+          ${op.missions.map(m => `<li>${m}</li>`).join('')}
+        </ul>
+      `;
+      marker.bindPopup(html);
+    });
+  </script>
+</body>
+</html>
