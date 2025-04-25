@@ -1,773 +1,299 @@
-/* Variables globales: paleta de colores, tipografías y sombras */
-:root {
-  --bg-dark:      #1e2d1e;
-  --bg-nav:       #1e2d1e;
-  --text-light:   #88aa66;
-  --btn-color:    #ff6600;
-  --btn-hover:    #ff8c1a;
-  --text-secondary: #5d774d;
-  --radius:       6px;
-  --shadow:       0 2px 8px rgba(0,0,0,0.5);
-  --font-main:    'Source Sans Pro', sans-serif;
-  --font-head:    'Orbitron', sans-serif;
-}
-
-* { box-sizing: border-box; }
-body {
-  margin:0; padding:0;
-  font-family: var(--font-main);
-  background: var(--bg-dark);
-  color: var(--text-light);
-  overflow-x:hidden;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* tamaño y espaciado de los iconos en imagen */
-.card-icon {
-  display: block;
-  width: 48px;       /* ajústalo al tamaño que quieras */
-  height: auto;
-  margin: 0 auto 12px; /* centrado y espacio debajo */
-  filter: drop-shadow(0 0 8px var(--btn-color)); /* opcional: glow suave */
-  transition: transform .3s;
-}
-
-/* opcional: un ligero zoom al pasar el ratón */
-.card-icon:hover {
-  transform: scale(1.1);
-}
-
-.card-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-.card-link .card {
-  cursor: pointer;
-}
-
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--bg-nav);
-  padding: 12px 24px;
-  position: sticky;
-  top:0;
-  z-index:100;
-}
-#logo {
-  height: 60px;
-  animation: fadeIn 1s ease-out forwards;
-  opacity: 0;
-}
-#nav-toggle {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 1.8rem;
-  color: var(--text-light);
-  cursor: pointer;
-}
-nav {
-  display: flex; gap: 16px;
-}
-nav a {
-  color: var(--text-light);
-  text-decoration: none;
-  text-transform: uppercase;
-  font-weight: bold;
-  transition: color .3s;
-}
-nav a:hover,
-nav a.active {
-  color: var(--btn-color);
-}
-
-.hero {
-  padding: 60px 24px;
-}
-.hero .hero-content {
-  display: flex; align-items: center; gap: 40px;
-}
-.hero .hero-text h1 {
-  font-family: var(--font-head);
-  font-size: 2.5rem;
-  text-transform: uppercase;
-  margin: 0 0 16px;
-}
-.hero .hero-text p {
-  font-size: 1rem;
-  color: var(--text-secondary);
-}
-.hero .ship-image {
-  max-width: 100%;
-  filter: grayscale(80%);
-  transition: filter .3s, transform .3s;
-}
-.hero .ship-image:hover {
-  filter: drop-shadow(0 0 12px var(--text-light));
-  transform: scale(1.02);
-}
-
-.info-cards {
-  display: flex; gap: 24px;
-  padding: 40px 24px;
-}
-.card {
-  flex:1;
-  background: rgba(255,255,255,0.05);
-  padding: 24px;
-  border-radius: var(--radius);
-  text-align: center;
-  transition: transform .3s, background .3s;
-}
-.card:hover {
-  transform: translateY(-5px);
-  background: rgba(255,255,255,0.1);
-}
-.card .icon {
-  font-size: 2rem;
-  color: var(--btn-color);
-  margin-bottom: 12px;
-}
-.card h3 {
-  font-family: var(--font-head);
-  color: var(--btn-color);
-  margin: 8px 0;
-}
-.card p {
-  color: var(--text-light);
-  font-size: 0.95rem;
-}
-
-#login-form {
-  display: none;
-  padding: 40px 24px;
-}
-#login-form.active { display: block; }
-
-html { scroll-behavior: smooth; }
-
-@media (max-width: 768px) {
-  #nav-toggle { display: block; }
-  nav {
-    position: absolute; top: 100%; left: 0; right: 0;
-    flex-direction: column;
+/* ==========================================================================
+   VARIABLES
+   ========================================================================== */
+   :root {
+    --bg-dark:        #1e2d1e;
+    --bg-nav:         #1e2d1e;
+    --text-light:     #88aa66;
+    --text-secondary: #5d774d;
+    --btn-color:      #ff6600;
+    --btn-hover:      #ff8c1a;
+    --radius:         6px;
+    --shadow:         0 2px 8px rgba(0,0,0,0.5);
+    --font-main:      'Source Sans Pro', sans-serif;
+    --font-head:      'Orbitron', sans-serif;
+  }
+  
+  /* ==========================================================================
+     RESET & BASE
+     ========================================================================== */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: var(--font-main);
+    background: var(--bg-dark);
+    color: var(--text-light);
+    overflow-x: hidden;
+  }
+  
+  /* ==========================================================================
+     ANIMATIONS
+     ========================================================================== */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* ==========================================================================
+     HEADINGS
+     ========================================================================== */
+  h1, h2, h3 {
+    font-family: var(--font-head);
+    color: var(--btn-color);
+    margin-bottom: 16px;
+  }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.25rem; }
+  
+  /* ==========================================================================
+     LINKS & BUTTONS
+     ========================================================================== */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button, .btn, .btn-submit, .btn-search {
+    background: var(--btn-color);
+    color: #000;
+    text-transform: uppercase;
+    font-family: var(--font-head);
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: background .3s, transform .2s;
+    cursor: pointer;
+  }
+  button:hover,
+  .btn:hover,
+  .btn-submit:hover,
+  .btn-search:hover {
+    background: var(--btn-hover);
+    transform: translateY(-2px);
+  }
+  
+  /* ==========================================================================
+     HEADER & NAV
+     ========================================================================== */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background: var(--bg-nav);
+    padding: 12px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+  }
+  #logo {
+    height: 60px;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+  }
+  #nav-toggle {
     display: none;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--text-light);
+    cursor: pointer;
   }
-  nav.open { display: flex; }
-  nav a { padding: 12px 24px; }
-  .hero .hero-content { flex-direction: column; text-align: center; }
-  .info-cards { flex-direction: column; }
-}
-
-
-/* Box-sizing global para controlar padding y borders */
-* {
-  box-sizing: border-box;
-}
-
-/* Estilo base del body: reset de márgenes, tipografía y colores */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-main);
-  background: var(--bg-dark);
-  color: var(--text-light);
-  /* Evita scroll horizontal inesperado */
-  overflow-x: hidden;
-}
-
-/* ======= HEADER (cabecera) ======= */
-header {
-  display: flex;                 /* Flexbox para alinear elementos */
-  align-items: center;           /* Centrar contenido verticalmente */
-  justify-content: space-between;/* Espacio entre logo y nav */
-  background: var(--bg-nav);     /* Color de fondo de nav */
-  padding: 12px 24px;            /* Espaciado interno */
-  box-shadow: var(--shadow);     /* Sombra debajo del header */
-}
-
-/* Logo en el header */
-#logo {
-  height: 90px;                  /* Altura fija del logo */
-}
-
-/* Enlaces de navegación */
-nav a {
-  color: var(--text-light);      /* Color de texto */
-  margin: 0 12px;                /* Espacio entre enlaces */
-  text-decoration: none;         /* Quitar subrayado */
-  text-transform: uppercase;     /* Texto en mayúsculas */
-  font-weight: bold;             /* Negrita */
-  position: relative;            /* Para pseudo-elementos */
-  transition: color .3s;         /* Transición suave al hover */
-}
-/* Estado hover y enlace activo */
-nav a:hover,
-nav a.active {
-  color: var(--accent);
-}
-/* Línea decorativa bajo el enlace activo */
-nav a.active::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--btn-color);
-  border-radius: 2px;
-}
-
-/* Botón de logout en header */
-#logout-btn {
-  background: var(--btn-color);
-  border: none;
-  color: #000;
-  padding: 8px 16px;
-  text-transform: uppercase;
-  font-family: var(--font-head);
-  font-size: .9rem;
-  border-radius: var(--radius);
-  cursor: pointer;
-  box-shadow: var(--shadow);
-}
-/* Hover del botón logout */
-#logout-btn:hover {
-  background: #9a5900;
-}
-
-/* ======= BOTONES GENERALES ======= */
-/* Clases para botones de formulario, búsqueda y envío */
-.btn, .btn-submit, .btn-search {
-  display: inline-block;
-  background: var(--btn-color);
-  color: #000;
-  text-transform: uppercase;
-  font-family: var(--font-head);
-  font-weight: bold;
-  padding: 10px 20px;
-  border: none;
-  border-radius: var(--radius);
-  cursor: pointer;
-  box-shadow: var(--shadow);
-  transition: background .3s, transform .2s;
-}
-/* Efecto hover y "elevación" */
-.btn:hover,
-.btn-submit:hover,
-.btn-search:hover {
-  background: #9a5900;
-  transform: translateY(-2px);
-}
-
-/* ======= SECCIÓN DE MISIONES ======= */
-/* Encabezado de misión */
-.mission-container h2 {
-  font-family: var(--font-head);
-  font-size: 2.2rem;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-/* Tarjeta contenedora de misión */
-.page-card {
-  background: rgba(0,0,0,0.6);
-  border: 2px solid var(--btn-color);
-  border-radius: var(--radius);
-  padding: 24px;
-  box-shadow: var(--shadow);
-  width: 100%;
-  margin: 0 auto 24px; /* Centrado horizontal y separación */
-}
-
-/* ======= FORMULARIO DE MISIONES ======= */
-/* Header del formulario: título y búsqueda */
-.form-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-/* Grupo de búsqueda con input y botón alineados */
-.search-group {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-/* Estilo del input de búsqueda */
-.search-group input {
-  padding: 8px;
-  border: 1px solid var(--input-border);
-  border-radius: var(--radius);
-  background: var(--input-bg);
-  color: var(--text-light);
-  flex: 1; /* Ocupa todo el espacio disponible */
-}
-
-/* Grid responsivo para el formulario de misiones */
-#form-mision {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
-}
-/* Estilo de etiquetas */
-#form-mision label {
-  font-family: var(--font-head);
-  font-weight: bold;
-}
-/* Inputs, textareas y select dentro del formulario */
-#form-mision input,
-#form-mision textarea,
-#form-mision select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid var(--input-border);
-  border-radius: var(--radius);
-  background: var(--input-bg);
-  color: var(--text-light);
-  font-family: var(--font-main);
-}
-/* Ajustes específicos para textarea */
-#form-mision textarea {
-  resize: vertical; /* Permite cambiar la altura */
-  min-height: 60px;
-}
-/* Botón de envío ocupa toda la fila */
-#form-mision .btn-submit {
-  grid-column: 1 / -1;
-  justify-self: center;
-}
-
-/* ======= TABLA DE MISIONES ======= */
-/* Contenedor de tabla */
-#tabla-misiones {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 24px;
-  background: rgba(0,0,0,0.5);
-}
-/* Celdas y encabezados */
-#tabla-misiones th,
-#tabla-misiones td {
-  border: 1px solid var(--btn-color);
-  padding: 12px;
-  text-align: left;
-}
-/* Fila par con fondo tenue */
-#tabla-misiones tr:nth-child(even) {
-  background: rgba(255,255,255,0.02);
-}
-
-/* ======= AUTENTICACIÓN ======= */
-/* Contenedor centrado para login/register */
-.auth-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 80px);
-  padding: 20px;
-}
-/* Tarjeta de autenticación */
-.auth-card {
-  width: 360px;
-  background: rgba(0,0,0,0.6);
-  border: 2px solid var(--btn-color);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 24px;
-  margin: 12px 0;
-}
-/* Formulario en columna */
-.auth-card form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-/* Espacio bajo cada label */
-.auth-card form label {
-  margin-bottom: 4px;
-}
-/* Inputs de texto y contraseña full-width */
-.auth-card form input[type="text"],
-.auth-card form input[type="password"] {
-  width: 100%;
-  box-sizing: border-box;
-}
-/* Oculta la sección de registro inicialmente */
-#register {
-  display: none;
-}
-
-/* ======= SECCIÓN HOME / CARDS ======= */
-/* Contenedor principal en columna */
-.page-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 0;
-}
-/* Estilo de cada detalle (card plegable) */
-.page-container details {
-  width: 90%;
-  max-width: 800px;
-  background: rgba(0,0,0,0.6);
-  border: 2px solid var(--btn-color);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  margin: 12px 0;
-}
-/* Resumen que actúa como cabecera plegable */
-.page-container summary {
-  padding: 12px 16px;
-  font-family: var(--font-head);
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  color: var(--btn-color);
-  background: rgba(0,0,0,0.7);
-  cursor: pointer;
-}
-/* Estilo al estar abierto */
-.page-container details[open] summary {
-  background: rgba(0,0,0,0.85);
-}
-/* Lista interna de contenido */
-.page-container ul {
-  list-style: disc inside;
-  padding: 12px 16px;
-  color: var(--text-light);
-}
-/* Animación al desplegar contenido */
-.page-container .content {
-  animation: fadeIn 0.3s ease-in-out;
-}
-/* Definición de la animación fadeIn */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
+  nav {
+    display: flex;
+    gap: 16px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  nav a {
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: color .3s;
+    position: relative;
   }
-}
-
-/* ======= BOTONES EN TABLAS USUARIOS / ACCIONES ======= */
-/* Botones dentro de tablas y acción nueva misión */
-#tabla-misiones button,
-.btn-new-mision,
-#tabla-usuarios button {
-  font-family: var(--font-head);
-  text-transform: uppercase;
-  background: var(--btn-color);
-  color: #000;
-  border: none;
-  border-radius: var(--radius);
-  padding: 8px 16px;
-  margin: 0 4px;
-  box-shadow: var(--shadow);
-  cursor: pointer;
-  transition: background 0.3s;
-}
-/* Hover para estos botones */
-#tabla-misiones button:hover,
-.btn-new-mision:hover,
-#tabla-usuarios button:hover {
-  background: #9a5900;
-}
-
-/* Logo en el header */
-#logo {
-  height: 90px;                  /* Altura fija del logo */
-}
-
-/* Enlaces de navegación */
-nav a {
-  color: var(--text-light);      /* Color de texto */
-  margin: 0 12px;                /* Espacio entre enlaces */
-  text-decoration: none;         /* Quitar subrayado */
-  text-transform: uppercase;     /* Texto en mayúsculas */
-  font-weight: bold;             /* Negrita */
-  position: relative;            /* Para pseudo-elementos */
-  transition: color .3s;         /* Transición suave al hover */
-}
-/* Estado hover y enlace activo */
-nav a:hover,
-nav a.active {
-  color: var(--accent);
-}
-/* Línea decorativa bajo el enlace activo */
-nav a.active::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--btn-color);
-  border-radius: 2px;
-}
-
-/* Botón de logout en header */
-#logout-btn {
-  background: var(--btn-color);
-  border: none;
-  color: #000;
-  padding: 8px 16px;
-  text-transform: uppercase;
-  font-family: var(--font-head);
-  font-size: .9rem;
-  border-radius: var(--radius);
-  cursor: pointer;
-  box-shadow: var(--shadow);
-}
-/* Hover del botón logout */
-#logout-btn:hover {
-  background: #9a5900;
-}
-
-/* ======= BOTONES GENERALES ======= */
-/* Clases para botones de formulario, búsqueda y envío */
-.btn, .btn-submit, .btn-search {
-  display: inline-block;
-  background: var(--btn-color);
-  color: #000;
-  text-transform: uppercase;
-  font-family: var(--font-head);
-  font-weight: bold;
-  padding: 10px 20px;
-  border: none;
-  border-radius: var(--radius);
-  cursor: pointer;
-  box-shadow: var(--shadow);
-  transition: background .3s, transform .2s;
-}
-/* Efecto hover y "elevación" */
-.btn:hover,
-.btn-submit:hover,
-.btn-search:hover {
-  background: #9a5900;
-  transform: translateY(-2px);
-}
-
-/* ======= SECCIÓN DE MISIONES ======= */
-/* Encabezado de misión */
-.mission-container h2 {
-  font-family: var(--font-head);
-  font-size: 2.2rem;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-/* Tarjeta contenedora de misión */
-.page-card {
-  background: rgba(0,0,0,0.6);
-  border: 2px solid var(--btn-color);
-  border-radius: var(--radius);
-  padding: 24px;
-  box-shadow: var(--shadow);
-  width: 100%;
-  margin: 0 auto 24px; /* Centrado horizontal y separación */
-}
-
-/* ======= FORMULARIO DE MISIONES ======= */
-/* Header del formulario: título y búsqueda */
-.form-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-/* Grupo de búsqueda con input y botón alineados */
-.search-group {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-/* Estilo del input de búsqueda */
-.search-group input {
-  padding: 8px;
-  border: 1px solid var(--input-border);
-  border-radius: var(--radius);
-  background: var(--input-bg);
-  color: var(--text-light);
-  flex: 1; /* Ocupa todo el espacio disponible */
-}
-
-/* Grid responsivo para el formulario de misiones */
-#form-mision {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
-}
-/* Estilo de etiquetas */
-#form-mision label {
-  font-family: var(--font-head);
-  font-weight: bold;
-}
-/* Inputs, textareas y select dentro del formulario */
-#form-mision input,
-#form-mision textarea,
-#form-mision select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid var(--input-border);
-  border-radius: var(--radius);
-  background: var(--input-bg);
-  color: var(--text-light);
-  font-family: var(--font-main);
-}
-/* Ajustes específicos para textarea */
-#form-mision textarea {
-  resize: vertical; /* Permite cambiar la altura */
-  min-height: 60px;
-}
-/* Botón de envío ocupa toda la fila */
-#form-mision .btn-submit {
-  grid-column: 1 / -1;
-  justify-self: center;
-}
-
-/* ======= TABLA DE MISIONES ======= */
-/* Contenedor de tabla */
-#tabla-misiones {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 24px;
-  background: rgba(0,0,0,0.5);
-}
-/* Celdas y encabezados */
-#tabla-misiones th,
-#tabla-misiones td {
-  border: 1px solid var(--btn-color);
-  padding: 12px;
-  text-align: left;
-}
-/* Fila par con fondo tenue */
-#tabla-misiones tr:nth-child(even) {
-  background: rgba(255,255,255,0.02);
-}
-
-/* ======= AUTENTICACIÓN ======= */
-/* Contenedor centrado para login/register */
-.auth-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 80px);
-  padding: 20px;
-}
-/* Tarjeta de autenticación */
-.auth-card {
-  width: 360px;
-  background: rgba(0,0,0,0.6);
-  border: 2px solid var(--btn-color);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 24px;
-  margin: 12px 0;
-}
-/* Formulario en columna */
-.auth-card form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-/* Espacio bajo cada label */
-.auth-card form label {
-  margin-bottom: 4px;
-}
-/* Inputs de texto y contraseña full-width */
-.auth-card form input[type="text"],
-.auth-card form input[type="password"] {
-  width: 100%;
-  box-sizing: border-box;
-}
-/* Oculta la sección de registro inicialmente */
-#register {
-  display: none;
-}
-
-/* ======= SECCIÓN HOME / CARDS ======= */
-/* Contenedor principal en columna */
-.page-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 0;
-}
-/* Estilo de cada detalle (card plegable) */
-.page-container details {
-  width: 90%;
-  max-width: 800px;
-  background: rgba(0,0,0,0.6);
-  border: 2px solid var(--btn-color);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  margin: 12px 0;
-}
-/* Resumen que actúa como cabecera plegable */
-.page-container summary {
-  padding: 12px 16px;
-  font-family: var(--font-head);
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  color: var(--btn-color);
-  background: rgba(0,0,0,0.7);
-  cursor: pointer;
-}
-/* Estilo al estar abierto */
-.page-container details[open] summary {
-  background: rgba(0,0,0,0.85);
-}
-/* Lista interna de contenido */
-.page-container ul {
-  list-style: disc inside;
-  padding: 12px 16px;
-  color: var(--text-light);
-}
-/* Animación al desplegar contenido */
-.page-container .content {
-  animation: fadeIn 0.3s ease-in-out;
-}
-/* Definición de la animación fadeIn */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
+  nav a:hover,
+  nav a.active {
+    color: var(--btn-color);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  nav a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--btn-color);
+    border-radius: 2px;
   }
-}
-
-/* ======= BOTONES EN TABLAS USUARIOS / ACCIONES ======= */
-/* Botones dentro de tablas y acción nueva misión */
-#tabla-misiones button,
-.btn-new-mision,
-#tabla-usuarios button {
-  font-family: var(--font-head);
-  text-transform: uppercase;
-  background: var(--btn-color);
-  color: #000;
-  border: none;
-  border-radius: var(--radius);
-  padding: 8px 16px;
-  margin: 0 4px;
-  box-shadow: var(--shadow);
-  cursor: pointer;
-  transition: background 0.3s;
-}
-/* Hover para estos botones */
-#tabla-misiones button:hover,
-.btn-new-mision:hover,
-#tabla-usuarios button:hover {
-  background: #9a5900;
-}
+  
+  /* ==========================================================================
+     HERO SECTION
+     ========================================================================== */
+  .hero {
+    padding: 60px 24px;
+    text-align: center;
+  }
+  .hero-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    justify-content: center;
+  }
+  .hero-text p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+  }
+  .ship-image {
+    max-width: 100%;
+    filter: grayscale(80%);
+    transition: filter .3s, transform .3s;
+    cursor: pointer;
+  }
+  .ship-image:hover {
+    filter: drop-shadow(0 0 12px var(--text-light));
+    transform: scale(1.02);
+  }
+  
+  /* ==========================================================================
+     INFO CARDS
+     ========================================================================== */
+  .info-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 40px 24px;
+    justify-content: center;
+  }
+  .card {
+    flex: 1;
+    min-width: 200px;
+    background: rgba(255,255,255,0.05);
+    padding: 24px;
+    border-radius: var(--radius);
+    text-align: center;
+    transition: transform .3s, background .3s;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    background: rgba(255,255,255,0.1);
+  }
+  .card-icon {
+    display: block;
+    width: 48px;
+    margin: 0 auto 12px;
+    filter: drop-shadow(0 0 8px var(--btn-color));
+    transition: transform .3s;
+  }
+  .card-icon:hover {
+    transform: scale(1.1);
+  }
+  .card h3 {
+    margin: 8px 0;
+  }
+  .card p {
+    font-size: 0.95rem;
+  }
+  
+  /* ==========================================================================
+     SECTION CARD (Nosotros / About)
+     ========================================================================== */
+  .section-card {
+    background: rgba(0,0,0,0.6);
+    border: 2px solid var(--btn-color);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 20px 0;
+    box-shadow: var(--shadow);
+    animation: fadeIn 0.4s ease-out;
+  }
+  .section-card h1,
+  .section-card h2 {
+    margin-top: 0;
+  }
+  
+  /* ==========================================================================
+     PAGE CONTAINER
+     ========================================================================== */
+  .page-container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  /* ==========================================================================
+     GALLERY GRID
+     ========================================================================== */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px,1fr));
+    gap: 12px;
+  }
+  .gallery-grid img {
+    width: 100%;
+    border-radius: var(--radius);
+    display: block;
+  }
+  
+  /* ==========================================================================
+     AUTH / LOGIN
+     ========================================================================== */
+  .auth-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    padding: 20px;
+  }
+  .auth-card {
+    width: 360px;
+    background: rgba(0,0,0,0.6);
+    border: 2px solid var(--btn-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin: 12px;
+  }
+  .auth-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .switch-link {
+    text-align: center;
+  }
+  
+  /* ==========================================================================
+     RESPONSIVE
+     ========================================================================== */
+  @media (max-width: 768px) {
+    #nav-toggle {
+      display: block;
+    }
+    nav {
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      background: var(--bg-nav);
+      display: none;
+    }
+    nav.open {
+      display: flex;
+    }
+    nav a {
+      padding: 12px 24px;
+    }
+    .hero-content {
+      flex-direction: column;
+    }
+    .info-cards, .gallery-grid {
+      flex-direction: column;
+    }
+  }
+  
