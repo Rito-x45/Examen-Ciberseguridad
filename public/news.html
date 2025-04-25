@@ -2,29 +2,76 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>UNSC - News</title>
+  <meta name="description" content="Últimas novedades y operaciones del UNSC">
+  <title>UNSC – Novedades</title>
   <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Source+Sans+Pro&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>…</header>
+  <!-- HEADER -->
+  <header>
+    <img src="/images/logo.png" alt="UNSC Emblem" id="logo" title="UNSC Emblem">
+    <button id="nav-toggle" aria-label="Menú">☰</button>
+    <nav>
+      <a href="/index.html">Inicio</a>
+      <a href="/nosotros.html">Nosotros</a>
+      <a href="/news.html" class="active">Novedades</a>
+      <a href="/login.html">Iniciar Sesión</a>
+      <a href="/misiones.html">Misiones</a>
+    </nav>
+  </header>
 
-  <section id="news">
-    <h2>Novedades</h2>
-
+  <!-- SECTION: NEWS -->
+  <section id="news" class="section-card">
+    <h2 class="glitch">Novedades UNSC</h2>
     <div class="news-list">
       <article class="news-item">
         <h3>Despliegue en Sistema Sigma</h3>
         <time datetime="2552-07-03">3 de julio, 2552</time>
-        <p>La flota UNSC Envoy fue enviada a… <a href="/news/deployment-sigma.html">Leer más</a></p>
+        <p>La flota <em>UNSC Envoy</em> partió hacia el Sistema Sigma tras detectar movimientos insurgentes. Se espera que la operación restablezca la seguridad en las estaciones mineras.</p>
       </article>
 
       <article class="news-item">
-        <h3>Nuevo prototipo de fragata</h3>
+        <h3>Estreno del Prototipo de Fragata Valiant</h3>
         <time datetime="2552-06-25">25 de junio, 2552</time>
-        <p>Presentamos el prototipo de la fragata… <a href="/news/frigate-prototype.html">Leer más</a></p>
+        <p>Presentamos la fragata de asalto <em>Valiant</em>, equipada con cañones de riel y defensas antimateria de última generación. Entrará en fase de pruebas en órbita de Reach.</p>
       </article>
 
-      <!-- … más artículos … -->
+      <article class="news-item">
+        <h3>Finaliza Reentrenamiento Spartan-IV</h3>
+        <time datetime="2552-05-15">15 de mayo, 2552</time>
+        <p>La cohorte de Spartan-IV completó exitosamente su reentrenamiento avanzado en el Cuerpo de Operaciones Especiales. Ahora están listos para desplegarse en misiones críticas.</p>
+      </article>
+
+      <article class="news-item">
+        <h3>Primera Misión ODST en Onyx</h3>
+        <time datetime="2552-04-30">30 de abril, 2552</time>
+        <p>Un escuadrón ODST llevó a cabo una intrépida incursión en la luna de Onyx. Se recogieron datos valiosos sobre estructuras Forerunner y se extrajo un artefacto intacto.</p>
+      </article>
+
+      <article class="news-item">
+        <h3>Descubrimiento de Artefacto Forerunner</h3>
+        <time datetime="2552-03-12">12 de marzo, 2552</time>
+        <p>Exploradores de la UNSC hallaron un artefacto Forerunner en el asteroide Y-274. Los laboratorios ONI ya han iniciado el escaneo para descifrar su tecnología.</p>
+      </article>
+
+      <article class="news-item">
+        <h3>Alianza con Colonias de Epsilon Indi</h3>
+        <time datetime="2552-02-01">1 de febrero, 2552</time>
+        <p>Se selló un pacto de cooperación con las colonias de Epsilon Indi. El acuerdo incluye asistencia militar y transferencia de tecnología para defensa planetaria.</p>
+      </article>
+
+      <article class="news-item">
+        <h3>Retirada Controlada de la Flota Perdida</h3>
+        <time datetime="2552-01-20">20 de enero, 2552</time>
+        <p>Tras semanas de hostilidades, la Flota Perdida Covenant inició su retirada. Las fuerzas UNSC supervisan el repliegue para garantizar que no queden fuerzas rezagadas.</p>
+      </article>
+
+      <article class="news-item">
+        <h3>Pruebas de Armamento de Plasma Mejorado</h3>
+        <time datetime="2551-12-10">10 de diciembre, 2551</time>
+        <p>Los ingenieros de la UNSC ultiman pruebas de munición de plasma de alta densidad. Se espera que supere en un 30 % el rendimiento de los proyectiles estándar.</p>
+      </article>
     </div>
   </section>
 

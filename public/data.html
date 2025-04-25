@@ -2,104 +2,194 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Archivo de datos UNSC: Proyecto Spartan, información del Covenant, armamento y estadísticas.">
-  <title>UNSC – Datos</title>
+  <meta name="description" content="Datos ampliados: flota, Spartans, Covenant y armamento del UNSC">
+  <title>UNSC – Datos & Archivos</title>
   <link rel="stylesheet" href="/css/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Source+Sans+Pro&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- HEADER -->
   <header>
     <img src="/images/logo.png" alt="UNSC Emblem" id="logo" title="UNSC Emblem">
     <button id="nav-toggle" aria-label="Menú">☰</button>
     <nav>
-      <a href="/index.html">Home</a>
-      <a href="/login.html">Login</a>
+      <a href="/index.html">Inicio</a>
+      <a href="/nosotros.html">Nosotros</a>
+      <a href="/news.html">Novedades</a>
       <a href="/misiones.html">Misiones</a>
       <a href="/data.html" class="active">Datos</a>
+      <a href="/login.html">Login</a>
     </nav>
-    <button id="logout-btn">CERRAR SESIÓN</button>
   </header>
 
+  <!-- MAIN CONTENT -->
   <main class="page-container">
+    <section id="data" class="section-card">
+      <h2 class="glitch">Datos & Archivos</h2>
+      <div class="data-grid">
 
-    <!-- Descargas -->
-    <section id="descargas">
-      <h1 class="glitch">Archivo de Datos</h1>
-      <h2>Descargas</h2>
-      <div class="download-list">
-        <a href="/data/spartan-ii-manual.pdf" download>Manual Técnico Spartan-II (PDF)</a><br>
-        <a href="/data/covenant-dossier.pdf" download>Informe Covenant (PDF)</a><br>
-        <a href="/data/armamento-specs.csv" download>Especificaciones de Armamento (CSV)</a>
+        <!-- 1. Clase Infinity -->
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="/images/ships/infinity.png" alt="Clase Infinity">
+              <h3>Clase Infinity</h3>
+            </div>
+            <div class="card-face card-back">
+              <p>
+                • Eslora: 6 km<br>
+                • Tripulación: 200 000<br>
+                • Propulsión: Slipspace Drive V<br>
+                • Hangares Spartan-IV / ODST<br>
+                • Baterías de cañón de riel
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Pillar of Autumn -->
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="/images/ships/pillar-of-autumn.png" alt="Pillar of Autumn">
+              <h3>Pillar of Autumn</h3>
+            </div>
+            <div class="card-face card-back">
+              <p>
+                • Crucero Halcyon class<br>
+                • Armamento: cañones de riel y plasma<br>
+                • Batalla de Reach (2552)<br>
+                • Transporte ligero<br>
+                • Diseño modular de hangares
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Spartan-II -->
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="/images/spartan/spartan-ii.png" alt="Spartan II">
+              <h3>Spartan-II</h3>
+            </div>
+            <div class="card-face card-back">
+              <p>
+                • Seleccionados a los 6 años<br>
+                • 75 sujetos originales<br>
+                • Mejora genética y cibernética<br>
+                • Armadura MJOLNIR Mk V<br>
+                • Rol: infiltración y asalto
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Spartan-IV -->
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="/images/spartan/spartan-iv.png" alt="Spartan IV">
+              <h3>Spartan-IV</h3>
+            </div>
+            <div class="card-face card-back">
+              <p>
+                • Civiles y veteranos reclutados<br>
+                • Armadura MJOLNIR GEN2<br>
+                • Interfaces neuronales<br>
+                • Firma radar reducida<br>
+                • Despliegue rápido en campo
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. CCS-class Cruiser -->
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="/images/covenant/ccs-class.png" alt="CCS-class Cruiser">
+              <h3>CCS-class Cruiser</h3>
+            </div>
+            <div class="card-face card-back">
+              <p>
+                • Tripulación: ~15 000<br>
+                • Proyectores de plasma<br>
+                • Escudos de vacío<br>
+                • Tropas y vehículos<br>
+                • Asalto planetario
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Truth & Reconciliation -->
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="/images/covenant/reconcil.png" alt="Truth and Reconciliation">
+              <h3>Truth &amp; Reconciliation</h3>
+            </div>
+            <div class="card-face card-back">
+              <p>
+                • Crucero de mando CCS<br>
+                • Capacidad: 300 tropas<br>
+                • Vehículos pesados<br>
+                • Maniobra orbital<br>
+                • Liderazgo Covenant
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. MA5B Assault Rifle -->
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="/images/weapons/ma5.png" alt="MA5B Assault Rifle">
+              <h3>MA5B Assault Rifle</h3>
+            </div>
+            <div class="card-face card-back">
+              <p>
+                • 60 cartuchos estándar<br>
+                • Ráfagas de 3 proyectiles<br>
+                • Alcance: 300 m<br>
+                • Selector de disparo<br>
+                • Uso masivo en infantería
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. BR55 Battle Rifle -->
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="/images/weapons/br55.png" alt="BR55 Battle Rifle">
+              <h3>BR55 Battle Rifle</h3>
+            </div>
+            <div class="card-face card-back">
+              <p>
+                • Semiautomático de 36 cargas<br>
+                • Óptica 4× integrada<br>
+                • Alcance: 600 m<br>
+                • Alta precisión<br>
+                • Unidades de apoyo
+              </p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
-
-    <!-- Proyecto Spartan -->
-    <section id="spartan">
-      <h2>Proyecto Spartan</h2>
-      <p>
-        Iniciado en 2517 como el Programa ORION, el <strong>Proyecto Spartan-II</strong> consistió
-        en foguear super-soldados a partir de niños de élite para enfrentarse a insurgencias
-        humanas. Más adelante se lanzaron los programas Spartan-III y Spartan-IV.
-      </p>
-      <ul>
-        <li><strong>Spartan-II:</strong> 75 reclutas, mejorados genéticamente, armadura MJOLNIR.</li>
-        <li><strong>Spartan-III:</strong> unidades de bajo costo para ataques encubiertos.</li>
-        <li><strong>Spartan-IV:</strong> veteranos de las Fuerzas Navales con mejoras más seguras.</li>
-      </ul>
-    </section>
-
-    <!-- Información Covenant -->
-    <section id="covenant">
-      <h2>Covenant</h2>
-      <p>
-        Alianza teocrática de varias especies alienígenas. Liderada por los Profetas, su
-        estructura incluye Sangheili (Élites), Unggoy (Grunts) y Kig-Yar (Jackals).
-      </p>
-      <ul>
-        <li><strong>Profetas:</strong> líderes religiosos y políticos.</li>
-        <li><strong>Sangheili:</strong> élite guerrera, comandos de campo.</li>
-        <li><strong>Jiralhanae:</strong> Brutes, fuerzas de choque pesadas.</li>
-        <li><strong>San’Shyuum:</strong> altos mandatarios religiosos.</li>
-      </ul>
-    </section>
-
-    <!-- Armamento -->
-    <section id="armamento">
-      <h2>Armamento</h2>
-      <ul>
-        <li><strong>MA5B Assault Rifle:</strong> fusil de asalto estándar UNSC.</li>
-        <li><strong>M6G Magnum:</strong> pistola pesada semi-automática.</li>
-        <li><strong>SRS99C Sniper:</strong> rifle de francotirador de largo alcance.</li>
-        <li><strong>Energy Sword:</strong> arma cuerpo a cuerpo Covenant de plasma.</li>
-        <li><strong>BR55 Battle Rifle:</strong> rifle de ráfaga de precisión.</li>
-      </ul>
-    </section>
-
-    <!-- Estadísticas -->
-    <section id="estadisticas">
-      <h2>Estadísticas Generales</h2>
-      <ul>
-        <li>Total de Spartan-II desplegados: 75</li>
-        <li>Operaciones exitosas: 128</li>
-        <li>Bajas Covenant registradas: 12,450</li>
-        <li>Proyectos Forerunner descubiertos: 42</li>
-      </ul>
-    </section>
-
-    <!-- Galería de armamento -->
-    <section id="galeria-armas">
-      <h2>Galería de Armamento</h2>
-      <div class="gallery-grid">
-        <img src="/images/weapons/ma5b.png" alt="MA5B Assault Rifle">
-        <img src="/images/weapons/m6g.png" alt="M6G Magnum">
-        <img src="/images/weapons/srs99c.png" alt="SRS99C Sniper">
-        <img src="/images/weapons/energy-sword.png" alt="Energy Sword">
-      </div>
-    </section>
-
   </main>
 
-  <script src="/js/main.js"></script>
-  <script src="/js/auth.js"></script>
+  <script>
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+      });
+    });
+  </script>
 </body>
 </html>
