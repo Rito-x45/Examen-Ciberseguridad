@@ -126,3 +126,115 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Elementos del DOM
+  const loginForm = document.getElementById('form-login');
+  const registerForm = document.getElementById('form-register');
+  const alertaDiv = document.getElementById('alerta');
+
+  // Mostrar mensaje de alerta
+  function mostrarAlerta(mensaje, tipo = 'error') {
+    alertaDiv.textContent = mensaje;
+    alertaDiv.className = `alert ${tipo}`;
+    alertaDiv.style.display = 'block';
+    
+    setTimeout(() => {
+      alertaDiv.style.display = 'none';
+    }, 5000);
+  }
+
+  // Validar contraseña
+  function validarContrasena(contrasena) {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    return regex.test(contrasena);
+  }
+
+  // Manejar registro
+  registerForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const nombre = registerForm.nombre.value;
+    const contrasena = registerForm.contrasena.value;
+    const contrasena2 = registerForm.contrasena2.value;
+    const adminCode = registerForm.adminCode.value;
+
+    // Validaciones
+    if (contrasena !== contrasena2) {
+      return mostrarAlerta('Las contraseñas no coinciden');
+    }
+
+    if (!validarContrasena(contrasena)) {
+      return mostrarAlerta('La contraseña debe tener al menos 6 caracteres, una mayúscula, una minúscula, un número y un carácter especial');
+    }
+
+    try {
+      const response = await fetch('/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nombre, contrasena, adminCode })
+      });
+
+      const data = await response.text();
+      
+      if (!response.ok) {
+        throw new Error(data);
+      }
+
+      mostrarAlerta('Registro exitoso. Ahora puedes iniciar sesión', 'success');
+      registerForm.reset();
+      window.location.hash = '#form-login';
+    } catch (error) {
+      mostrarAlerta(error.message);
+    }
+  });
+
+  // Manejar login
+  loginForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const nombre = loginForm.nombre.value;
+    const contrasena = loginForm.contrasena.value;
+
+    try {
+      const response = await fetch('/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nombre, contrasena })
+      });
+
+      const data = await response.text();
+      
+      if (!response.ok) {
+        throw new Error(data);
+      }
+
+      // Redirigir al index después de login exitoso
+      window.location.href = '/index.html';
+    } catch (error) {
+      mostrarAlerta(error.message);
+    }
+  });
+
+  // Manejar cambio entre login y registro
+  window.addEventListener('hashchange', function() {
+    if (window.location.hash === '#register') {
+      document.querySelector('#form-login').style.display = 'none';
+      document.querySelector('#register').style.display = 'block';
+    } else {
+      document.querySelector('#form-login').style.display = 'block';
+      document.querySelector('#register').style.display = 'none';
+    }
+  });
+
+  // Estado inicial
+  if (window.location.hash === '#register') {
+    document.querySelector('#form-login').style.display = 'none';
+    document.querySelector('#register').style.display = 'block';
+  }
+});

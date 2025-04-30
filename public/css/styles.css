@@ -614,3 +614,25 @@
   width: 80px;
   filter: drop-shadow(0 0 8px var(--btn-color));
 }
+
+
+.alert {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: var(--radius);
+  text-align: center;
+  font-family: var(--font-main);
+  font-weight: bold;
+}
+
+.alert.error {
+  background-color: rgba(255, 0, 0, 0.2);
+  border: 1px solid #f66608;
+  color: #f66608;
+}
+
+.alert.success {
+  background-color: rgba(0, 255, 0, 0.2);
+  border: 1px solid #88aa66;
+  color: #88aa66;
+}
