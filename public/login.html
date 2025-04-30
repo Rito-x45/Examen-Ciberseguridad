@@ -25,37 +25,48 @@
       <div id="alerta"></div>
       
       <section class="auth-container">
-        <div class="auth-card">
+        <!-- LOGIN CARD -->
+        <div class="auth-card glass-card">
+          <div class="auth-logo">
+            <img src="/images/logo.png" alt="UNSC Logo">
+          </div>
           <form id="form-login">
-            <center><h1 class="glitch">UNSC INICIA SESIÓN</h1></center>
-            <label for="nombre">Usuario</label>
-            <input type="text" id="nombre" name="nombre" required>
-            <label for="contrasena">Contraseña</label>
-            <input type="password" id="contrasena" name="contrasena" required>
-            <input type="submit" value="Iniciar Sesión" class="btn-submit">
-            <center>
-              <div class="switch-link">
-                ¿No tienes cuenta? <a href="#register">Regístrate</a>
-              </div>
-            </center>
+            <h2>Welcome</h2>
+            <p>Log in to your account</p>
+            <label for="login-kmail">KMAIL</label>
+            <input type="email" id="login-kmail" name="email" placeholder="cadet@unsc.mil" required>
+            <label for="login-pass">PASSWORD</label>
+            <input type="password" id="login-pass" name="password" required>
+            <button class="btn-submit" type="submit">LOG IN</button>
+            <div class="switch-link">
+              <a href="#register">Create an account</a>
+            </div>
           </form>
         </div>
-    
-        <div class="auth-card" id="register">
+      
+        <!-- REGISTER CARD -->
+        <div class="auth-card glass-card" id="register">
+          <div class="auth-logo">
+            <img src="/images/logo.png" alt="UNSC Logo">
+          </div>
           <form id="form-register">
-            <center><h1 class="glitch">UNSC REGISTRO</h1></center>
-            <label for="nombre-reg">Usuario</label>
-            <input type="text" id="nombre-reg" name="nombre" required>
-            <label for="contrasena-reg">Contraseña</label>
-            <input type="password" id="contrasena" name="contrasena" required>
-            <label for="adminCode-reg">Código Admin (opcional)</label>
-            <input type="text" id="adminCode" name="adminCode">
-            <input type="submit" value="Registrarse" class="btn-submit">
-            <center>
-              <div class="switch-link">
-                ¿Ya tienes cuenta? <a href="#login">Iniciar sesión</a>
-              </div>
-            </center>
+            <h2>Register to UNSC Database</h2>
+            <p>Secure Clearance for UNSC Systems</p>
+            <label for="reg-fullname">FULL NAME</label>
+            <input type="text" id="reg-fullname" name="fullname" required>
+            <label for="reg-email">EMAIL</label>
+            <input type="email" id="reg-email" name="email" placeholder="e.g.cadet@unsc.mil" required>
+            <label for="reg-pass">PASSWORD</label>
+            <input type="password" id="reg-pass" name="password" required>
+            <label for="reg-pass2">CONFIRM PASSWORD</label>
+            <input type="password" id="reg-pass2" name="password2" required>
+            <label>
+              <input type="checkbox" required> I agree to the Terms of Service and Military Security Protocol
+            </label>
+            <button class="btn-submit" type="submit">ENLIST</button>
+            <div class="switch-link">
+              Already have an account? <a href="#form-login">Log in</a>
+            </div>
           </form>
         </div>
       </section>

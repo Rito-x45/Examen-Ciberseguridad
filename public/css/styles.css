@@ -556,3 +556,61 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ───────────────────────────────────────────────────────────
+   UNSC Glass Login/Register Cards – Estilo tipo imágenes
+──────────────────────────────────────────────────────────── */
+.glass-card {
+  background: rgba(30, 45, 30, 0.85);
+  border: 2px solid var(--btn-color);
+  border-radius: var(--radius);
+  padding: 32px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(6px);
+  animation: fadeIn 1s ease-out;
+}
+
+.glass-card h2 {
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  color: var(--btn-color);
+  margin-bottom: 8px;
+}
+
+.glass-card p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+}
+
+.glass-card label {
+  font-size: 0.9rem;
+  margin-top: 10px;
+  display: block;
+  color: var(--text-light);
+}
+
+.glass-card input[type="text"],
+.glass-card input[type="email"],
+.glass-card input[type="password"] {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--text-secondary);
+  color: var(--text-light);
+  padding: 8px;
+  border-radius: var(--radius);
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.auth-logo {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.auth-logo img {
+  width: 80px;
+  filter: drop-shadow(0 0 8px var(--btn-color));
+}
