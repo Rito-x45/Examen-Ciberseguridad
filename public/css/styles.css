@@ -561,56 +561,283 @@
 /* ───────────────────────────────────────────────────────────
    UNSC Glass Login/Register Cards – Estilo tipo imágenes
 ──────────────────────────────────────────────────────────── */
+/* Estilos generales */
+body {
+  background-color: #1e241e; /* Verde militar oscuro */
+  color: #88aa66; /* Verde claro */
+  font-family: 'Orbitron', sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: rgba(30, 36, 30, 0.8);
+  border-bottom: 1px solid #88aa66;
+}
+
+#logo {
+  height: 50px;
+  filter: drop-shadow(0 0 5px rgba(136, 170, 102, 0.5));
+}
+
+nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+nav a {
+  color: #88aa66;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #f66608; /* Naranja óxido */
+}
+
+nav a.active {
+  color: #f66608;
+  border-bottom: 2px solid #f66608;
+}
+
+/* Contenedor principal */
+.page-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Efecto glitch para el título */
+.glitch {
+  position: relative;
+  color: #88aa66;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px rgba(136, 170, 102, 0.5);
+  margin-bottom: 2rem;
+  animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+  0% { text-shadow: 0 0 10px rgba(136, 170, 102, 0.5); }
+  25% { text-shadow: -5px 0 5px rgba(246, 102, 8, 0.5), 5px 0 5px rgba(136, 170, 102, 0.5); }
+  50% { text-shadow: 5px 0 5px rgba(246, 102, 8, 0.5), -5px 0 5px rgba(136, 170, 102, 0.5); }
+  100% { text-shadow: 0 0 10px rgba(136, 170, 102, 0.5); }
+}
+
+/* Contenedor de autenticación */
+.auth-container {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  justify-content: center;
+}
+
+.auth-card {
+  flex: 1;
+  max-width: 450px;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(136, 170, 102, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
 .glass-card {
-  background: rgba(30, 45, 30, 0.85);
-  border: 2px solid var(--btn-color);
-  border-radius: var(--radius);
-  padding: 32px;
-  width: 100%;
-  max-width: 380px;
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(6px);
-  animation: fadeIn 1s ease-out;
+  background: rgba(30, 36, 30, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(136, 170, 102, 0.3);
 }
 
-.glass-card h2 {
-  font-family: var(--font-head);
-  font-size: 1.5rem;
-  color: var(--btn-color);
-  margin-bottom: 8px;
-}
-
-.glass-card p {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  margin-bottom: 16px;
-}
-
-.glass-card label {
-  font-size: 0.9rem;
-  margin-top: 10px;
-  display: block;
-  color: var(--text-light);
-}
-
-.glass-card input[type="text"],
-.glass-card input[type="email"],
-.glass-card input[type="password"] {
-  background: rgba(0,0,0,0.3);
-  border: 1px solid var(--text-secondary);
-  color: var(--text-light);
-  padding: 8px;
-  border-radius: var(--radius);
-  width: 100%;
-  margin-bottom: 8px;
+.auth-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(136, 170, 102, 0.3);
 }
 
 .auth-logo {
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 1.5rem;
 }
 
 .auth-logo img {
-  width: 80px;
-  filter: drop-shadow(0 0 8px var(--btn-color));
+  height: 60px;
+  filter: drop-shadow(0 0 5px rgba(136, 170, 102, 0.5));
+}
+
+/* Formularios */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+form h2 {
+  color: #f66608;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+form p {
+  color: #5d774d; /* Verde más tenue */
+  margin: 0 0 1.5rem 0;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+label {
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  color: #88aa66;
+  margin-bottom: -0.5rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  background: rgba(30, 36, 30, 0.8);
+  border: 1px solid #88aa66;
+  border-radius: 4px;
+  padding: 0.8rem;
+  color: #88aa66;
+  font-family: 'Source Sans Pro', sans-serif;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #f66608;
+  box-shadow: 0 0 5px rgba(246, 102, 8, 0.5);
+}
+
+input::placeholder {
+  color: #5d774d;
+  opacity: 0.7;
+}
+
+/* Checkbox */
+input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #88aa66;
+  border-radius: 3px;
+  margin-right: 8px;
+  position: relative;
+  top: 3px;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #f66608;
+  border-color: #f66608;
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✓";
+  color: #1e241e;
+  position: absolute;
+  top: -2px;
+  left: 2px;
+  font-size: 12px;
+}
+
+/* Botones */
+.btn-submit {
+  background-color: #f66608;
+  color: #1e241e;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 4px;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  margin-top: 1rem;
+}
+
+.btn-submit:hover {
+  background-color: #ff7b1a;
+  transform: translateY(-2px);
+}
+
+/* Enlaces de cambio */
+.switch-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #5d774d;
+}
+
+.switch-link a {
+  color: #f66608;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.switch-link a:hover {
+  color: #ff7b1a;
+}
+
+/* Alerta */
+#alerta {
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: 4px;
+  text-align: center;
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .auth-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .auth-card {
+    width: 100%;
+  }
+  
+  .glitch {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  nav {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .glitch {
+    font-size: 1.5rem;
+    text-align: center;
+  }
 }
