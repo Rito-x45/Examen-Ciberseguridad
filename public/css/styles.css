@@ -199,6 +199,68 @@
     font-size: 0.95rem;
   }
   
+  /* ========================================================================== 
+   INFO CARDS (Tarjetas de Inicio como Misión, Operaciones, Datos)
+   ========================================================================== */
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
+  gap: 24px;
+  padding: 40px 24px;
+  justify-items: center;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  max-width: 340px;
+}
+
+.card {
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid var(--btn-color);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  transition: transform 0.3s, background 0.3s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.card-icon {
+  width: 48px;
+  margin: 0 auto 12px;
+  filter: drop-shadow(0 0 8px var(--btn-color));
+  transition: transform 0.3s;
+}
+
+.card-icon:hover {
+  transform: scale(1.1);
+}
+
+.card h3 {
+  font-family: var(--font-main);
+  font-size: 1.2rem;
+  color: var(--btn-color);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+
   /* ==========================================================================
      SECTION CARD (Nosotros)
      ========================================================================== */
@@ -487,4 +549,10 @@
 .card-back p {
   margin: 0;
   line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .info-cards {
+    grid-template-columns: 1fr;
+  }
 }
