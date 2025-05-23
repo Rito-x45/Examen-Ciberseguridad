@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>UNSC - Registro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <div class="glass" style="max-width:400px; margin:4rem auto;">
+      <h2>Registro</h2>
+      <form id="registerForm">
+        <label for="reg_user">Usuario:</label>
+        <input type="text" id="reg_user" name="reg_user" required>
+        <label for="reg_pass">Contraseña:</label>
+        <input type="password" id="reg_pass" name="reg_pass" required>
+        <button type="submit">Registrarse</button>
+      </form>
+      <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
+    </div>
+  </main>
+  <div id="toast" class="toast hide"></div>
+  <script src="script.js"></script>
+</body>
+</html>

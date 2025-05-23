@@ -2,75 +2,24 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Inicia sesión en el portal UNSC o regístrate.">
-  <title>UNSC – Login</title>
-  <link rel="stylesheet" href="/css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+  <title>UNSC - Iniciar sesión</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <img src="/images/logo.png" alt="UNSC Emblem" id="logo" title="UNSC Emblem">
-    <button id="nav-toggle" aria-label="Menú">☰</button>
-    <nav>
-      <a href="/index.html">Inicio</a>
-      <a href="/login.html" class="active">Login</a>
-      <a href="/misiones.html">Misiones</a>
-    </nav>
-  </header>
-
-  <main class="page-container">
-    <section id="auth-section">
-      <h1 class="glitch">UNSC Inicia Sesión</h1>
-      
-      <div id="alerta" class="alert" style="display: none;"></div>
-      
-      <section class="auth-container">
-        <!-- LOGIN CARD -->
-        <div class="auth-card glass-card">
-          <form id="form-login">
-            <h2>Bienvenido</h2>
-            <p>Inicia Sesión En La UNSC</p>
-            <label for="login-user">Usuario</label>
-            <input type="text" id="login-user" name="nombre" required>
-            <label for="login-pass">PASSWORD</label>
-            <input type="password" id="login-pass" name="contrasena" required>
-            <button class="btn-submit" type="submit">LOG IN</button>
-            <div class="switch-link">
-              ¿Aún no tienes cuenta? <a href="#register">Regístrate</a>
-            </div>
-          </form>
-        </div>
-      
-        <!-- REGISTER CARD -->
-        <div class="auth-card glass-card" id="register">
-          <form id="form-register">
-            <h2>Registro de la UNSC</h2>
-            <p>Secure Clearance for UNSC Systems</p>
-            <label for="reg-user">Usuario</label>
-            <input type="text" id="reg-user" name="nombre" required>
-            <label for="reg-pass">PASSWORD</label>
-            <input type="password" id="reg-pass" name="contrasena" required>
-            <label for="reg-pass2">CONFIRM PASSWORD</label>
-            <input type="password" id="reg-pass2" name="contrasena2" required>
-            <label for="admin-code">Código de Administrador (opcional)</label>
-            <input type="password" id="admin-code" name="adminCode">
-            <button class="btn-submit" type="submit">ENLIST</button>
-            <div class="switch-link">
-              ¿Ya tienes cuenta? <a href="#form-login">Log in</a>
-            </div>
-          </form>
-        </div>
-        
-        <div class="auth-image-container">
-          <div class="auth-image-frame">
-            <img src="/images/unsc-login-image.png" alt="UNSC Security">
-          </div>
-        </div>
-      </section>
-    </section>
+  <main>
+    <div class="glass" style="max-width:400px; margin:4rem auto;">
+      <h2>Iniciar sesión</h2>
+      <form id="loginForm">
+        <label for="user">Usuario:</label>
+        <input type="text" id="user" name="user" required>
+        <label for="pass">Contraseña:</label>
+        <input type="password" id="pass" name="pass" required>
+        <button type="submit">Ingresar</button>
+      </form>
+      <p>¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a></p>
+    </div>
   </main>
-
-  <script src="/js/auth.js"></script>
-  <script src="/js/main.js"></script>
+  <div id="toast" class="toast hide"></div>
+  <script src="script.js"></script>
 </body>
 </html>

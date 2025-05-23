@@ -2,65 +2,67 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>UNSC - Home</title>
-  <link rel="stylesheet" href="/css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+  <title>UNSC Command Center</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <img src="/images/logo.png" alt="UNSC Emblem" id="logo" title="UNSC Emblem">
-    <button id="nav-toggle" aria-label="Menú">☰</button>
+    <img src="img/unsc-logo.png" class="logo" alt="UNSC Logo">
     <nav>
-      <a href="/index.html" class="active">Inicio</a>
-      <a href="/nostros.html">Nosotros</a>
-      <a href="/news.html">News</a>
-      <a href="/login.html">Iniciar Sesión</a>
+      <a href="index.html">Inicio</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="news.html">News</a>
+      <a href="misiones.html">Misiones</a>
+      <a href="operaciones.html">Operaciones</a>
+      <a href="datos.html">Datos</a>
+      <button id="logoutBtn" class="button" style="margin-left:2rem;">Cerrar sesión</button>
     </nav>
   </header>
+  <main>
 
-  <!-- HERO -->
-  <section class="hero" id="home">
-    <div class="hero-content">
-      <div class="hero-text">
-        <h1>WELCOME TO THE UNITED NATIONS SPACE COMMAND</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur.</p>
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="hero-content" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;">
+        <div class="hero-text">
+          <h1>WELCOME TO THE UNITED NATIONS SPACE COMMAND</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur.</p>
+        </div>
+        <div class="hero-img">
+          <img src="img/ship-wireframe.png" alt="Nave wireframe" class="ship-image" style="max-width:300px;">
+        </div>
       </div>
-      <div class="hero-img">
-        <img src="/images/ship-wireframe.png" alt="Nave wireframe" class="ship-image">
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- INFO CARDS -->
-  <section class="info-cards">
-    <!-- MISION: va a Misiones → sección Misión -->
-    <a href="/misiones.html#mision" class="card-link">
-      <div class="card">
-        <img src="/images/mission-icon.png" alt="Mission icon" class="card-icon">
-        <h3>MISION</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet.</p>
-      </div>
-    </a>
+    <!-- INFO CARDS -->
+    <section class="info-cards" style="display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:2rem;">
+      <!-- MISION: va a Misiones → sección Misión -->
+      <a href="misiones.html#mision" class="card-link" style="text-decoration:none;">
+        <div class="card" style="align-items:center;text-align:center;">
+          <img src="img/mission-icon.png" alt="Mission icon" class="card-icon" style="height:64px;">
+          <h3>MISIÓN</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet.</p>
+        </div>
+      </a>
+      <!-- OPERACIONES: va a Operaciones -->
+      <a href="operaciones.html" class="card-link" style="text-decoration:none;">
+        <div class="card" style="align-items:center;text-align:center;">
+          <img src="img/operations-icon.png" alt="Operations icon" class="card-icon" style="height:64px;">
+          <h3>OPERACIONES</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet.</p>
+        </div>
+      </a>
+      <!-- DATOS: va a Datos -->
+      <a href="datos.html" class="card-link" style="text-decoration:none;">
+        <div class="card" style="align-items:center;text-align:center;">
+          <img src="img/archive-icon.png" alt="Data icon" class="card-icon" style="height:64px;">
+          <h3>DATOS</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet.</p>
+        </div>
+      </a>
+    </section>
 
-    <!-- OPERACIONES: va a Misiones (arriba) -->
-    <a href="/operaciones.html" class="card-link">
-      <div class="card">
-        <img src="/images/operations-icon.png" alt="Operations icon" class="card-icon">
-        <h3>OPERACIONES</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet.</p>
-      </div>
-    </a>
-
-    <!-- DATOS: va a Misiones (arriba) -->
-    <a href="/data.html" class="card-link">
-      <div class="card">
-        <img src="/images/archive-icon.png" alt="Data icon" class="card-icon">
-        <h3>DATOS</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet.</p>
-      </div>
-    </a>
-  </section>
-
-  <script src="/js/main.js"></script>
+  </main>
+  <div id="toast" class="toast hide"></div>
+  <script src="script.js"></script>
 </body>
 </html>

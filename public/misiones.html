@@ -2,90 +2,53 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Gestión de misiones UNSC: buscar, crear y editar misiones.">
-  <title>UNSC – Misiones</title>
-  <link rel="stylesheet" href="/css/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+  <title>UNSC - Misiones</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <img src="/images/logo.png" alt="UNSC Emblem" id="logo" title="UNSC Emblem">
-    <button id="nav-toggle" aria-label="Menú">☰</button>
+    <img src="img/unsc-logo.png" class="logo" alt="UNSC Logo">
     <nav>
-      <a href="/index.html">Inicio</a>
-      <a href="/nostros.html">Nosotros</a>
-      <a href="/news.html">News</a>
-      <a href="/login.html">Iniciar Sesión</a>
-      <a href="/misiones.html" class="active">Misiones</a>
-      
+      <a href="index.html">Inicio</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="news.html">News</a>
+      <a href="misiones.html">Misiones</a>
+      <a href="operaciones.html">Operaciones</a>
+      <a href="datos.html">Datos</a>
+      <button id="logoutBtn" class="button" style="margin-left:2rem;">Cerrar sesión</button>
     </nav>
-    <button id="logout-btn">CERRAR SESIÓN</button>
   </header>
-
-  <main class="page-container">
-    <section id="gestion-misiones">
-      <h1 class="glitch">Gestión de Misiones</h1>
-
-      <div class="page-card">
-        <div class="form-header">
-          <div class="search-group">
-            <input type="text" id="search-input" placeholder="Buscar misión por nombre…">
-            <button class="btn-search" id="btn-search">Buscar</button>
-          </div>
-          <button class="btn" id="btn-new">Nueva Misión</button>
-        </div>
-
-        <form id="form-mision" style="display:none;">
-          <label for="nombre">Misión</label>
-          <input type="text" id="nombre" name="nombre" placeholder="Operación: Silent Storm" required>
-
-          <label for="ubicacion">Ubicación</label>
-          <input type="text" id="ubicacion" name="ubicacion" placeholder="Sistema Epsilon Eridani – Órbita de Reach">
-
-          <label for="objetivo">Objetivo</label>
-          <textarea id="objetivo" name="objetivo" placeholder="Infiltrar y destruir nave madre Covenant…" required></textarea>
-
-          <label for="unidad">Unidad</label>
-          <input type="text" id="unidad" name="unidad" placeholder="Spartan-II Blue Team + ODST Echo">
-
-          <label for="comandante">Comandante</label>
-          <input type="text" id="comandante" name="comandante" placeholder="Cap. Jacob Keyes">
-
-          <label for="fecha">Fecha</label>
-          <input type="date" id="fecha" name="fecha">
-
-          <label for="nivel_amenaza">Nivel de amenaza</label>
-          <select id="nivel_amenaza" name="nivel_amenaza">
-            <option value="LOW">BAJO</option>
-            <option value="MEDIUM">MEDIO</option>
-            <option value="HIGH">ALTO</option>
-          </select>
-
-          <label for="estado">Estado</label>
-          <select id="estado" name="estado">
-            <option value="SUCCESS">Éxito</option>
-            <option value="PARTIAL">Éxito parcial</option>
-            <option value="FAILURE">Fallido</option>
-          </select>
-
-          <button type="submit" class="btn-submit">Guardar Misión</button>
-        </form>
-
-        <table id="tabla-misiones">
-          <thead>
-            <tr>
-              <th>Misión</th><th>Ubicación</th><th>Objetivo</th><th>Unidad</th>
-              <th>Comandante</th><th>Fecha</th><th>Amenaza</th><th>Estado</th><th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </section>
+  <main>
+    <div class="glass">
+      <h2>Misiones activas</h2>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Planeta</th>
+            <th>Prioridad</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Operación Sword Base</td>
+            <td>Reach</td>
+            <td>Alta</td>
+            <td>En progreso</td>
+          </tr>
+          <tr>
+            <td>Rescate en Harvest</td>
+            <td>Harvest</td>
+            <td>Media</td>
+            <td>Completada</td>
+          </tr>
+          <!-- Más misiones... -->
+        </tbody>
+      </table>
+    </div>
   </main>
-
-  <script src="/js/main.js"></script>
-  <script src="/js/misiones.js"></script>
-  <script src="/js/auth.js"></script>
+  <div id="toast" class="toast hide"></div>
+  <script src="script.js"></script>
 </body>
 </html>

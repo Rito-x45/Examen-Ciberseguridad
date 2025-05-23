@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>UNSC - Datos y Archivos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <img src="img/unsc-logo.png" class="logo" alt="UNSC Logo">
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="news.html">News</a>
+      <a href="misiones.html">Misiones</a>
+      <a href="operaciones.html">Operaciones</a>
+      <a href="datos.html">Datos</a>
+      <button id="logoutBtn" class="button" style="margin-left:2rem;">Cerrar sesión</button>
+    </nav>
+  </header>
+  <main>
+    <div>
+      <h2>Archivos clasificados</h2>
+      <div>
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <img src="img/unsc-logo.png" alt="Spartan II" style="height:45px;">
+              <div>Spartan-II Program</div>
+            </div>
+            <div class="flip-back">
+              <div>Super soldados genéticamente mejorados, piezas clave en la guerra contra el Covenant.</div>
+            </div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <img src="img/infinity.png" alt="Infinity" style="height:45px;">
+              <div>UNSC Infinity</div>
+            </div>
+            <div class="flip-back">
+              <div>Nave insignia de la flota, equipada con tecnología Forerunner.</div>
+            </div>
+          </div>
+        </div>
+        <!-- Más flip-cards... -->
+      </div>
+    </div>
+  </main>
+  <div id="toast" class="toast hide"></div>
+  <script src="script.js"></script>
+</body>
+</html>

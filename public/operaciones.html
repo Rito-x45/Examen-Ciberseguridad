@@ -2,157 +2,30 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Mapa de operaciones espaciales en Reach">
-  <title>UNSC – Operaciones Espaciales</title>
-  <link rel="stylesheet" href="/css/styles.css">
-  <style>
-    /* espacio para el mapa de Reach */
-    #space-map {
-      position: relative;
-      width: 100%;
-      max-width: 900px;
-      height: 500px;
-      margin: 24px auto;
-      background: url('/images/reach-map.jpg') center/cover no-repeat;
-      border: 2px solid var(--btn-color);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .marker {
-      position: absolute;
-      width: 24px; height: 24px;
-      background: var(--btn-color);
-      border: 2px solid #000;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      cursor: pointer;
-      box-shadow: var(--shadow);
-    }
-    .popup {
-      position: absolute;
-      display: none;
-      background: rgba(0,0,0,0.85);
-      border: 1px solid var(--btn-color);
-      border-radius: var(--radius);
-      padding: 12px;
-      color: var(--text-light);
-      max-width: 220px;
-      z-index: 10;
-    }
-    .popup h3 {
-      margin-top: 0;
-      font-family: var(--font-head);
-      color: var(--btn-color);
-      font-size: 1rem;
-    }
-    .popup ul {
-      padding-left: 1.2em;
-      margin: 0;
-      font-size: 0.9rem;
-      line-height: 1.4;
-    }
-  </style>
+  <title>UNSC - Operaciones</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <img src="/images/logo.png" alt="UNSC Emblem" id="logo" title="UNSC Emblem">
-    <button id="nav-toggle" aria-label="Menú">☰</button>
+    <img src="img/unsc-logo.png" class="logo" alt="UNSC Logo">
     <nav>
-      <a href="/index.html">Inicio</a>
-      <a href="/nosotros.html">Nosotros</a>
-      <a href="/news.html">Novedades</a>
-      <a href="/misiones.html">Misiones</a>
-      <a href="/data.html">Datos</a>
-      <a href="/operations.html" class="active">Operaciones</a>
-      <a href="/login.html">Login</a>
+      <a href="index.html">Inicio</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="news.html">News</a>
+      <a href="misiones.html">Misiones</a>
+      <a href="operaciones.html">Operaciones</a>
+      <a href="datos.html">Datos</a>
+      <button id="logoutBtn" class="button" style="margin-left:2rem;">Cerrar sesión</button>
     </nav>
   </header>
-
-  <main class="page-container">
-    <section id="operations" class="section-card">
-      <h2 class="glitch">Operaciones en Reach</h2>
-      <div id="space-map"></div>
-      <div id="popup" class="popup"></div>
-    </section>
+  <main>
+    <div class="glass">
+      <h2>Operaciones actuales</h2>
+      <img src="img/halo-map.png" alt="Mapa táctico UNSC" class="map-img">
+      <p>Puntos estratégicos y zonas de conflicto aparecen resaltadas en el mapa. Da click en un punto para detalles.</p>
+    </div>
   </main>
-
-  <script>
-    const ops = [
-      {
-        x: 28, y: 45,
-        title: 'Silent Storm',
-        missions: [
-          'Infiltrar nave nodriza Covenant',
-          'Sabotear comunicaciones',
-          'Evacuar refugiados orbitales'
-        ]
-      },
-      {
-        x: 52, y: 30,
-        title: 'Iron Forge',
-        missions: [
-          'Recuperar artefactos Forerunner',
-          'Reunir datos ONI',
-          'Exfiltración sigilosa'
-        ]
-      },
-      {
-        x: 65, y: 60,
-        title: 'Nova Shield',
-        missions: [
-          'Proteger astilleros',
-          'Patrullar órbita',
-          'Desplegar torretas antinaves'
-        ]
-      },
-      {
-        x: 40, y: 75,
-        title: 'Eclipse',
-        missions: [
-          'Reconocer zonas enemigas',
-          'Mapeo de pasadizos',
-          'Evaluación de recursos'
-        ]
-      },
-      {
-        x: 75, y: 50,
-        title: 'Thunderclad',
-        missions: [
-          'Despliegue de marines',
-          'Neutralizar insurrección',
-          'Fortificar colonias'
-        ]
-      }
-    ];
-
-    const mapEl = document.getElementById('space-map');
-    const popup = document.getElementById('popup');
-
-    ops.forEach(op => {
-      const m = document.createElement('div');
-      m.className = 'marker';
-      m.style.left = op.x + '%';
-      m.style.top  = op.y + '%';
-      mapEl.appendChild(m);
-
-      m.addEventListener('click', e => {
-        // construir contenido
-        const list = op.missions.map(item => `<li>${item}</li>`).join('');
-        popup.innerHTML = `<h3>${op.title}</h3><ul>${list}</ul>`;
-
-        // posicionar popup
-        const rect = mapEl.getBoundingClientRect();
-        popup.style.left = `${e.pageX - rect.left + 10}px`;
-        popup.style.top  = `${e.pageY - rect.top + 10}px`;
-        popup.style.display = 'block';
-        e.stopPropagation();
-      });
-    });
-
-    // cerrar al clicar fuera
-    document.addEventListener('click', () => {
-      popup.style.display = 'none';
-    });
-  </script>
+  <div id="toast" class="toast hide"></div>
+  <script src="script.js"></script>
 </body>
 </html>
